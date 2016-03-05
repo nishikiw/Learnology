@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Search Results</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Learnology</a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Home</a></li>
+                    <li><a href="#">Create a Course</a></li>
+                    <li class="dropdown">
+                        <a href="#category-page-link" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Categories <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Academic</a></li>
+                            <li><a href="#">Music and Arts</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li><a href="#">Office Skills</a></li>
+                            <li><a href="#">Cooking and Brewing</a></li>
+                            <li><a href="#">Sports and Games</a></li>
+                            <li><a href="#">Technology</a></li>
+                            <li><a href="#">Other</a></li>
+                        </ul>
+                    </li>
+                    <div class="col-sm-3 col-md-6">
+                        <form class="navbar-form" role="search">
+                        <div class="input-group">
+                            <div class="input-group-btn search-panel">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                    <span id="search_by">Search by</span> <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="#">Keywords</a></li>
+                                    <li><a href="#">Teacher Name</a></li>
+                                    <li><a href="#">Tag</a></li>
+                                </ul>
+                            </div>
+                            <input type="hidden" name="search_param" value="Keywords" id="search_param">         
+                            <input type="text" class="form-control" name="search_terms" placeholder="Search">
+                            <span class="input-group-btn">
+                            <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                            </span>
+                        </div>
+                        </form>
+                    </div>
+                </ul>
+                
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-log-in"></span> Login<b class="caret"></b></a>
+						<ul class="dropdown-menu" style="padding: 15px;min-width: 250px;">
+							<li>
+							   <div class="row">
+								  <div class="col-md-12">
+									 <form class="form" role="form" method="post" action="login" accept-charset="UTF-8" id="login-nav">
+										<div class="form-group">
+										   <input type="email" class="form-control" id="email" placeholder="Email address" required>
+										</div>
+										<div class="form-group">
+										   <input type="password" class="form-control" id="passwd" placeholder="Password" required>
+										</div>
+										<div class="form-group">
+										   <button type="submit" class="btn btn-success btn-block">Login</button>
+										</div>
+									 </form>
+								  </div>
+							   </div>
+							</li>
+						</ul>
+					</li>
+					<li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="jumbotron">
+            <h1>Learnology</h1>
+            <p>People teach. People learn. This is where they connect.</p>
+        </div>
+      
+		<h1>Search Results</h1>
+		<h3 id="result">1 result(s) were found for the search for programming</h3>								
+	
+
+		<section class="col-xs-12 col-sm-6 col-md-12">
+		<article class="search-result-row">
+			<div class="col-xs-12 col-sm-12 col-md-7 excerpet">
+			
+				<h3><a href="#">C Programming</a></h3>
+				<ul id = "result_info">
+				<li>Teacher Name: <a href="#">Sky</a></li>
+				<li>Course Rating: <i class="glyphicon glyphicon-star"></i><i class="glyphicon glyphicon-star"></i><i class="glyphicon glyphicon-star"></i><i class="glyphicon glyphicon-star"></i><i class="glyphicon glyphicon-star"></i>
+				</li>
+				<li>Difficulty Level: Asian</li>
+				</ul>
+				<p>C programming course</p>						
+               
+			</div>
+		</article>
+	</section>   
+        </div>
+    </div>
+    <br><br><br>
+    
+    <div class="navbar navbar-default navbar-fixed-bottom">
+        <div class="container">
+        <p class="navbar-text pull-left">© 2016 - Site Built By Us | <a href="#">About Us</a>  | <a href="#">Facebook</a> | <a href="#">Twitter</a>
+        </div>
+    </div>
+    
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="search.js"></script>
+    </body>
+  
+</html>
+
