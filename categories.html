@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Learnology: Categories</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<link rel="stylesheet" href="categories.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script src="categories.js"></script>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span> 
+          </button>
+          <a class="navbar-brand" style="color:white;"><span class="glyphicon glyphicon-education"></span> Learnology</a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+    		<ul class="nav navbar-nav">
+    	        <li><a href="mail.html" class="navop">HOME</a></li>
+    	        <li><a href="categories.html">CATEGORIES</a></li> 
+    	        <li><a href="#">CREATE A COURSE</a></li>
+                <li><a id="search-btn"><span class="glyphicon glyphicon-search"></span> Search</a></li>
+    	    </ul>
+          
+            <ul class="nav navbar-nav navbar-right">
+                <li><a id="view">USER VIEW</a></li>
+                <li id="user"><a href="#"><span class="glyphicon glyphicon-user"></span> JohnSmith</a></li>
+                <li><a id="login" data-toggle="modal" data-target="#loginModal"><span class="glyphicon glyphicon-log-in"></span> Login/Sign Up</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="search-bar" class="container-fluid">
+        <div class="input-group">
+            <div class="input-group-btn">
+                <button  id="categories" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Category <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Academic</a></li>
+                  <li><a href="#">Music/Art</a></li>
+                  <li><a href="#">Cooking</a></li>
+                  <li><a href="#">Home-related</a></li>
+                  <li><a href="#">Office/Document</a></li>
+                  <li><a href="#">Sports/Gaming</a></li>
+                  <li><a href="#">Technological</a></li>
+                  <li><a href="#">Miscellaneous</a></li>
+                </ul> 
+            </div><!-- /btn-group -->
+            <input type="text" class="form-control" placeholder="Search...">
+            <span class="input-group-btn">
+                <button id="search" class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+            </span>
+        </div><!-- /input-group -->
+    </div>
+</nav> <br><br>
+
+
+
+<div class="container-fluid bg-1 text-center">
+  <h1>Categories</h1>
+  <h3>Select one of these categories and browse through the courses offered in that subject area</h3>
+</div> <br>
+
+<div class="container">    
+  <div class="row">
+    <div class="col-sm-4">
+    	<a class="thumbnail">
+    		<img src="images/academic.png" class="img-rounded" alt="Academic" height="200" width="200">
+    		<button type="button" class="btn btn-default btn-block">Academic Skills</button>
+    	</a>
+    </div>
+    <div class="col-sm-4"> 
+    	<a class="thumbnail">
+    		<img src="images/art.png" class="img-rounded" alt="Art" height="200" width="200">
+    		<button type="button" class="btn btn-default btn-block">Music/Art Skills</button>
+    	</a>
+    </div>
+    <div class="col-sm-4"> 
+    	<a class="thumbnail">
+    		<img src="images/cooking.png" class="img-rounded" alt="Cooking" height="200" width="200">
+    		<button type="button" class="btn btn-default btn-block">Cooking Skills</button>
+    	</a>
+    </div>
+  </div>
+</div><br>
+
+<div class="container">    
+  <div class="row">
+    <div class="col-sm-4">
+    	<a class="thumbnail">
+    		<img src="images/home.png" class="img-rounded" alt="Home" height="200" width="200">
+    		<button type="button" class="btn btn-default btn-block">Home-Related Skills</button>
+    	</a>
+    </div>
+    <div class="col-sm-4"> 
+    	<a class="thumbnail">
+    		<img src="images/office.png" class="img-rounded" alt="Office" height="200" width="200">
+    		<button type="button" class="btn btn-default btn-block">Office/Document Skills</button>
+    	</a>
+    </div>
+    <div class="col-sm-4"> 
+    	<a class="thumbnail">
+    		<img src="images/games.png" class="img-rounded" alt="Game" height="200" width="200">
+    		<button type="button" class="btn btn-default btn-block">Sports/Gaming Skills</button>
+    	</a>
+    </div>
+  </div>
+</div><br>
+
+<div class="container">    
+  <div class="row">
+    <div class="col-sm-4">
+    	<a class="thumbnail">
+    		<img src="images/tech.png" class="img-rounded" alt="Technology" height="200" width="200">
+    		<button type="button" class="btn btn-default btn-block">Technological Skills</button>
+    	</a>
+    </div>
+    <div class="col-sm-4"> 
+    	<a class="thumbnail">
+    		<img src="images/question.png" class="img-rounded" alt="Miscellaneous" height="200" width="200">
+    		<button type="button" class="btn btn-default btn-block">Miscellaneous</button>
+    	</a>
+    </div>
+  </div>
+</div><br>
+
+<div class="container-fluid">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <h1 align="center">Top 10 Courses</h1>
+            <ul class="nav nav-pills">
+               <li class="active"><a>Academic</a></li>
+               <li><a data-toggle="tooltip" title="Switch to top music/art">Music/Art</a></li>
+               <li><a data-toggle="tooltip" title="Switch to top cooking">Cooking</a></li>
+               <li><a data-toggle="tooltip" title="Switch to top home-related">Home-Related</a></li>
+               <li><a data-toggle="tooltip" title="Switch to top office/document">Office/Document</a></li>
+               <li><a data-toggle="tooltip" title="Switch to top sports/gaming">Sports/Gaming</a></li>
+               <li><a data-toggle="tooltip" title="Switch to top technological">Technological</a></li>
+               <li><a data-toggle="tooltip" title="Switch to top miscellaneous">Miscellaneous</a></li>
+            </ul> <br>
+            <ul class="list-group col-sm-6 col-sm-offset-3">
+              <li class="list-group-item">1) <a>Linear Algebra</a>
+                <span class="badge" data-toggle="tooltip" title="# of votes">58</span>
+                <span class="badge  badge-success" data-toggle="tooltip" title="rating">4.3</span>
+              </li>
+              <li class="list-group-item">2) <a>Chemistry</a>
+                <span class="badge" data-toggle="tooltip" title="# of votes">54</span>
+                <span class="badge  badge-success" data-toggle="tooltip" title="rating">4.4</span>
+              </li>
+              <li class="list-group-item">3) <a>Biology</a>
+                <span class="badge" data-toggle="tooltip" title="# of votes">53</span>
+                <span class="badge  badge-success" data-toggle="tooltip" title="rating">4.0</span>
+              </li>
+              <li class="list-group-item">4) <a>French</a>
+                <span class="badge" data-toggle="tooltip" title="# of votes">50</span>
+                <span class="badge  badge-success" data-toggle="tooltip" title="rating">3.9</span>
+              </li>
+              <li class="list-group-item">5) <a>English For Non-speakers</a>
+                <span class="badge" data-toggle="tooltip" title="# of votes">47</span>
+                <span class="badge  badge-success" data-toggle="tooltip" title="rating">3.8</span>
+              </li>
+              <li class="list-group-item">6) <a>Note Taking</a>
+                <span class="badge" data-toggle="tooltip" title="# of votes">44</span>
+                <span class="badge  badge-success" data-toggle="tooltip" title="rating">4.0</span>
+              </li>
+              <li class="list-group-item">7) <a>Canadian History</a>
+                <span class="badge" data-toggle="tooltip" title="# of votes">43</span>
+                <span class="badge  badge-success" data-toggle="tooltip" title="rating">3.7</span>
+              </li>
+              <li class="list-group-item">8) <a>Studying Strategies</a>
+                <span class="badge" data-toggle="tooltip" title="# of votes">38</span>
+                <span class="badge  badge-success" data-toggle="tooltip" title="rating">4.0</span>
+              </li>
+              <li class="list-group-item">9) <a>Grammar</a>
+                <span class="badge" data-toggle="tooltip" title="# of votes">27</span>
+                <span class="badge  badge-success" data-toggle="tooltip" title="rating">4.6</span>
+              </li>
+              <li class="list-group-item">10) <a>Calculus</a>
+                <span class="badge" data-toggle="tooltip" title="# of votes">32</span>
+                <span class="badge  badge-success" data-toggle="tooltip" title="rating">3.6</span>
+              </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<footer class="panel-footer">
+    <div class="container">
+        <div class="col-sm-4 col-sm-offset-4 text-center">
+            <div> &copy Learnology 2016</div>
+            <a href="aboutus.html" id="about">About Us</a>
+        </div>
+        <div class="col-sm-4 text-right" >
+             Connect with us <br>
+            <a href="http://twitter.com"><img src="images/twitter.png" class="img-circle social" alt="Twitter" height="30" width="30"></a>
+            <a href="http://facebook.com"><img src="images/facebook.png" class="img-circle social" alt="Facebook" height="30" width="30"></a>
+            <a href="http://plus.google.com"><img src="images/google.png" class="img-circle social" alt="Google" height="30" width="30"></a>
+        </div>
+    </div>
+</footer>
+
+<!-- Modal -->
+  <div class="modal fade" id="loginModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Please sign in</h4>
+        </div>
+        <div class="modal-body text-center">
+          <form class="form-signin">
+            <label for="inputUsername" class="sr-only">Username</label>
+            <input type="username" id="inputUsername" class="form-control" data-toggle="tooltip" title="JohnSmith" placeholder="Username" required="">
+            <br>
+            <label for="inputPassword" class="sr-only">Password</label>
+            <input type="password" id="inputPassword" class="form-control" data-toggle="tooltip" title="password" placeholder="Password" required="">
+          </form> <br>
+          <div id="notFound" style='color:red; display:none;'>* Account Not Found *</div>
+          <button id="submit" class="btn btn-lg btn-primary" type="submit">Sign in</button>
+          <br>
+          <div> Want to create an account? <button id="signup" class="btn btn-primary" type="signup">Sign up</button></div> 
+          <hr>
+          <div>Or Sign In With (PART 2)</div>
+          <a><img src="images/loginFB.png" class="social" alt="LoginFB"></a>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="signupModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Sign Up</h4>
+        </div>
+        <div class="modal-body text-center">
+          <form class="form-signin">
+            <label for="inputUsername" class="sr-only">Username</label>
+            <input type="username" id="inputUsernameSU" class="form-control" placeholder="Username" required="">
+            <br>
+            <label for="inputPassword" class="sr-only">Password</label>
+            <input type="password" id="inputPasswordSU" class="form-control" placeholder="Password" required="">
+            <br>
+            <label for="inputEmail" class="sr-only">Email</label>
+            <input type="email" id="inputEmailSU" class="form-control" placeholder="Email Address" required="">
+            <br>
+            <button id="submitSU" class="btn btn-lg btn-primary" type="submit">Sign Up</button>
+          </form> <br>
+          <div> Already have an account? <button id="signin" class="btn btn-primary" type="signin">Login</button></div> 
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="logoutModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Logout</h4>
+        </div>
+        <div class="modal-body text-center">
+          <div> Are you sure you want logout?</div> <br>
+          <button id="logout_btn" class="btn btn-primary" type="logout">Logout</button>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+</body>
+</html>
