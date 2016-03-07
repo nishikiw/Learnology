@@ -1,0 +1,277 @@
+<!-- Course sample: https://www.coursera.org/learn/video-game-world -->
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Course</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="course.css">
+		<link rel="stylesheet" type="text/css" href="allPages.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+		<script src="course.js"></script>
+		<script src="allPages.js"></script>
+	</head>
+	<body data-spy="scroll" data-target="#courseScrollspy" data-offset="60">
+		<nav class="navbar navbar-default navbar-fixed-top">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span> 
+					</button>
+					<a class="navbar-brand" href="#">Learnology</a>
+				</div>
+				<div class="collapse navbar-collapse" id="myNavbar">
+					<ul class="nav navbar-nav">
+						<li><a href="#"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+						<li class="dropdown">
+							<a class="dropdown-toggle" data-toggle="dropdown" href="#">Categories<span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a href="#">Academy</a></li>
+								<li><a href="#">Arts and Music</a></li>
+								<li><a href="#">Cooking and Brewing</a></li>
+								<li><a href="#">Home and Garden</a></li>
+								<li><a href="#">Office Skills</a></li> 
+								<li><a href="#">Sports and Games</a></li> 
+								<li><a href="#">Technology</a></li> 
+								<li><a href="#">Others</a></li> 
+							</ul>
+						</li>
+						<form class="navbar-form navbar-left" role="search">
+							<div class="input-group">
+								<input type="text" class="form-control" placeholder="Course, teacher...etc.">
+								<span class="input-group-btn">
+									<button class="btn btn-default" type="button">
+										<span class="glyphicon glyphicon-search"></span>
+									</button>
+								</span>
+							</div>
+							<div class="checkbox" id="checkbox-admin">
+								<label><input type="checkbox"> Admin User</label>
+							</div>
+						</form>
+						<div class="btn-group">
+							<button type="button" id="currentUserType" class="btn btn-primary navbar-btn dropdown-toggle" data-toggle="dropdown">Instructor <span class="caret"></span></button>
+							<ul class="dropdown-menu" role="menu">
+							    <li><a href="#" id="optionalUserType1">Student </a></li>
+								<li><a href="#" id="optionalUserType2">Visitor </a></li>
+							</ul>
+						</div>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li id="link-admin"><a href="#">Admin</a></li>
+						<li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+						<li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+		
+		<main>
+			<div class="container-fluid">
+				<div class="row">
+					<nav class="col-sm-3" id="courseScrollspy">
+						<ul class="nav nav-pills nav-stacked">
+						    <li><a href="#general-info">General Information</a></li>
+							<li><a href="#overview">Overview</a></li>
+							<li><a href="#instructor">Instructor</a></li>
+							<li><a href="#reviews">Reviews</a></li>
+						</ul>
+					</nav>
+					<div class="col-sm-9">
+						<button type="button" id="course-control" class="btn btn-default col-sm-offset-10 btn-lg pull-right">Edit Course</button>
+						<h3 class="text-center">World Design for Video Games</h3>
+						<div class="text-center rating">
+							<a href="#reviews">
+								<span class="glyphicon glyphicon-star"></span>
+								<span class="glyphicon glyphicon-star"></span>
+								<span class="glyphicon glyphicon-star"></span>
+								<span class="glyphicon glyphicon-star"></span>
+								<span class="glyphicon glyphicon-star-empty"></span>
+								<p>(2 reviews)</p>
+							</a>
+						</div>
+						<div id="general-info" class="panel panel-default">
+						    <div class="panel-heading">General Information</div>
+						    <div class="panel-body">
+								<div class="row">
+									<div class="col-sm-10">
+										<div class="row">
+											<div class="col-sm-2">Category:</div>
+											<div class="col-sm-10"><a href="#">Sports and Games</a></div>
+										</div>
+										<div class="row">
+											<div class="col-sm-2">Price:</div>
+											<div class="col-sm-10">$20 / Class</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-2">Type:</div>
+											<div class="col-sm-10">Online</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-2">Time:</div>
+											<div class="col-sm-10">Mondays: 7pm - 9pm</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-2">Prerequisites:</div>
+											<div class="col-sm-10">None</div>
+										</div>
+									</div>
+									<div class="col-sm-2">
+										<img src="https://d3njjcbhbojbot.cloudfront.net/api/utilities/v1/imageproxy/https://coursera-course-photos.s3.amazonaws.com/b0/d82cc088ba11e585f3eff94fdbec60/3_Theo_World.jpg?auto=format&dpr=2&w=100&h=100&fit=fill&bg=FFF" 
+											class="img-rounded" alt="video game image" width="100" height="100">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div id="overview" class="panel panel-default">
+						    <div class="panel-heading">Overview</div>
+						    <div class="panel-body">
+								<p>Start creating your world. A game world is not just a backdrop for your game—be it minimal or detailed,
+									contained or part of a much bigger universe, it provides the context for your player. Ultimately, 
+									a game world should feel alive and wholly unique to any player who will experience it. </p>
+								<p>In this course, we will explore game worlds in existing games and study the art and influences 
+									that inform their themes and styles. We will also investigate key components of environment 
+									and level design as well as strategies designers use to define gameplay or advance it. 
+									We’ll also look at navigation and the elements that make your world as real (or unreal) 
+									as you want it to be. A weekly challenge will prompt you to explore styles and inspirations 
+									for possible game worlds, and you’ll learn effective ways to communicate your ideas from concepts 
+									to presentation-worthy proofs of concept.</p>
+							</div>
+						</div>
+						<div id="instructor" class="panel panel-default">
+						    <div class="panel-heading">Instructor</div>
+						    <div class="panel-body">
+								<div class="row">
+									<div class="col-sm-4">
+										<img id="profile-image" src="https://saanichbaptist.org/wp-content/uploads/2014/12/team-placeholder-male.png" 
+											class="img-responsive img-rounded center-block" alt="profile image" width="170" height="170">
+									</div>
+									<div class="col-sm-8">
+										<h4 class="">
+											<a href="#">Théotime Vaillant</a>
+											<small><br>Instructor, Experimental Animation, School of Film/Video</small>
+										</h4>
+										<div class="row">
+											<div class="col-sm-2">Email:</div>
+											<div class="col-sm-10"><a href="mailto:tvalillant@hotmail.ca">tvalillant@hotmail.ca</a></div>
+										</div>
+										<div class="row">
+											<div class="col-sm-2">Website:</div>
+											<div class="col-sm-10"><a href="#">www.theotimevaillant.com</a></div>
+										</div>
+										<br>
+										<p>Théo is a graduate of CalArts’ program in Experimental Animation, 
+											and also holds a Masters’ degree in Animation from ENSAD École Nationale Supérieure 
+											des Arts Décoratifs (ENSAD) in Paris.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div id="reviews" class="panel panel-default">
+						    <div class="panel-heading">Reviews</div>
+						    <div class="panel-body">
+								<form id="form-review" class="form-horizontal" role="form">
+									<fieldset>
+										<legend>Rate this course</legend>
+										<!-- Rating Reference: http://jsfiddle.net/Phoennix/6Sybq/4/ -->
+										<div class="form-group">
+											<label class="control-label col-sm-2" for="rating-stars">Rating:</label>
+											<div class="col-sm-10">
+												<input type="number" class="rate" id="test" name="test" data-min="1" data-max="5">
+												<p class="text-muted">Please enter an integer from 1 to 5.</p>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="control-label col-sm-2" for="comment">Comment:</label>
+											<div class="col-sm-10">
+												<textarea class="form-control" rows="4" id="comment"></textarea>
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="col-sm-12">
+												<button type="submit" class="btn btn-primary pull-right">Submit</button>
+												<button type="submit" class="btn btn-default pull-right">Cancel</button>
+											</div>
+										</div>
+									</fieldset>	
+								</form>
+								<ul class="list-group">
+								    <li class="list-group-item">
+										<div class="row">
+											<div class="col-sm-2">
+												<a href="#">
+													<img id="profile-image" src="http://saanichbaptist.org/wp-content/uploads/2014/12/team-placeholder-female.png" 
+														class="img-responsive img-rounded center-block" alt="profile image" width="100" height="100">
+												</a>
+												<h5 class="text-center">
+													<a href="#">Anna Smith</a>
+													<small><br>Vancouver, BC, Canada</small>
+												</h5>
+											</div>
+											<div class="col-sm-10">
+												<div class="row">
+													<div class="col-sm-10 rating">
+														<span class="glyphicon glyphicon-star"></span>
+														<span class="glyphicon glyphicon-star"></span>
+														<span class="glyphicon glyphicon-star"></span>
+														<span class="glyphicon glyphicon-star"></span>
+														<span class="glyphicon glyphicon-star"></span>
+														<p class="rating-class">Perfect!</p>
+													</div>
+													<div class="col-sm-2">27/2/2016</div>
+												</div>
+												<p>Théo is a great teacher! I absolutely enjoyed this course and felt like learned a lot.</p>
+											</div>
+										</div>
+									</li>
+								    <li class="list-group-item">
+										<div class="row">
+											<div class="col-sm-2">
+												<a href="#">
+													<img id="profile-image" src="https://saanichbaptist.org/wp-content/uploads/2014/12/team-placeholder-male.png" 
+														class="img-responsive img-rounded center-block" alt="profile image" width="100" height="100">
+												</a>
+												<h5 class="text-center">
+													<a href="#">William Wong</a>
+													<small><br>Boston, NY, US</small>
+												</h5>
+											</div>
+											<div class="col-sm-10">
+												<div class="row">
+													<div class="col-sm-10 rating">
+														<span class="glyphicon glyphicon-star"></span>
+														<span class="glyphicon glyphicon-star"></span>
+														<span class="glyphicon glyphicon-star"></span>
+														<span class="glyphicon glyphicon-star-empty"></span>
+														<span class="glyphicon glyphicon-star-empty"></span>
+														<p class="rating-class">Okay</p>
+													</div>
+													<div class="col-sm-2">5/1/2016</div>
+												</div>
+												<p>Just a general course... The tuition fee should be cheaper.</p>
+											</div>
+										</div>
+									</li>
+								</ul>
+								<ul class="pagination pagination-sm pull-right">
+								    <li class="active"><a href="#">1</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</main>
+		
+		<footer class="row">
+			<p class="col-sm-10">© 2016 - Site Designed By Learnology Team</p>
+			<a href="#" class="col-sm-1">About Us</a>
+			<a href="#" class="col-sm-1">Contact</a>
+		</footer>
+	</body>
+</html>
