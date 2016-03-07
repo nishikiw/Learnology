@@ -5,67 +5,66 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-	<link rel="stylesheet" href="categories.css">
+	<link rel="stylesheet" href="style.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-  <script src="categories.js"></script>
+  <script src="learnology.js"></script>
 </head>
 <body>
 
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span> 
-          </button>
-          <a class="navbar-brand" style="color:white;"><span class="glyphicon glyphicon-education"></span> Learnology</a>
-        </div>
-        <div class="collapse navbar-collapse" id="myNavbar">
-    		<ul class="nav navbar-nav">
-    	        <li><a href="mail.html" class="navop">HOME</a></li>
-    	        <li><a href="categories.html">CATEGORIES</a></li> 
-    	        <li><a href="#">CREATE A COURSE</a></li>
-                <li><a id="search-btn"><span class="glyphicon glyphicon-search"></span> Search</a></li>
-    	    </ul>
-          
-            <ul class="nav navbar-nav navbar-right">
-                <li><a id="view">USER VIEW</a></li>
-                <li id="user"><a href="#"><span class="glyphicon glyphicon-user"></span> JohnSmith</a></li>
-                <li><a id="login" data-toggle="modal" data-target="#loginModal"><span class="glyphicon glyphicon-log-in"></span> Login/Sign Up</a></li>
-            </ul>
-        </div>
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        <a class="navbar-brand" style="color:white;"><span class="glyphicon glyphicon-education"></span> Learnology</a>
+      </div>
+      <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="#">Home</a></li>
+          <li><a href="#">Create a Course</a></li>
+          <li><a href="categories.html">Categories</a></li> 
+          <div class="col-sm-3 col-md-6">
+            <form class="navbar-form" role="search">
+              <div class="input-group">
+                <div class="input-group-btn search-panel">
+                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    <span id="search_by">Search by</span> <span class="caret"></span>
+                    </button>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a href="#">Keywords</a></li>
+                    <li><a href="#">Teacher Name</a></li>
+                    <li><a href="#">Tag</a></li>
+                  </ul>
+                </div>
+                <input type="hidden" name="search_param" value="Keywords" id="search_param">
+                <input type="text" class="form-control" name="search_terms" placeholder="Search">
+                <span class="input-group-btn">
+                  <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                </span>
+              </div>
+            </form>
+          </div>
+        </ul>
+
+        <ul class="nav navbar-nav navbar-right">
+            <li><a id="view">USER VIEW</a></li>
+            <li id="user"><a href="#"><span class="glyphicon glyphicon-user"></span> JohnSmith</a></li>
+            <li><a id="login" data-toggle="modal" data-target="#loginModal"><span class="glyphicon glyphicon-log-in"></span> Login/Sign Up</a></li>
+        </ul>
+      </div>
     </div>
-    <div id="search-bar" class="container-fluid">
-        <div class="input-group">
-            <div class="input-group-btn">
-                <button  id="categories" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Category <span class="caret"></span></button>
-                <ul class="dropdown-menu">
-                  <li><a href="#">Academic</a></li>
-                  <li><a href="#">Music/Art</a></li>
-                  <li><a href="#">Cooking</a></li>
-                  <li><a href="#">Home-related</a></li>
-                  <li><a href="#">Office/Document</a></li>
-                  <li><a href="#">Sports/Gaming</a></li>
-                  <li><a href="#">Technological</a></li>
-                  <li><a href="#">Miscellaneous</a></li>
-                </ul> 
-            </div><!-- /btn-group -->
-            <input type="text" class="form-control" placeholder="Search...">
-            <span class="input-group-btn">
-                <button id="search" class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
-            </span>
-        </div><!-- /input-group -->
-    </div>
-</nav> <br><br>
+  </nav> <br><br>
 
 
 
-<div class="container-fluid bg-1 text-center">
+<div class="panel panel-default bg-1 text-center"><div class="panel-body">
   <h1>Categories</h1>
   <h3>Select one of these categories and browse through the courses offered in that subject area</h3>
-</div> <br>
+</div></div> <br>
 
 <div class="container">    
   <div class="row">
