@@ -1,4 +1,4 @@
-.btn-block, .nav-pills > li.active > a, .nav-pills > li.active > a:hover{
+.btn-block, .nav-pills > li.active > a, .nav-pills > li.active > a:hover, .btn-purple{
 	background-color: #732C7B;
 	color: white;
 }
@@ -12,7 +12,7 @@
 	height: 100%;
 }
 
-.btn-block:hover {
+.btn-block:hover, .btn-purple:hover {
  	background-color: #39004d;
  	color:  #BDAEC6;
 }

@@ -24,9 +24,9 @@
       </div>
       <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav">
-          <li class="active"><a href="#">Home</a></li>
+          <li><a href="#">Home</a></li>
           <li><a href="#">Create a Course</a></li>
-          <li><a href="categories.html">Categories</a></li> 
+          <li class="active"><a href="categories.html">Categories</a></li> 
           <div class="col-sm-3 col-md-6">
             <form class="navbar-form" role="search">
               <div class="input-group">
@@ -52,7 +52,7 @@
 
         <ul class="nav navbar-nav navbar-right">
             <li><a id="view">USER VIEW</a></li>
-            <li id="user"><a href="#"><span class="glyphicon glyphicon-user"></span> JohnSmith</a></li>
+            <li id="user"><a href="profile.html"><span class="glyphicon glyphicon-user"></span> JohnSmith</a></li>
             <li><a id="login" data-toggle="modal" data-target="#loginModal"><span class="glyphicon glyphicon-log-in"></span> Login/Sign Up</a></li>
         </ul>
       </div>
@@ -64,6 +64,7 @@
 <div class="panel panel-default bg-1 text-center"><div class="panel-body">
   <h1>Categories</h1>
   <h3>Select one of these categories and browse through the courses offered in that subject area</h3>
+  <a href="#top10" class="btn btn-purple">Go To Top 10 Courses</a>
 </div></div> <br>
 
 <div class="container">    
@@ -127,9 +128,10 @@
     	</a>
     </div>
   </div>
+  <a name="top10"></a>
 </div><br>
 
-<div class="container-fluid">
+<div class="container-fluid"> 
     <div class="panel panel-default">
         <div class="panel-body">
             <h1 align="center">Top 10 Courses</h1>
