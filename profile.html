@@ -41,6 +41,7 @@
 								<li><a href="#">Others</a></li> 
 							</ul>
 						</li>
+						<li><a href="#">Create a Course</a></li>
 						<form class="navbar-form navbar-left" role="search">
 							<div class="input-group">
 								<input type="text" class="form-control" placeholder="Course, teacher...etc.">
@@ -50,7 +51,7 @@
 									</button>
 								</span>
 							</div>
-							<div class="checkbox" id="checkbox-admin">
+							<div class="checkbox owner-only" id="checkbox-admin">
 								<label><input type="checkbox"> Admin User</label>
 							</div>
 						</form>
@@ -64,8 +65,8 @@
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
 						<li id="link-admin"><a href="#">Admin</a></li>
-						<li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-						<li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+						<li class="owner-only"><a href="#"><span class="glyphicon glyphicon-user"></span> sladner</a></li>
+						<li><a id="login" href="#"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>
 					</ul>
 			</div>
 		</nav>

@@ -52,8 +52,12 @@ function switchUserType(){
 function updatePage(){
 	if (currentUserType == "Account Owner"){
 		$(".owner-only").show();
+		$("#login").text(" Log Out");
+		$("#login span").attr("class", "glyphicon glyphicon-log-out");
 	}
 	else{
 		$(".owner-only").hide();
+		$("#login").text(" Login/Sign Up");
+		$("#login span").attr("class", "glyphicon glyphicon-log-in");
 	}
 }
