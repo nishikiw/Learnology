@@ -64,71 +64,86 @@
          </div>
       </div>
       <br>
-      <div class="container">
-         <h2>Course Title</h2>
-         <input type="text" name="title" style="width:100%">
-         <h2>Course Category</h2>
-         <form>
-            <div class="radiocont">
-               <input type="radio" name="category" value="academic"> Academic <br>
-            </div>
-            <div class="radiocont">
-               <input type="radio" name="category" value="musicandarts"> Music and Arts <br>
-            </div>
-            <div class="radiocont">			
-               <input type="radio" name="category" value="officeskils"> Office Skills <br>
-            </div>
-            <div class="radiocont">			
-               <input type="radio" name="category" value="cookingandbrewing"> Cooking and Brewing <br>
-            </div>
-            <div class="radiocont">			
-               <input type="radio" name="category"	value="homerelated"> Home-Related <br>
-            </div>
-            <div class="radiocont">			
-               <input type="radio" name="category" value="sportsandgames"> Sports and Games <br>
-            </div>
-            <div class="radiocont">			
-               <input type="radio" name="category" value="technology"> Technology <br>
-            </div>
-            <div class="radiocont">			
-               <input type="radio" name="category" value="miscellaneous"> Miscellaneous (Other)
-            </div>
-         </form>
-         <h2>Price</h2>
-         <input type="text" name="price"><br>
-         <h2>Course Description</h2>
-         <textarea name="description" rows="4" style="width:100%; resize:none;"></textarea>
-         <br>
-         <h2>Previous Skills Required</h2>
-         <form>
-            Skill 1:
-            <input type="text" name="skill1"><br>
-            Skill 2:
-            <input type="text" name="skill2"><br>
-            Skill 3:
-            <input type="text" name="skill3"><br>
-            Skill 4:
-            <input type="text" name="skill4"><br>
-            Skill 5:
-            <input type="text" name="skill5"><br>
-         </form>
-         <h2>Challenge Level</h2>
-         <form>
-            <div class="radiocont">
-               <input type="radio" name="challenge" value="beginner"> Beginner <br>
-            </div>
-            <div class="radiocont">			
-               <input type="radio" name="challenge" value="intermediate"> Intermediate <br>
-            </div>
-            <div class="radiocont">			
-               <input type="radio" name="challenge" value="advanced"> Advanced
-            </div>
-            <br>
-            <button type="submit" style="width:100%">Create Course</button>
-            <br>
-            <br>
-         </form>
-      </div>
+         <div class="container-fluid">
+            <form class="form-horizontal" role="form" action="profile.html">
+               <fieldset class="col-sm-6">
+                  <div class="form-group">
+                     <label class="control-label col-sm-3" for="first-name">Course Title</label>
+                     <div class="col-sm-8">
+                        <input type="text" class="form-control" placeholder="Biology" id="course_title">
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label class="control-label col-sm-3">Course Category:</label>
+                     <div class="col-sm-8">
+                        <label class="radio-inline">
+                           <input type="radio" value="" name="category" checked="checked">Academic
+                        </label>
+                        <label class="radio-inline">
+                           <input type="radio" value="" name="category">Music and Arts
+                        </label>
+                        <label class="radio-inline">
+                           <input type="radio" value="" name="category">Office Skills
+                        </label>
+                        <label class="radio-inline">
+                           <input type="radio" value="" name="category">Cooking and Brewing
+                        </label>
+                        <label class="radio-inline">
+                           <input type="radio" value="" name="category">Home-Related
+                        </label>
+                        <label class="radio-inline">
+                           <input type="radio" value="" name="category">Sports and Games 
+                        </label>
+                        <label class="radio-inline">
+                           <input type="radio" value="" name="category">Technology
+                        </label>
+                        <label class="radio-inline">
+                           <input type="radio" value="" name="category">Miscellaneous (Other)
+                        </label>
+                     </divalue=""v>
+                  </div>
+                  <div class="form-group">
+                     <label class="control-label col-sm-3" for="price">Price:</label>
+                     <div class="col-sm-8">
+                        <input type="price" class="form-control" id="price">
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label class="control-label col-sm-3" for="description">Course Description</label>
+                     <div class="col-sm-8">
+                        <textarea name="description" rows="4" class="form-control"></textarea>
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label class="control-label col-sm-3" for="skills">Previous Skills Required:</label>
+                     <div class="col-sm-8">
+                        <input type="skills" class="form-control" id="skill" placeholder="Skill 1">
+                        <input type="skills" class="form-control" id="skill" placeholder="Skill 2">
+                        <input type="skills" class="form-control" id="skill" placeholder="Skill 3">
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label class="control-label col-sm-3">Challenge Level:</label>
+                     <div class="col-sm-8">
+                        <label class="radio-inline">
+                           <input type="radio" value="" name="level" checked="checked">Beginner
+                        </label>
+                        <label class="radio-inline">
+                           <input type="radio" value="" name="level">Intermediate
+                        </label>
+                        <label class="radio-inline">
+                           <input type="radio" value="" name="level">Advanced
+                        </label>
+                     </div>
+                  </div>
+               </fieldset>
+               </form>
+               <div class="col-sm-offset-2 col-sm-6">
+                  <button type="submit" class="btn btn-default">Cancel</button>
+                  <button type="submit" class="btn btn-primary">Create Course</button>
+               </div> 
+         </div>
+      </div><br>
       <div class="panel-footer">
          <div class="container">
             <p class="navbar-text pull-left">© 2016 - Site Built By Us | <a href="aboutus.html">About Us</a> | 
