@@ -1,4 +1,4 @@
-var currentUserType = "Account Owner";
+var currentUserType = "Owner";
 var optionalUserType = "Visitor";
 
 function editDescription(){
@@ -36,28 +36,27 @@ function editDescription(){
 }
 
 function switchUserType(){
-	if (currentUserType == "Account Owner"){
+	if (currentUserType == "Owner"){
 		currentUserType = "Visitor";
-		optionalUserType = "Account Owner";
+		optionalUserType = "Owner";
 	}
 	else{
-		currentUserType = "Account Owner";
+		currentUserType = "Owner";
 		optionalUserType = "Visitor";
 	}
-	document.getElementById("currentUserType").innerHTML = currentUserType;
+	document.getElementById("currentUserType").innerHTML = currentUserType+" ";
+	var caret = document.createElement("span");
+	caret.setAttribute("class", "caret");
+	document.getElementById("currentUserType").appendChild(caret);
 	document.getElementById("optionalUserType").innerHTML = optionalUserType;
 	updatePage();
 }
 
 function updatePage(){
-	if (currentUserType == "Account Owner"){
+	if (currentUserType == "Owner"){
 		$(".owner-only").show();
-		$("#login").text(" Log Out");
-		$("#login span").attr("class", "glyphicon glyphicon-log-out");
 	}
 	else{
 		$(".owner-only").hide();
-		$("#login").text(" Login/Sign Up");
-		$("#login span").attr("class", "glyphicon glyphicon-log-in");
 	}
 }
