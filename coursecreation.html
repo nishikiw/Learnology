@@ -1,0 +1,79 @@
+<!DOCTYPE html> 
+<html> 
+	<head>
+		<title>Course Creation Page</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	<head>
+	<body>
+		<div class="container">
+			<h1>
+				Course Creation Page
+			</h1>
+			<h2>Course Title</h2> 
+			<input type="text" name="title" style="width:100%">
+			<h2>Course Category</h2>
+			<form>
+				<div class="radiocont">
+					<input type="radio" name="category" value="academic"> Academic <br>
+				</div>
+				<div class="radiocont">
+					<input type="radio" name="category" value="musicandarts"> Music and Arts <br>
+				</div>
+				<div class="radiocont">			
+					<input type="radio" name="category" value="officeskils"> Office Skills <br>
+				</div>
+				<div class="radiocont">			
+					<input type="radio" name="category" value="cookingandbrewing"> Cooking and Brewing <br>
+				</div>
+				<div class="radiocont">			
+					<input type="radio" name="category"	value="homerelated"> Home-Related <br>
+				</div>
+				<div class="radiocont">			
+					<input type="radio" name="category" value="sportsandgames"> Sports and Games <br>
+				</div>
+				<div class="radiocont">			
+					<input type="radio" name="category" value="technology"> Technology <br>
+				</div>
+				<div class="radiocont">			
+					<input type="radio" name="category" value="miscellaneous"> Miscellaneous (Other)
+				</div>
+			</form>
+			<h2>Price</h2>
+			<input type="text" name="price"><br>
+			<h2>Course Description</h2>
+			<textarea name="description" rows="4" style="width:100%; resize:none;"></textarea><br>
+			<h2>Previous Skills Required</h2>
+			<form>
+				Skill 1:
+				<input type="text" name="skill1"><br>
+				Skill 2:
+				<input type="text" name="skill2"><br>
+				Skill 3:
+				<input type="text" name="skill3"><br>
+				Skill 4:
+				<input type="text" name="skill4"><br>
+				Skill 5:
+				<input type="text" name="skill5"><br>
+			</form>
+			<h2>Challenge Level</h2> 
+			<form>
+				<div class="radiocont">
+					<input type="radio" name="challenge" value="beginner"> Beginner <br>
+				</div>
+				<div class="radiocont">			
+					<input type="radio" name="challenge" value="intermediate"> Intermediate <br>
+				</div>
+				<div class="radiocont">			
+					<input type="radio" name="challenge" value="advanced"> Advanced
+				</div>
+				<br>
+				<button type="submit" style="width:100%">Create Course</button>
+				<br>
+				<br>
+			</form>
+		</div>
+	</body> 
