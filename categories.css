@@ -1,0 +1,23 @@
+.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .btn-blue{
+	background-color: #337ab7;
+	color: white;
+}
+
+.btn-blue:hover {
+ 	background-color: #d9edf7;
+ 	color:  #31708f;
+}
+
+.nav-pills>li {
+	padding-left:19px;
+  	padding-right:19px;
+}
+
+.bg-1 { 
+    padding-top: 70px;
+    padding-bottom: 70px;
+}
+
+.badge-success {
+  background-color: #468847;
+}

@@ -1,9 +1,4 @@
-.btn-block, .nav-pills > li.active > a, .nav-pills > li.active > a:hover, .btn-purple{
-	background-color: #337ab7;
-	color: white;
-}
-
-.navbar-default, .panel-footer {
+.navbar-fixed-bottom, .panel-footer {
 	color: white;
 	background-color: #222;
 }
@@ -12,61 +7,11 @@
 	height: 100%;
 }
 
-.btn-block:hover, .btn-purple:hover {
- 	background-color: #d9edf7;
- 	color:  #31708f;
-}
-
-.nav-pills>li {
-	padding-left:19px;
-  	padding-right:19px;
-}
-
-.bg-1 { 
-    padding-top: 70px;
-    padding-bottom: 70px;
-}
-
 .social:hover {
 	opacity: 0.4;
-}
-
-.badge-success {
-  background-color: #468847;
 }
 
 #user {
 	display: none;
 }
 
-#about {
-	font-style: italic;
-}
-
-#about:hover {
-	color: white;
-}
-
-.cssTable {
-    display: table;
-}
-    
-.cssTableHeader {
-	display: table-header-group;
-}
-.cssTableBody {
-     
-    display: table-row-group;
-}
-.cssTableRow  {
-    display: table-row;
-}
-
-.cssTableCell {
-    border-bottom: .5px solid black;
-	padding-top: 7px;
-    padding-left: 7px;
-    padding-right: 15px;
-	padding-bottom: 7px;
-    display: table-cell;
-}

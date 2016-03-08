@@ -6,9 +6,18 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 	<link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="categories.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-  <script src="learnology.js"></script>
+  <script src="navbar.js"></script>
+  <script>
+    $(document).ready(function(){
+      $(".nav-pills>li").click(function(){
+            $(".nav-pills>li").removeClass();
+            $(this).addClass("active");
+      });
+    });
+  </script>
 </head>
 <body>
 
@@ -64,7 +73,7 @@
 <div class="panel panel-default bg-1 text-center"><div class="panel-body">
   <h1>Categories</h1>
   <h3>Select one of these categories and browse through the courses offered in that subject area</h3>
-  <a href="#top10" class="btn btn-purple">Go To Top 10 Courses</a>
+  <a href="#top10" class="btn btn-blue">Go To Top 10 Courses</a>
 </div></div> <br>
 
 <div class="container text-center">    
@@ -72,19 +81,19 @@
     <div class="col-sm-4">
     	<a class="thumbnail">
     		<img src="images/academic.png" class="img-rounded" alt="Academic" height="200" width="200">
-    		<a href="search.html" class="btn btn-purple">Academic Skills</a>
+    		<a href="search.html" class="btn btn-blue">Academic Skills</a>
     	</a>
     </div>
     <div class="col-sm-4"> 
     	<a class="thumbnail">
     		<img src="images/art.png" class="img-rounded" alt="Art" height="200" width="200">
-    		<a href="search.html" class="btn btn-purple">Music/Art Skills</a>
+    		<a href="search.html" class="btn btn-blue">Music/Art Skills</a>
     	</a>
     </div>
     <div class="col-sm-4"> 
     	<a class="thumbnail">
     		<img src="images/cooking.png" class="img-rounded" alt="Cooking" height="200" width="200">
-    		<a href="search.html" class="btn btn-purple">Cooking Skills</a>
+    		<a href="search.html" class="btn btn-blue">Cooking Skills</a>
     	</a>
     </div>
   </div>
@@ -95,19 +104,19 @@
     <div class="col-sm-4">
     	<a class="thumbnail">
     		<img src="images/home.png" class="img-rounded" alt="Home" height="200" width="200">
-    		<a href="search.html" class="btn btn-purple">Home-Related Skills</a>
+    		<a href="search.html" class="btn btn-blue">Home-Related Skills</a>
     	</a>
     </div>
     <div class="col-sm-4"> 
     	<a class="thumbnail">
     		<img src="images/office.png" class="img-rounded" alt="Office" height="200" width="200">
-    		<a href="search.html" class="btn btn-purple">Office/Document Skills</a>
+    		<a href="search.html" class="btn btn-blue">Office/Document Skills</a>
     	</a>
     </div>
     <div class="col-sm-4"> 
     	<a class="thumbnail">
     		<img src="images/games.png" class="img-rounded" alt="Game" height="200" width="200">
-    		<a href="search.html" class="btn btn-purple">Sports/Gaming Skills</a>
+    		<a href="search.html" class="btn btn-blue">Sports/Gaming Skills</a>
     	</a>
     </div>
   </div>
@@ -118,13 +127,13 @@
     <div class="col-sm-4">
     	<a class="thumbnail">
     		<img src="images/tech.png" class="img-rounded" alt="Technology" height="200" width="200">
-    		<a href="search.html" class="btn btn-purple">Technological Skills</a>
+    		<a href="search.html" class="btn btn-blue">Technological Skills</a>
     	</a>
     </div>
     <div class="col-sm-4"> 
     	<a class="thumbnail">
     		<img src="images/question.png" class="img-rounded" alt="Miscellaneous" height="200" width="200">
-    		<a href="search.html" class="btn btn-purple">Miscellaneous</a>
+    		<a href="search.html" class="btn btn-blue">Miscellaneous</a>
     	</a>
     </div>
   </div>
@@ -191,20 +200,15 @@
     </div>
 </div>
 
-<footer class="panel-footer">
+<div class="panel-footer">
     <div class="container">
-        <div class="col-sm-4 col-sm-offset-4 text-center">
-            <div> &copy Learnology 2016</div>
-            <a href="aboutus.html" id="about">About Us</a>
-        </div>
-        <div class="col-sm-4 text-right" >
-             Connect with us <br>
-            <a href="http://twitter.com"><img src="images/twitter.png" class="img-circle social" alt="Twitter" height="30" width="30"></a>
+      <p class="navbar-text pull-left">© 2016 - Site Built By Us | <a href="aboutus.html">About Us</a> | 
+        <a href="http://twitter.com"><img src="images/twitter.png" class="img-circle social" alt="Twitter" height="30" width="30"></a>
             <a href="http://facebook.com"><img src="images/facebook.png" class="img-circle social" alt="Facebook" height="30" width="30"></a>
             <a href="http://plus.google.com"><img src="images/google.png" class="img-circle social" alt="Google" height="30" width="30"></a>
-        </div>
+      </p>
     </div>
-</footer>
+  </div>
 
 <!-- Modal -->
   <div class="modal fade" id="loginModal" role="dialog">
