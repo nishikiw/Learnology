@@ -40,6 +40,7 @@ function updatePage(){
 			$("#account-link").show();
 			$("#account-link").text("");
 			$("#account-link").append("<span class='glyphicon glyphicon-user'></span> tvaillant");
+			$("#checkbox-admin").show();
 			break;
 		case "Student ":
 			$("#course-control").text("Drop Course");
@@ -50,6 +51,7 @@ function updatePage(){
 			$("#account-link").show();
 			$("#account-link").text("");
 			$("#account-link").append("<span class='glyphicon glyphicon-user'></span> naruto");
+			$("#checkbox-admin").show();
 			break;
 		case "Visitor ":
 			$("#course-control").text("Join Course");
@@ -58,6 +60,7 @@ function updatePage(){
 			$("#login span").attr("class", "glyphicon-log-in");
 			$("#login").text(" Login/Sign Up");
 			$("#account-link").hide();
+			$("#checkbox-admin").hide();
 			break;
 	}
 }
