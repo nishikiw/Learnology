@@ -16,10 +16,11 @@
 }
 
 body {
-	padding-top: 70px;
+	padding-top: 53px;
 }
 
 main {
 	min-height: 77vh;
+	padding-top: 10px;
 }
 
