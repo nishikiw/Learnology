@@ -39,6 +39,14 @@ ul.nav-pills {
 	margin-left: 15px;
 }
 
+.btn-group {
+	float: right;
+}
+
+.text-center.rating {
+	clear: right;
+}
+
 @media screen and (max-width: 810px) {
 	.panel {
 		margin-left: 150px;
