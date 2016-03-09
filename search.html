@@ -3,57 +3,56 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Search Results</title>
+  <title>Learnology - Search Results</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
 <body>
   <nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-        <a class="navbar-brand" style="color:white;"><span class="glyphicon glyphicon-education"></span> Learnology</a>
-      </div>
-      <div class="collapse navbar-collapse" id="myNavbar">
-        <ul class="nav navbar-nav">
-          <li class="active"><a href="#">Home</a></li>
-          <li><a href="#">Create a Course</a></li>
-          <li><a href="categories.html">Categories</a></li> 
-          <div class="col-sm-3 col-md-6">
-            <form class="navbar-form" role="search">
-              <div class="input-group">
-                <div class="input-group-btn search-panel">
-                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                    <span id="search_by">Search by</span> <span class="caret"></span>
-                    </button>
-                  <ul class="dropdown-menu" role="menu">
-                    <li><a href="#">Keywords</a></li>
-                    <li><a href="#">Teacher Name</a></li>
-                    <li><a href="#">Tag</a></li>
-                  </ul>
-                </div>
-                <input type="hidden" name="search_param" value="Keywords" id="search_param">
-                <input type="text" class="form-control" name="search_terms" placeholder="Search">
-                <span class="input-group-btn">
-                  <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
-                </span>
-              </div>
-            </form>
-          </div>
-        </ul>
-
-        <ul class="nav navbar-nav navbar-right">
-            <li><a id="view">USER VIEW</a></li>
-            <li id="user"><a href="#"><span class="glyphicon glyphicon-user"></span> JohnSmith</a></li>
-            <li><a id="login" data-toggle="modal" data-target="#loginModal"><span class="glyphicon glyphicon-log-in"></span> Login/Sign Up</a></li>
-        </ul>
-      </div>
-    </div>
-  </nav>
+         <div class="container-fluid">
+            <div class="navbar-header">
+               <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               </button>
+               <a class="navbar-brand" style="color:white;"><span class="glyphicon glyphicon-education"></span> Learnology</a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+               <ul class="nav navbar-nav">
+                  <li><a href="title.html">Home</a></li>
+                  <li><a href="coursecreation.html">Create a Course</a></li>
+                  <li ><a href="categories.html">Categories</a></li>
+                  <div class="col-sm-3 col-md-6">
+                     <form class="navbar-form" role="search">
+                        <div class="input-group">
+                           <div class="input-group-btn search-panel">
+                              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                              <span id="search_by">Search by</span> <span class="caret"></span>
+                              </button>
+                              <ul class="dropdown-menu" role="menu">
+                                 <li><a href="#">Keywords</a></li>
+                                 <li><a href="#">Teacher Name</a></li>
+                                 <li><a href="#">Tag</a></li>
+                              </ul>
+                           </div>
+                           <input type="hidden" name="search_param" value="Keywords" id="search_param">
+                           <input type="text" class="form-control" name="search_terms" placeholder="Search">
+                           <span class="input-group-btn">
+                           <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                           </span>
+                        </div>
+                     </form>
+                  </div>
+               </ul>
+               <ul class="nav navbar-nav navbar-right">
+                  <li><a id="view">USER VIEW</a></li>
+                  <li id="user"><a href="profile.html"><span class="glyphicon glyphicon-user"></span> JohnSmith</a></li>
+                  <li><a id="login" data-toggle="modal" data-target="#loginModal"><span class="glyphicon glyphicon-log-in"></span> Login/Sign Up</a></li>
+               </ul>
+            </div>
+         </div>
+      </nav>
 
   <div class="container">
     <h1>Search Results</h1>
@@ -189,14 +188,14 @@
 
   <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="css/search.css"/>
 
   <!-- jQuery library -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 
   <!-- Latest compiled JavaScript -->
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-  <script src="navbar.js"></script>
+  <script src="scripts/navbar.js"></script>
 </body>
 
 </html>
