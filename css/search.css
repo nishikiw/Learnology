@@ -19,6 +19,10 @@ body {
 	padding-top: 53px;
 }
 
+ul#result_info { 
+    list-style: none 
+}
+
 main {
 	min-height: 77vh;
 	padding-top: 10px;
