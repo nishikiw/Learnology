@@ -11,6 +11,7 @@
       <link rel="stylesheet" href="css/style.css">
       <head>
    <body>
+      <script src="scripts/facebooklogin.js"></script>
       <nav class="navbar navbar-inverse navbar-fixed-top">
          <div class="container-fluid">
             <div class="navbar-header">
@@ -209,6 +210,11 @@
                   </form>
                   <br>
                   <div> Already have an account? <button id="signin" class="btn btn-primary" type="signin">Login</button></div>
+                  <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+                  </fb:login-button>
+                  
+                  <div id="status">
+                  </div>
                </div>
                <div class="modal-footer">
                   <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
