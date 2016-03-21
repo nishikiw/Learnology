@@ -11,6 +11,9 @@
     "type": "git",
     "url": "https://github.com/nishikiw/Learnology/"
   },
+  "engines": {
+    "node": "0.12.7"
+  },
   "keywords": [
     "learnology",
     "csc309",
