@@ -22,6 +22,38 @@ app.use('/', express.static(__dirname + '/public'));
 // Reference: http://www.tutorialspoint.com/nodejs/nodejs_express_framework.htm
 var urlencodedParser = bodyParser.urlencoded({extended: false})
 
+app.get('/aboutus', function(req, res) {
+  res.sendFile(__dirname + '/public/aboutus.html');
+});
+
+app.get('/title', function(req, res) {
+  res.sendFile(__dirname + '/public/index.html');
+});
+
+app.get('/categories', function(req, res) {
+  res.sendFile(__dirname + '/public/categories.html');
+});
+
+app.get('/course', function(req, res) {
+  res.sendFile(__dirname + '/public/course.html');
+});
+
+app.get('/coursecreation', function(req, res) {
+  res.sendFile(__dirname + '/public/coursecreation.html');
+});
+
+app.get('/profile', function(req, res) {
+  res.sendFile(__dirname + '/public/profile.html');
+});
+
+app.get('/search', function(req, res) {
+  res.sendFile(__dirname + '/public/search.html');
+});
+
+app.get('/edit-profile', function(req, res) {
+  res.sendFile(__dirname + '/public/edit-profile.html');
+});
+
 app.post('/users/user', urlencodedParser, function(req, res){
 	// Prepare output in JSON format
 	userObj = {
