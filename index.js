@@ -5,8 +5,9 @@ var path = require("path");
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var User = require('./models/user.js');
+var session = require('./node_modules/sesh/lib/core').magicSession();
 
-mongoose.connect('mongodb://localhost/test');
+mongoose.connect('mongodb://localhost:27017/test');
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
@@ -18,6 +19,10 @@ app.set('view engine', 'html');
 
 app.use('/', express.static(__dirname + '/public'));
 
+app.listen(app.get('port'), function() {
+  console.log('Node app is running on port', app.get('port'));
+});
+
 // Create application/x-www-form-urlencoded parser
 // Reference: http://www.tutorialspoint.com/nodejs/nodejs_express_framework.htm
 var urlencodedParser = bodyParser.urlencoded({extended: false})
@@ -26,7 +31,7 @@ app.get('/aboutus', function(req, res) {
   res.sendFile(__dirname + '/public/aboutus.html');
 });
 
-app.get('/title', function(req, res) {
+app.get('/', function(req, res) {
   res.sendFile(__dirname + '/public/index.html');
 });
 
@@ -54,6 +59,15 @@ app.get('/edit-profile', function(req, res) {
   res.sendFile(__dirname + '/public/edit-profile.html');
 });
 
+app.get('/getlogin', function(req, res){
+	res.end(req.session.data.user);
+});
+
+app.get('/logout', function(req, res){
+	req.session.data.user = "Guest";
+    res.redirect('back');
+});
+
 app.post('/users/user', urlencodedParser, function(req, res){
 	// Prepare output in JSON format
 	userObj = {
@@ -73,10 +87,14 @@ app.post('/users/user', urlencodedParser, function(req, res){
 		if (err) return console.error(err);
 		console.log(users);
 	})
-	
-	res.end(JSON.stringify(userObj));
-})
 
-app.listen(app.get('port'), function() {
-  console.log('Node app is running on http://127.0.0.1:', app.get('port'));
+	req.session.data.user = req.body.username;
+	res.redirect('back');
+});
+
+app.post('/login', urlencodedParser, function(req, res){
+  if(typeof req.body.username != 'undefined'){
+    req.session.data.user = req.body.username; 
+  }
+  res.send(req.session.data.user);
 });
