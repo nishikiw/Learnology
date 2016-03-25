@@ -8,55 +8,16 @@
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
       <script src="scripts/navbar.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+      <script src="scripts/app.js"></script>
       <link rel="stylesheet" href="css/style.css">
       <head>
-   <body>
+   <body ng-app="learnologyApp">
       <script src="scripts/facebooklogin.js"></script>
-      <nav class="navbar navbar-inverse navbar-fixed-top">
-         <div class="container-fluid">
-            <div class="navbar-header">
-               <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-               <span class="icon-bar"></span>
-               <span class="icon-bar"></span>
-               <span class="icon-bar"></span>
-               </button>
-               <a class="navbar-brand" style="color:white;"><span class="glyphicon glyphicon-education"></span> Learnology</a>
-            </div>
-            <div class="collapse navbar-collapse" id="myNavbar">
-               <ul class="nav navbar-nav">
-                  <li><a href="title">Home</a></li>
-                  <li class="active"><a href="coursecreation">Create a Course</a></li>
-                  <li ><a href="categories">Categories</a></li>
-                  <div class="col-sm-3 col-md-6">
-                     <form class="navbar-form" role="search">
-                        <div class="input-group">
-                           <div class="input-group-btn search-panel">
-                              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                              <span id="search_by">Search by</span> <span class="caret"></span>
-                              </button>
-                              <ul class="dropdown-menu" role="menu">
-                                 <li><a href="#">Keywords</a></li>
-                                 <li><a href="#">Teacher Name</a></li>
-                                 <li><a href="#">Tag</a></li>
-                              </ul>
-                           </div>
-                           <input type="hidden" name="search_param" value="Keywords" id="search_param">
-                           <input type="text" class="form-control" name="search_terms" placeholder="Search">
-                           <span class="input-group-btn">
-                           <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
-                           </span>
-                        </div>
-                     </form>
-                  </div>
-               </ul>
-               <ul class="nav navbar-nav navbar-right">
-                  <li><a id="view">USER VIEW</a></li>
-                  <li id="user"><a href="profile"><span class="glyphicon glyphicon-user"></span> JohnSmith</a></li>
-                  <li><a id="login" data-toggle="modal" data-target="#loginModal"><span class="glyphicon glyphicon-log-in"></span> Login/Sign Up</a></li>
-               </ul>
-            </div>
-         </div>
-      </nav>
+     
+      <div ng-controller="navCtrl"> 
+        <div ng-include="'navbar.html'"></div>
+      </div>
       <div class="jumbotron text-center">
          <h1>Course Creation Page</h1>
          <p>Select one of these categories and browse through the courses offered in that subject area</p>
@@ -66,7 +27,7 @@
       <br>
          <div class="container-fluid">
             <form class="form-horizontal" role="form" action="profile">
-               <fieldset class="col-sm-6">
+               <fieldset class="col-sm-6 col-sm-offset-3">
                   <div class="form-group">
                      <label class="control-label col-sm-3" for="first-name">Course Title</label>
                      <div class="col-sm-8">
@@ -137,12 +98,14 @@
                         </label>
                      </div>
                   </div>
+                  <div>
+                     <button type="submit" class="btn btn-primary btn-block">Create Course</button>
+                     <button type="submit" class="btn btn-default btn-block">Cancel</button>
+                     
+                  </div> 
                </fieldset>
                </form>
-               <div class="col-sm-offset-2 col-sm-6">
-                  <button type="submit" class="btn btn-default">Cancel</button>
-                  <button type="submit" class="btn btn-primary">Create Course</button>
-               </div> 
+               
          </div>
       </div><br>
       <div class="panel-footer">
@@ -152,94 +115,6 @@
                <a href="https://facebook.com"><img src="images/facebook.png" class="img-circle social" alt="Facebook" height="30" width="30"></a>
                <a href="https://plus.google.com"><img src="images/google.png" class="img-circle social" alt="Google" height="30" width="30"></a>
             </p>
-         </div>
-      </div>
-      <!-- Modal -->
-      <div class="modal fade" id="loginModal" role="dialog">
-         <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-               <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal">&times;</button>
-                  <h4 class="modal-title">Please sign in</h4>
-               </div>
-               <div class="modal-body text-center">
-                  <form class="form-signin">
-                     <label for="inputUsername" class="sr-only">Username</label>
-                     <input type="username" id="inputUsername" class="form-control" data-toggle="tooltip" title="JohnSmith" placeholder="Username" required="">
-                     <br>
-                     <label for="inputPassword" class="sr-only">Password</label>
-                     <input type="password" id="inputPassword" class="form-control" data-toggle="tooltip" title="password" placeholder="Password" required="">
-                  </form>
-                  <br>
-                  <div id="notFound" style='color:red; display:none;'>* Account Not Found *</div>
-                  <button id="submit" class="btn btn-lg btn-primary" type="submit">Sign in</button>
-                  <br>
-                  <div> Want to create an account? <button id="signup" class="btn btn-primary" type="signup">Sign up</button></div>
-                  <hr>
-                  <div>Or Sign In With (PART 2)</div>
-                  <a><img src="images/loginFB.png" class="social" alt="LoginFB"></a>
-               </div>
-               <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-               </div>
-            </div>
-         </div>
-      </div>
-      <!-- Modal -->
-      <div class="modal fade" id="signupModal" role="dialog">
-         <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-               <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal">&times;</button>
-                  <h4 class="modal-title">Sign Up</h4>
-               </div>
-               <div class="modal-body text-center">
-                  <form class="form-signin">
-                     <label for="inputUsername" class="sr-only">Username</label>
-                     <input type="username" id="inputUsernameSU" class="form-control" placeholder="Username" required="">
-                     <br>
-                     <label for="inputPassword" class="sr-only">Password</label>
-                     <input type="password" id="inputPasswordSU" class="form-control" placeholder="Password" required="">
-                     <br>
-                     <label for="inputEmail" class="sr-only">Email</label>
-                     <input type="email" id="inputEmailSU" class="form-control" placeholder="Email Address" required="">
-                     <br>
-                     <button id="submitSU" class="btn btn-lg btn-primary" type="submit">Sign Up</button>
-                  </form>
-                  <br>
-                  <div> Already have an account? <button id="signin" class="btn btn-primary" type="signin">Login</button></div>
-                  <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
-                  </fb:login-button>
-                  
-                  <div id="status">
-                  </div>
-               </div>
-               <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-               </div>
-            </div>
-         </div>
-      </div>
-      <!-- Modal -->
-      <div class="modal fade" id="logoutModal" role="dialog">
-         <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-               <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal">&times;</button>
-                  <h4 class="modal-title">Logout</h4>
-               </div>
-               <div class="modal-body text-center">
-                  <div> Are you sure you want logout?</div>
-                  <br>
-                  <button id="logout_btn" class="btn btn-primary" type="logout">Logout</button>
-               </div>
-               <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-               </div>
-            </div>
          </div>
       </div>
    </body>
