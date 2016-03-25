@@ -5,6 +5,7 @@ var path = require("path");
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var User = require('./models/user.js');
+var Course = require('./models/course.js');
 var session = require('./node_modules/sesh/lib/core').magicSession();
 
 mongoose.connect('mongodb://localhost:27017/test');
@@ -68,6 +69,13 @@ app.get('/logout', function(req, res){
     res.redirect('back');
 });
 
+app.get('/users', function(req, res){
+	User.find(function (err, users) {
+		if (err) return console.error(err);
+		res.send(users);
+	});
+});
+
 app.post('/users/user', urlencodedParser, function(req, res){
 	// Prepare output in JSON format
 	userObj = {
@@ -86,10 +94,37 @@ app.post('/users/user', urlencodedParser, function(req, res){
 	User.find(function (err, users) {
 		if (err) return console.error(err);
 		console.log(users);
-	})
+	});
 
 	req.session.data.user = req.body.username;
-	res.redirect('back');
+	res.redirect('edit-profile/' + req.body.username);
+});
+
+app.post('/create', urlencodedParser, function(req, res){
+	// Prepare output in JSON format
+	courseObj = {
+		user: req.session.data.user,
+	    title: req.body.title,
+		category: req.body.category,
+		price: req.body.price,
+		description: req.body.description,
+		skills: req.body.skills,
+		difficulty: req.body.difficulty
+	};
+	
+	var course = new Course(courseObj);
+	
+	course.save(function (err, data) {
+		if (err) console.log(err);
+		else console.log('Saved : ', data );
+	});
+	
+	Course.find(function (err, courses) {
+		if (err) return console.error(err);
+		console.log(courses);
+	});
+
+	res.redirect('course/' + courseObj._id);
 });
 
 app.post('/login', urlencodedParser, function(req, res){
