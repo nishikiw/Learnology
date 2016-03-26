@@ -79,6 +79,27 @@ app.get('/users', function(req, res){
 	});
 });
 
+app.get('/courses', function(req, res){
+	Course.find({}, {"title":1, _id:1}, function (err, courses) {
+		if (err) return console.error(err);
+		res.send(courses);
+	});
+});
+
+app.post('/delete/user', urlencodedParser, function(req, res){
+	User.remove({'username': req.body.username}, function (err) {
+		if (err) return console.error(err);
+		res.send('done');
+	});
+});
+
+app.post('/delete/course', urlencodedParser, function(req, res){
+	Course.remove({'title': req.body.title}, function (err) {
+		if (err) return console.error(err);
+		res.send('done');
+	});
+});
+
 app.get('/users/user', function(req, res){	
 	User.findOne({'email': req.query.email}, function (err, user) {
 		if (err) return handleError(err);
