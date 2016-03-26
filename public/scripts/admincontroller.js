@@ -32,8 +32,7 @@ app.controller("list", function($scope, $http) {
         $scope.value = $scope.data[x];
       };
 
-      $scope.removeItem = function (x) {
-        $scope.data.splice(x, 1);
+      $scope.removeItem = function () {
         if($scope.title == "Users List") {
           $http({
             method: 'POST', 
@@ -41,7 +40,7 @@ app.controller("list", function($scope, $http) {
             data: $.param({username: $scope.value}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
           }).success(function(data){
-            console.log(data);
+            convertList ('username', { method: 'GET', url: 'users' });
           }).error(function(){});
         }
         else {
@@ -51,9 +50,8 @@ app.controller("list", function($scope, $http) {
             data: $.param({title: $scope.value}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
           }).success(function(data){
-            console.log(data);
+            convertList ('title', { method: 'GET', url: 'courses' });
           }).error(function(){});
         }
-        
       };
   });
