@@ -7,8 +7,11 @@ var userSchema = mongoose.Schema({
 		required: true,
 		unique: true
 	},
-	screen_name: String
-	_id: {type: String, unique: true, 'default': shortid.generate},
+	screen_name: {
+		type: String,
+		unique: true,
+		'default': shortid.generate
+	}
 });
 
 var User = mongoose.model('User', userSchema);

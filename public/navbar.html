@@ -111,8 +111,9 @@
 				</div>
 				<div class="form-group">
 					<label for="inputUsernameSU" class="sr-only">Screen Name</label>
-					<!-- Reference: http://stackoverflow.com/questions/27322826/angular-restriction-to-not-allow-spaces-in-text-field -->
-					<input name="screenName" ng-model="screenName" class="form-control" ng-trim="false" ng-change="screenName = screenName.split(' ').join('')" id="inputScreenNameSU" placeholder="Screen Name">
+					<input name="screenName" ng-model="screenName" class="form-control" ng-change="screenNameValidation()" ng-model-options="{updateOn: 'blur'}" id="inputScreenNameSU" placeholder="Screen Name">
+					<span ng-show="screenNameInvalid" ng-init="screenNameInvalid = false">* Screen name cannot contain any space.</span>
+					<span ng-show="screenNameFound" ng-init="screenNameFound = false">* Screen name has been registered.</span>
 				</div>
 				<div class="form-group text-center">
 					<button id="submitSU" class="btn btn-lg btn-primary" type="submit">Sign Up</button>

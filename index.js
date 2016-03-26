@@ -104,32 +104,50 @@ app.post('/delete/course', urlencodedParser, function(req, res){
 	});
 });
 
-app.get('/users/user', function(req, res){	
-	User.findOne({'email': req.query.email}, function (err, user) {
-		if (err) return handleError(err);
-		if (user){
-			console.log(user);
-			res.end(JSON.stringify(user));
-		}
-		else{
-			res.end("{}");
-		}
-	});
+app.get('/users/user', function(req, res){
+	if (req.query.email){
+		Validation.findOne({'email': req.query.email}, function (err, user) {
+			if (err) return handleError(err);
+			if (user){
+				console.log(user);
+				res.end(JSON.stringify(user));
+			}
+			else{
+				res.end("{}");
+			}
+		});
+	}
+	else if (req.query.screenName){
+		User.findOne({'screen_name': req.query.screenName}, function (err, user) {
+			if (err) return handleError(err);
+			if (user){
+				console.log(user);
+				res.end(JSON.stringify(user));
+			}
+			else{
+				res.end("{}");
+			}
+		});
+	}
 });
 
 app.post('/users/user', urlencodedParser, function(req, res){
 	var screenName = req.body.screenName;
 	var email = req.body.email;
 	var password = req.body.password;
+	var userObj
 	
 	if (screenName == ""){
-		screenName = null;
+		userObj = {
+			email: email,
+		};
 	}
-	
-	var userObj = {
-		email: email,
-		screen_name: screenName
-	};
+	else{
+		userObj = {
+			email: email,
+			screen_name: screenName
+		};
+	}
 	
 	var validationObj = {
 		email: email,

@@ -32,6 +32,36 @@ app.controller('signUpFormCtrl', function ($scope, $http){
 		}
 	}
 	
+	$scope.screenNameValidation = function(){
+		if ($scope.screenName){
+			if ($scope.screenName.indexOf(" ") >= 0){
+				$scope.screenNameInvalid = true;
+			}
+			else{
+				$scope.screenNameInvalid = false;
+				var req = {
+					method: 'GET',
+					url: 'users/user',
+					params: {screenName: $scope.screenName}
+				}
+				$http(req).then(function successCallback(res){
+					if (jQuery.isEmptyObject(res.data)){
+						$scope.screenNameFound = false;
+					}
+					else{
+						$scope.screenNameFound = true;
+					}
+				}, function errorCallback(res) {
+					// called asynchronously if an error occurs
+					// or server returns response with an error status.
+				});
+			}
+		}
+		else{
+			$scope.screenNameFound = false;
+		}
+	}
+	
 	$scope.confirmPassword = function(){
 		if ($scope.reEnterPassword && $scope.password && $scope.password != $scope.reEnterPassword){
 			$scope.passwordNotMatch = true;
