@@ -43,7 +43,7 @@ app.get('/categories', function(req, res) {
   res.sendFile(__dirname + '/public/categories.html');
 });
 
-app.get('/course', function(req, res) {
+app.get('/course/:id', function(req, res) {
   res.sendFile(__dirname + '/public/course.html');
 });
 
@@ -51,7 +51,7 @@ app.get('/coursecreation', function(req, res) {
   res.sendFile(__dirname + '/public/coursecreation.html');
 });
 
-app.get('/profile', function(req, res) {
+app.get('/profile/:id', function(req, res) {
   res.sendFile(__dirname + '/public/profile.html');
 });
 
@@ -59,8 +59,12 @@ app.get('/search', function(req, res) {
   res.sendFile(__dirname + '/public/search.html');
 });
 
-app.get('/edit-profile', function(req, res) {
+app.get('/edit-profile/:id', function(req, res) {
   res.sendFile(__dirname + '/public/edit-profile.html');
+});
+
+app.get('/admin', function(req, res) {
+  res.sendFile(__dirname + '/public/admin.html');
 });
 
 app.get('/getlogin', function(req, res){
@@ -73,9 +77,30 @@ app.get('/logout', function(req, res){
 });
 
 app.get('/users', function(req, res){
-	User.find(function (err, users) {
+	User.find({}, {"screen_name":1, _id:1}, function (err, users) {
 		if (err) return console.error(err);
 		res.send(users);
+	});
+});
+
+app.get('/courses', function(req, res){
+	Course.find({}, {"title":1, _id:1}, function (err, courses) {
+		if (err) return console.error(err);
+		res.send(courses);
+	});
+});
+
+app.post('/delete/user', urlencodedParser, function(req, res){
+	User.remove({'screen_name': req.body.screen_name}, function (err) {
+		if (err) return console.error(err);
+		res.send('done');
+	});
+});
+
+app.post('/delete/course', urlencodedParser, function(req, res){
+	Course.remove({'title': req.body.title}, function (err) {
+		if (err) return console.error(err);
+		res.send('done');
 	});
 });
 
@@ -129,8 +154,8 @@ app.post('/users/user', urlencodedParser, function(req, res){
 		console.log(users);
 	});
 
-	req.session.data.user = email;
-	res.redirect('http://127.0.0.1:5000/edit-profile/' + JSON.stringify(userObj));
+	req.session.data.user = req.body.screenName;
+	res.redirect('/edit-profile/' + req.body.screenName);
 });
 
 app.post('/create', urlencodedParser, function(req, res){
@@ -161,8 +186,8 @@ app.post('/create', urlencodedParser, function(req, res){
 });
 
 app.post('/login', urlencodedParser, function(req, res){
-  if(typeof req.body.username != 'undefined'){
-    req.session.data.user = req.body.username; 
+  if(typeof req.body.screen_name != 'undefined'){
+    req.session.data.user = req.body.screen_name; 
   }
   res.send(req.session.data.user);
 });
