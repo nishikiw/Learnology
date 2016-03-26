@@ -27,15 +27,17 @@
       <li><a ng-click="getlist('courses')">Courses</a></li>
     </ul>
   </nav>
-  <div class="panel panel-default col-sm-9" > 
-    <div class="panel-heading">{{title}}</div>
-    <div class="panel-body">
-      <ul class="list-group">
-        <li class="list-group-item" ng-repeat="x in data">
-          {{x}}
-          <button type="button" class="close" data-toggle="modal" ng-click="delete($index)" data-target="#confirmModal">&times;</button>
-        </li>
-      </ul>
+  <div class="col-sm-9">
+    <div class="panel panel-primary " > 
+      <div class="panel-heading">{{title}}</div>
+      <div class="panel-body">
+        <ul class="list-group">
+          <li class="list-group-item" ng-repeat="x in data">
+            {{x}}
+            <button type="button" class="close" data-toggle="modal" ng-click="delete($index)" data-target="#confirmModal">&times;</button>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
   <div class="modal fade" id="confirmModal">
