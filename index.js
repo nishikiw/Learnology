@@ -151,7 +151,7 @@ app.post('/users/user', urlencodedParser, function(req, res){
 	});
 
 	req.session.data.user = email;
-	res.redirect('http://127.0.0.1:5000/edit-profile/' + JSON.stringify(userObj));
+	res.redirect('/edit-profile/' + req.body.screenName);
 });
 
 app.post('/create', urlencodedParser, function(req, res){
