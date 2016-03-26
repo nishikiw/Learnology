@@ -1,152 +1,145 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<title>Learnology - Categories</title>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-	<link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/categories.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-  <script src="scripts/app.js"></script>
-  <script src="scripts/navbar.js"></script>
-  <script> 
-  app.controller("topCtrl", function($scope) {
-    $scope.topList = [
-           {rank: '1', course:'Linear Algebra', votes:'58', rating: '4.3'},
-           {rank: '2',course:'Chemistry',votes:'54', rating: '4.4'},
-           {rank: '3',course:'Biology',votes:'53', rating: '4.0'},
-           {rank: '4',course:'French',votes:'50', rating: '3.9'},
-           {rank: '5',course:'English For Non-speakers',votes:'47', rating: '3.8'},
-           {rank: '6',course:'Note Taking',votes:'44', rating: '4.0'},
-           {rank: '7',course:'Canadian History',votes:'43', rating: '3.7'},
-           {rank: '8',course:'Studying Strategies',votes:'38', rating: '4.0'},
-           {rank: '9',course:'Grammar',votes:'27', rating: '4.6'},
-           {rank: '10',course:'Calculus',votes:'32', rating: '3.6'}];
-  });
+<!DOCTYPE html> 
+<html>
+   <head>
+      <title>Learnology - Course Creation</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+      <script src="scripts/navbar.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+      <script src="scripts/app.js"></script>
+      <link rel="stylesheet" href="css/style.css">
+      <script>
+      function reset() {
+          document.getElementById("create").reset();
+      }
 
-  $(document).ready(function(){
-    $(".nav-pills>li").click(function(){
-      $(".nav-pills>li").removeClass();
-      $(this).addClass("active");
-    });
-  });
-  </script>
-</head>
-<body ng-app="learnologyApp" >
-
-<div ng-controller="navCtrl"> 
-  <div ng-include="'navbar.html'"></div>
-</div>
-
-<div class="jumbotron text-center">
-  <h1>Categories</h1>
-  <p>Select one of these categories and browse through the courses offered in that subject area</p>
-  <a href="" ng-click="show = !show" class="btn btn-primary">Look At Top 10 Courses</a>
-</div>
-
-<div ng-hide="show">
-  <div class="container text-center">    
-    <div class="row">
-      <div class="col-sm-4">
-      	<a class="thumbnail">
-      		<img src="images/academic.png" class="img-rounded" alt="Academic" height="200" width="200">
-          <a href="search?param=Category&terms=Academic" class="btn btn-blue">Academic Skills</a> 
-      	</a>
+      app.controller('create', function($scope, $http) {
+         $scope.category = "Academic";
+         $scope.level = "Beginner" ;
+          $scope.sendPost = function() {
+            var req = { 
+              method: 'POST',
+              url: 'create',
+              data: $.param({
+               title: $scope.title, 
+               category: $scope.category, 
+               description: $scope.description,
+               price: $scope.price,
+               difficulty: $scope.level,
+               skill1: $scope.skill1,
+               skill2: $scope.skill2,
+               skill3: $scope.skill3 }),
+              headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }
+            $http(req);
+          }; 
+      });
+      </script>
+      <head>
+   <body ng-app="learnologyApp">
+      <script src="scripts/facebooklogin.js"></script>
+     
+      <div ng-controller="navCtrl"> 
+        <div ng-include="'navbar.html'"></div>
       </div>
-      <div class="col-sm-4"> 
-      	<a class="thumbnail">
-      		<img src="images/art.png" class="img-rounded" alt="Art" height="200" width="200">
-      		<a href="search?param=Category&terms=Music+and+Arts" class="btn btn-blue">Music/Art Skills</a>
-      	</a>
+      <div class="jumbotron text-center">
+         <h1>Course Creation Page</h1>
+         <p>Select one of these categories and browse through the courses offered in that subject area</p>
+         <div>
+         </div>
       </div>
-      <div class="col-sm-4"> 
-      	<a class="thumbnail">
-      		<img src="images/cooking.png" class="img-rounded" alt="Cooking" height="200" width="200">
-      		<a href="search?param=Category&terms=Cooking" class="btn btn-blue">Cooking Skills</a>
-      	</a>
+      <br>
+         <div class="container-fluid" ng-controller="create">
+            <form id="create" class="form-horizontal" ng-submit="sendPost()" autocomplete=off>
+               <fieldset class="col-sm-6 col-sm-offset-3">
+                  <div class="form-group">
+                     <label class="control-label col-sm-3" for="first-name">Course Title</label>
+                     <div class="col-sm-8">
+                        <input type="text" class="form-control" placeholder="Biology" ng-model="title" maxlength="30" required>
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label class="control-label col-sm-3">Course Category:</label>
+                     <div class="col-sm-8">
+                        <label class="radio-inline">
+                           <input type="radio" value="Academic" name="category" ng-model="category" checked="checked">Academic
+                        </label>
+                        <label class="radio-inline">
+                           <input type="radio" value="Music and Arts" name="category" ng-model="category" >Music and Arts
+                        </label>
+                        <label class="radio-inline">
+                           <input type="radio" value="Office Skills" name="category" ng-model="category" >Office Skills
+                        </label>
+                        <label class="radio-inline">
+                           <input type="radio" value="Cooking" name="category" ng-model="category" >Cooking
+                        </label>
+                        <label class="radio-inline">
+                           <input type="radio" value="Home-Related" name="category" ng-model="category" >Home-Related
+                        </label>
+                        <label class="radio-inline">
+                           <input type="radio" value="Sports and Games" name="category" ng-model="category" >Sports and Games 
+                        </label>
+                        <label class="radio-inline">
+                           <input type="radio" value="Technology" name="category" ng-model="category" >Technology
+                        </label>
+                        <label class="radio-inline">
+                           <input type="radio" value="Miscellaneous" name="category" ng-model="category" >Miscellaneous (Other)
+                        </label> 
+                        </divalue=""v>
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label class="control-label col-sm-3" for="price">Price:</label>
+                     <div class="col-sm-8">
+                        <input type="price" class="form-control" ng-model="price" placeholder='10'; pattern="\d+(\.\d{2})?" maxlength="5" required>
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label class="control-label col-sm-3" for="description">Course Description</label>
+                     <div class="col-sm-8">
+                        <textarea name="description" rows="4" class="form-control" ng-model="description" required></textarea>
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label class="control-label col-sm-3" for="skills">Previous Skills Required:</label>
+                     <div class="col-sm-8">
+                        <input type="skills" class="form-control" id="skill" ng-model="skill1" placeholder="Skill 1" maxlength="30">
+                        <input type="skills" class="form-control" id="skill" ng-model="skill2" placeholder="Skill 2" maxlength="30">
+                        <input type="skills" class="form-control" id="skill" ng-model="skill3" placeholder="Skill 3" maxlength="30">
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label class="control-label col-sm-3">Challenge Level:</label>
+                     <div class="col-sm-8">
+                        <label class="radio-inline">
+                           <input type="radio" value="Beginner" name="level" ng-model="level">Beginner
+                        </label>
+                        <label class="radio-inline">
+                           <input type="radio" value="Intermediate" ng-model="level" name="level">Intermediate
+                        </label>
+                        <label class="radio-inline">
+                           <input type="radio" value="Advanced" ng-model="level" name="level">Advanced
+                        </label>
+                     </div>
+                  </div>
+                  <div>
+                     <button type="submit" class="btn btn-primary btn-block">Create Course</button>
+                     <input type="button" class="btn btn-danger btn-block" onclick="reset()" value="Cancel">
+                  </div> 
+               </fieldset>
+            </form>      
+      </div><br>
+      <div class="panel-footer">
+         <div class="container">
+            <p class="navbar-text pull-left">© 2016 - Site Built By Us | <a href="aboutus">About Us</a> | 
+               <a href="https://twitter.com"><img src="images/twitter.png" class="img-circle social" alt="Twitter" height="30" width="30"></a>
+               <a href="https://facebook.com"><img src="images/facebook.png" class="img-circle social" alt="Facebook" height="30" width="30"></a>
+               <a href="https://plus.google.com"><img src="images/google.png" class="img-circle social" alt="Google" height="30" width="30"></a>
+            </p>
+         </div>
       </div>
-    </div>
-  </div><br>
-
-  <div class="container text-center">    
-    <div class="row">
-      <div class="col-sm-4">
-      	<a class="thumbnail">
-      		<img src="images/home.png" class="img-rounded" alt="Home" height="200" width="200">
-      		<a href="search?param=Category&terms=Home-Related" class="btn btn-blue">Home-Related Skills</a>
-      	</a>
-      </div>
-      <div class="col-sm-4"> 
-      	<a class="thumbnail">
-      		<img src="images/office.png" class="img-rounded" alt="Office" height="200" width="200">
-      		<a href="search?param=Category&terms=Office+Skills" class="btn btn-blue">Office/Document Skills</a>
-      	</a>
-      </div>
-      <div class="col-sm-4"> 
-      	<a class="thumbnail">
-      		<img src="images/games.png" class="img-rounded" alt="Game" height="200" width="200">
-      		<a href="search?param=Category&terms=Sports+and+Games" class="btn btn-blue">Sports/Gaming Skills</a>
-      	</a>
-      </div>
-    </div>
-  </div><br>
-
-  <div class="container text-center">    
-    <div class="row">
-      <div class="col-sm-4">
-      	<a class="thumbnail">
-      		<img src="images/tech.png" class="img-rounded" alt="Technology" height="200" width="200">
-      		<a href="search?param=Category&terms=Technology" class="btn btn-blue">Technological Skills</a>
-      	</a>
-      </div>
-      <div class="col-sm-4"> 
-      	<a class="thumbnail">
-      		<img src="images/question.png" class="img-rounded" alt="Miscellaneous" height="200" width="200">
-      		<a href="search?param=Category&terms=Miscellaneous" class="btn btn-blue">Miscellaneous</a>
-      	</a>
-      </div>
-    </div>
-  </div><br>
-</div>
-
-<div class="container-fluid" ng-show="show"> 
-    <div class="panel panel-default">
-        <div class="panel-body">
-            <h1 align="center">Top 10 Courses</h1>
-            <ul class="nav nav-pills">
-               <li class="active"><a>Academic</a></li>
-               <li><a>Music/Art</a></li>
-               <li><a>Cooking</a></li>
-               <li><a>Home-Related</a></li>
-               <li><a>Office/Document</a></li>
-               <li><a>Sports/Gaming</a></li>
-               <li><a>Technological</a></li>
-               <li><a>Miscellaneous</a></li>
-            </ul> <br>
-            <div ng-controller="topCtrl">
-                <ul class="list-group col-sm-6 col-sm-offset-3">
-                  <li class="list-group-item" ng-repeat="x in topList"> {{ x.rank + ') '}}<a>{{x.course}}</a>
-                    <span class="badge" data-toggle="tooltip" title="# of votes">{{x.votes}}</span>
-                    <span class="badge  badge-success" data-toggle="tooltip" title="rating">{{x.rating}}</span>
-                  </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="panel-footer" >
-    <div class="container">
-      <p class="navbar-text pull-left">© 2016 - Site Built By Us | <a href="aboutus">About Us</a> | 
-        <a href="https://twitter.com"><img src="images/twitter.png" class="img-circle social" alt="Twitter" height="30" width="30"></a>
-            <a href="https://facebook.com"><img src="images/facebook.png" class="img-circle social" alt="Facebook" height="30" width="30"></a>
-            <a href="https://plus.google.com"><img src="images/google.png" class="img-circle social" alt="Google" height="30" width="30"></a>
-      </p>
-    </div>
-</div>
-
-</body>
+   </body>
 </html>
