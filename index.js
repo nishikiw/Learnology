@@ -1,3 +1,5 @@
+// mongoose-bcrypt reference: https://www.npmjs.com/package/mongoose-bcrypt
+
 var express = require('express');
 var app = express();
 var fs = require("fs");
@@ -6,6 +8,7 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var User = require('./models/user.js');
 var Course = require('./models/course.js');
+var Validation = require('./models/validation.js');
 var session = require('./node_modules/sesh/lib/core').magicSession();
 
 mongoose.connect('mongodb://localhost:27017/learnology');
@@ -90,28 +93,44 @@ app.get('/users/user', function(req, res){
 });
 
 app.post('/users/user', urlencodedParser, function(req, res){
-	// Prepare output in JSON format
-	userObj = {
-		username: req.body.username, 
-		password: req.body.password,
-		email: req.body.email
+	var screenName = req.body.screenName;
+	var email = req.body.email;
+	var password = req.body.password;
+	
+	if (screenName == ""){
+		screenName = null;
+	}
+	
+	var userObj = {
+		email: email,
+		screen_name: screenName
 	};
 	
-	var user = new User(userObj);
+	var validationObj = {
+		email: email,
+		password: password
+	}
 	
-	user.save(function (err, data) {
-		if (err) console.log(err);
-		else console.log('Saved : ', data );
+	Validation.create(validationObj, function (err) {
+		if (err) return console.error(err);
+	});
+	
+	User.create(userObj, function (err) {
+		if (err) return console.error(err);
 	});
 	
 	User.find(function (err, users) {
 		if (err) return console.error(err);
 		console.log(users);
 	});
+	
+	Validation.find(function (err, users) {
+		if (err) return console.error(err);
+		console.log(users);
+	});
 
-	req.session.data.user = req.body.username;
-	res.end(JSON.stringify(userObj));
-	//res.redirect('edit-profile/' + req.body.username);
+	req.session.data.user = email;
+	res.redirect('http://127.0.0.1:5000/edit-profile/' + JSON.stringify(userObj));
 });
 
 app.post('/create', urlencodedParser, function(req, res){

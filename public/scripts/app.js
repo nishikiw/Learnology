@@ -13,20 +13,31 @@ function submitform() {
 app.controller('signUpFormCtrl', function ($scope, $http){
 	$scope.emailExists = function(){
 		if ($scope.email){
-			var req = { 
+			var req = {
 				method: 'GET',
 				url: 'users/user',
 				params: {email: $scope.email}
 			}
-			$http(req).success(function(data){
-				alert(data);
-				if (data == '{}') {
-					$scope.isInvalid = true;
-				}
-				else {
+			$http(req).then(function successCallback(res){
+				if (jQuery.isEmptyObject(res.data)){
 					$scope.isInvalid = false;
 				}
-			}).error(function(){});
+				else{
+					$scope.isInvalid = true;
+				}
+			}, function errorCallback(res) {
+				// called asynchronously if an error occurs
+				// or server returns response with an error status.
+			});
+		}
+	}
+	
+	$scope.confirmPassword = function(){
+		if ($scope.reEnterPassword && $scope.password && $scope.password != $scope.reEnterPassword){
+			$scope.passwordNotMatch = true;
+		}
+		else{
+			$scope.passwordNotMatch = false;
 		}
 	}
 });

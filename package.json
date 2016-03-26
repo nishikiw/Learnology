@@ -34,6 +34,7 @@
     "eyes": "^0.1.8",
     "fs": "0.0.2",
     "mongoose": "^4.4.8",
+    "mongoose-bcrypt": "^1.2.3",
     "path": "^0.12.7",
     "sesh": "^0.1.0",
     "shortid": "^2.2.4"

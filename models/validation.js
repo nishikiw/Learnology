@@ -1,3 +1,5 @@
+// mongoose-bcrypt reference: https://www.npmjs.com/package/mongoose-bcrypt
+
 var mongoose = require('mongoose');
 
 var validationSchema = mongoose.Schema({
@@ -8,10 +10,13 @@ var validationSchema = mongoose.Schema({
 	},
 	password: {
 		type: String,
-		required: true
+		required: true,
+		bcrypt: true
 	}
 });
 
+validationSchema.plugin(require('mongoose-bcrypt'));
+
 var Validation = mongoose.model('Validation', validationSchema);
 
-module.exports = validationSchema;
+module.exports = Validation;
