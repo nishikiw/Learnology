@@ -43,7 +43,7 @@ app.get('/categories', function(req, res) {
   res.sendFile(__dirname + '/public/categories.html');
 });
 
-app.get('/course', function(req, res) {
+app.get('/course/:id', function(req, res) {
   res.sendFile(__dirname + '/public/course.html');
 });
 
@@ -51,7 +51,7 @@ app.get('/coursecreation', function(req, res) {
   res.sendFile(__dirname + '/public/coursecreation.html');
 });
 
-app.get('/profile', function(req, res) {
+app.get('/profile/:id', function(req, res) {
   res.sendFile(__dirname + '/public/profile.html');
 });
 
@@ -59,8 +59,12 @@ app.get('/search', function(req, res) {
   res.sendFile(__dirname + '/public/search.html');
 });
 
-app.get('/edit-profile', function(req, res) {
+app.get('/edit-profile/:id', function(req, res) {
   res.sendFile(__dirname + '/public/edit-profile.html');
+});
+
+app.get('/admin', function(req, res) {
+  res.sendFile(__dirname + '/public/admin.html');
 });
 
 app.get('/getlogin', function(req, res){
