@@ -92,18 +92,25 @@
             <button type="button" class="close" data-dismiss="modal">&times;</button>
             <h4 class="modal-title">Sign Up</h4>
          </div>
-         <div class="modal-body text-center">
-            <form class="form-signin" action="/users/user" method="POST" id="form_signup">
-               <label for="inputUsername" class="sr-only">Username</label>
-               <input type="username" name="username" id="inputUsernameSU" class="form-control" placeholder="Username" required="">
-               <br>
-               <label for="inputPassword" class="sr-only">Password</label>
-               <input type="password" name="password" id="inputPasswordSU" class="form-control" placeholder="Password" required="">
-               <br>
-               <label for="inputEmail" class="sr-only">Email</label>
-               <input type="email" name="email" id="inputEmailSU" class="form-control" placeholder="Email Address" required="">
-               <br>
-               <button id="submitSU" class="btn btn-lg btn-primary" type="submit">Sign Up</button>
+         <div class="modal-body" ng-controller="signUpFormCtrl">
+            <form role="form" class="form-signin" name="signupForm" action="/users/user" method="POST">
+				<div class="form-group">
+					<label for="inputEmailSU" class="sr-only">Email</label>
+					<input type="email" name="email" class="form-control" id="inputEmailSU" ng-model="email" placeholder="Email Address" ng-model-options="{updateOn: 'blur'}" ng-change="emailExists()" required>
+					<span ng-show="signupForm.email.$error.email">* Invalid email address.</span>
+					<span ng-show="isInvalid" ng-init="isInvalid = false">* Email has been registered.</span>
+				</div>
+				<div class="form-group">
+					<label for="inputPasswordSU" class="sr-only">Password</label>
+					<input type="password" name="password" class="form-control" id="inputPasswordSU" placeholder="Password" required>
+				</div>
+				<div class="form-group">
+					<label for="inputUsernameSU" class="sr-only">Screen Name</label>
+					<input name="screenName" class="form-control" id="inputScreenNameSU" placeholder="Screen Name" ng-model="screenName">
+				</div>
+				<div class="form-group text-center">
+					<button id="submitSU" class="btn btn-lg btn-primary" type="submit">Sign Up</button>
+				</div>
             </form>
          </div>
          <div class="modal-footer">

@@ -8,7 +8,7 @@ var User = require('./models/user.js');
 var Course = require('./models/course.js');
 var session = require('./node_modules/sesh/lib/core').magicSession();
 
-mongoose.connect('mongodb://localhost:27017/test');
+mongoose.connect('mongodb://localhost:27017/learnology');
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
@@ -26,7 +26,7 @@ app.listen(app.get('port'), function() {
 
 // Create application/x-www-form-urlencoded parser
 // Reference: http://www.tutorialspoint.com/nodejs/nodejs_express_framework.htm
-var urlencodedParser = bodyParser.urlencoded({extended: false})
+var urlencodedParser = bodyParser.urlencoded({extended: true})
 
 app.get('/aboutus', function(req, res) {
   res.sendFile(__dirname + '/public/aboutus.html');
@@ -76,6 +76,19 @@ app.get('/users', function(req, res){
 	});
 });
 
+app.get('/users/user', function(req, res){	
+	User.findOne({'email': req.query.email}, function (err, user) {
+		if (err) return handleError(err);
+		if (user){
+			console.log(user);
+			res.end(JSON.stringify(user));
+		}
+		else{
+			res.end("{}");
+		}
+	});
+});
+
 app.post('/users/user', urlencodedParser, function(req, res){
 	// Prepare output in JSON format
 	userObj = {
@@ -97,7 +110,8 @@ app.post('/users/user', urlencodedParser, function(req, res){
 	});
 
 	req.session.data.user = req.body.username;
-	res.redirect('edit-profile/' + req.body.username);
+	res.end(JSON.stringify(userObj));
+	//res.redirect('edit-profile/' + req.body.username);
 });
 
 app.post('/create', urlencodedParser, function(req, res){

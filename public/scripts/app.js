@@ -10,6 +10,27 @@ function submitform() {
     document.searchform.submit(); 
 } 
 
+app.controller('signUpFormCtrl', function ($scope, $http){
+	$scope.emailExists = function(){
+		if ($scope.email){
+			var req = { 
+				method: 'GET',
+				url: 'users/user',
+				params: {email: $scope.email}
+			}
+			$http(req).success(function(data){
+				alert(data);
+				if (data == '{}') {
+					$scope.isInvalid = true;
+				}
+				else {
+					$scope.isInvalid = false;
+				}
+			}).error(function(){});
+		}
+	}
+});
+
 app.controller('navCtrl', function ($scope, $location) {  
     $scope.isActive = function (viewLocation) { 
     	var l = getLocation($location.absUrl());
