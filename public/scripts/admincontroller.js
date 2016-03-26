@@ -1,13 +1,13 @@
 app.controller("list", function($scope, $http) {
       $scope.title = "Users List";
-      convertList ('username', { method: 'GET', url: 'users' });
+      convertList ('screen_name', { method: 'GET', url: 'users' });
 
       function convertList (type, req) {
         var arr = [];
         $http(req).success(function(data){
           for (elem in data) {
-            if (type=='username') {
-              arr.push(data[elem].username);
+            if (type=='screen_name') {
+              arr.push(data[elem].screen_name);
             }
             else {
               arr.push(data[elem].title);
@@ -20,7 +20,7 @@ app.controller("list", function($scope, $http) {
       $scope.getlist = function(list) {
         if (list == 'users') {
           $scope.title = "Users List";
-          convertList ('username', { method: 'GET', url: 'users' });
+          convertList ('screen_name', { method: 'GET', url: 'users' });
         }
         else {
           $scope.title = "Courses List";
@@ -37,10 +37,10 @@ app.controller("list", function($scope, $http) {
           $http({
             method: 'POST', 
             url: 'delete/user', 
-            data: $.param({username: $scope.value}),
+            data: $.param(screen_name: $scope.value}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
           }).success(function(data){
-            convertList ('username', { method: 'GET', url: 'users' });
+            convertList ('screen_name', { method: 'GET', url: 'users' });
           }).error(function(){});
         }
         else {
