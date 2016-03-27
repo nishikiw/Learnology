@@ -194,7 +194,7 @@ app.post('/users/user', urlencodedParser, function(req, res){
 		if (err) return console.error(err);
 		console.log(user);
 		req.session.data.user = user.screen_name;
-		res.redirect('/edit-profile/' + user.screen_name);
+		res.redirect('/edit-profile?id=' + user.screen_name);
 	});
 });
 
@@ -222,7 +222,7 @@ app.post('/create', urlencodedParser, function(req, res){
 		console.log(courses);
 	});
 
-	res.redirect('course/' + courseObj._id);
+	res.redirect('course?id=' + courseObj._id);
 });
 
 app.post('/login', urlencodedParser, function(req, res){
