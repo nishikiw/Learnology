@@ -99,7 +99,7 @@ app.post('/admin/search', urlencodedParser, function(req, res){
 		});
 	}
 	else {
-		Course.find({"title" : req.body.title}, {}, function (err, courses) {
+		Course.find({"_id" : req.body.id}, {}, function (err, courses) {
 		if (err) return console.error(err);
 			res.send(courses);
 		});
@@ -107,7 +107,14 @@ app.post('/admin/search', urlencodedParser, function(req, res){
 });
 
 app.get('/courses', function(req, res){
-	Course.find({}, {"title":1, _id:1}, function (err, courses) {
+	Course.find({}, {}, function (err, courses) {
+		if (err) return console.error(err);
+		res.send(courses);
+	});
+});
+
+app.get('/courses/flagged', function(req, res){
+	Course.find({"flagged" : true}, {}, function (err, courses) {
 		if (err) return console.error(err);
 		res.send(courses);
 	});

@@ -24,31 +24,33 @@ app.controller("list", function($scope, $http) {
         $scope.title = "Users List";
         $scope.link = "profile";
         $scope.use = true;
+        $scope.confirmed = false;
         convertList ('screen_name', { method: 'GET', url: 'users' });
       }
       else {
         $scope.title = "Courses List";
         $scope.link = "course";
         $scope.use = false;
+        $scope.confirmed = false;
         convertList ('title', { method: 'GET', url: 'courses' });
       }
     };
 
     $scope.getFlagged = function() {
       if ($scope.confirmed) {
-        if ($scope.title = "Users List") {
+        if ($scope.title == "Users List") {
           convertList ('screen_name', { method: 'GET', url: 'users/flagged' });
         }
         else {
-          cconvertList ('title', { method: 'GET', url: 'courses/flagged' });
+          convertList ('title', { method: 'GET', url: 'courses/flagged' });
         }
       }
       else {
-        if ($scope.title = "Users List") {
+        if ($scope.title == "Users List") {
           convertList ('screen_name', { method: 'GET', url: 'users' });
         }
         else {
-          cconvertList ('title', { method: 'GET', url: 'courses' });
+          convertList ('title', { method: 'GET', url: 'courses' });
         }
       }
     };
@@ -71,7 +73,7 @@ app.controller("list", function($scope, $http) {
         var req = { 
           method: 'POST', 
           url: 'admin/search', 
-          data: $.param({type: 'course', title: $scope.searchID}),
+          data: $.param({type: 'course', id: $scope.searchID}),
           headers: {'Content-Type': 'application/x-www-form-urlencoded'}};
 
         convertList ('title', req);

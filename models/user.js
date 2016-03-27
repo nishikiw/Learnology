@@ -13,6 +13,10 @@ var userSchema = mongoose.Schema({
 		unique: true,
 		'default': shortid.generate
 	},
+	admin: {
+		type: Boolean,
+		'default': true
+	},
 	flagged: {
 		type: Boolean,
 		'default': false
