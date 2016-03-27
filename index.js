@@ -15,6 +15,7 @@ mongoose.connect('mongodb://localhost:27017/learnology');
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
+	console.log('Node app is running on port', app.get('port'));
 	console.log("Connected to mongodb...");
 });
 

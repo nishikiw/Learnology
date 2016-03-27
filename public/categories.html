@@ -14,7 +14,7 @@
   <script src="scripts/navbar.js"></script>
   <script> 
   app.controller("topCtrl", function($scope) {
-    $scope.topList = [
+    academic = [
            {rank: '1', course:'Linear Algebra', votes:'58', rating: '4.3'},
            {rank: '2',course:'Chemistry',votes:'54', rating: '4.4'},
            {rank: '3',course:'Biology',votes:'53', rating: '4.0'},
@@ -25,6 +25,26 @@
            {rank: '8',course:'Studying Strategies',votes:'38', rating: '4.0'},
            {rank: '9',course:'Grammar',votes:'27', rating: '4.6'},
            {rank: '10',course:'Calculus',votes:'32', rating: '3.6'}];
+    musicArts = [
+           {rank: '1', course:'Basic Guitar', votes:'58', rating: '4.3'},
+           {rank: '2',course:'Tuning Basics', votes:'54', rating: '4.4'},
+           {rank: '3',course:'Advanced Guitar',votes:'53', rating: '4.0'},
+           {rank: '4',course:'Sheet Music',votes:'50', rating: '3.9'},
+           {rank: '5',course:'Photoshop',votes:'47', rating: '3.8'},
+           {rank: '6',course:'Topography',votes:'44', rating: '4.0'},
+           {rank: '7',course:'Basic Drawing',votes:'43', rating: '3.7'},
+           {rank: '8',course:'Garage Band',votes:'38', rating: '4.0'},
+           {rank: '9',course:'Piano',votes:'27', rating: '4.6'},
+           {rank: '10',course:'Painting',votes:'32', rating: '3.6'}];
+    $scope.changeList = function(category) {
+      if(category == 'Academic') {
+        $scope.topList = academic;
+      }
+      else {
+        $scope.topList = musicArts;
+      }
+    };
+    $scope.topList = academic;
   });
 
   $(document).ready(function(){
@@ -53,19 +73,19 @@
       <div class="col-sm-4">
       	<a class="thumbnail">
       		<img src="images/academic.png" class="img-rounded" alt="Academic" height="200" width="200">
-          <a href="search?param=academic" class="btn btn-blue">Academic Skills</a> 
+          <a href="search?param=Category&terms=Academic" class="btn btn-blue">Academic Skills</a> 
       	</a>
       </div>
       <div class="col-sm-4"> 
       	<a class="thumbnail">
       		<img src="images/art.png" class="img-rounded" alt="Art" height="200" width="200">
-      		<a href="search?param=academic" class="btn btn-blue">Music/Art Skills</a>
+      		<a href="search?param=Category&terms=Music+and+Arts" class="btn btn-blue">Music/Art Skills</a>
       	</a>
       </div>
       <div class="col-sm-4"> 
       	<a class="thumbnail">
       		<img src="images/cooking.png" class="img-rounded" alt="Cooking" height="200" width="200">
-      		<a href="search?param=academic" class="btn btn-blue">Cooking Skills</a>
+      		<a href="search?param=Category&terms=Cooking" class="btn btn-blue">Cooking Skills</a>
       	</a>
       </div>
     </div>
@@ -76,19 +96,19 @@
       <div class="col-sm-4">
       	<a class="thumbnail">
       		<img src="images/home.png" class="img-rounded" alt="Home" height="200" width="200">
-      		<a href="search?param=academic" class="btn btn-blue">Home-Related Skills</a>
+      		<a href="search?param=Category&terms=Home-Related" class="btn btn-blue">Home-Related Skills</a>
       	</a>
       </div>
       <div class="col-sm-4"> 
       	<a class="thumbnail">
       		<img src="images/office.png" class="img-rounded" alt="Office" height="200" width="200">
-      		<a href="search?param=academic" class="btn btn-blue">Office/Document Skills</a>
+      		<a href="search?param=Category&terms=Office+Skills" class="btn btn-blue">Office/Document Skills</a>
       	</a>
       </div>
       <div class="col-sm-4"> 
       	<a class="thumbnail">
       		<img src="images/games.png" class="img-rounded" alt="Game" height="200" width="200">
-      		<a href="search?param=academic" class="btn btn-blue">Sports/Gaming Skills</a>
+      		<a href="search?param=Category&terms=Sports+and+Games" class="btn btn-blue">Sports/Gaming Skills</a>
       	</a>
       </div>
     </div>
@@ -99,34 +119,34 @@
       <div class="col-sm-4">
       	<a class="thumbnail">
       		<img src="images/tech.png" class="img-rounded" alt="Technology" height="200" width="200">
-      		<a href="search?param=academic" class="btn btn-blue">Technological Skills</a>
+      		<a href="search?param=Category&terms=Technology" class="btn btn-blue">Technological Skills</a>
       	</a>
       </div>
       <div class="col-sm-4"> 
       	<a class="thumbnail">
       		<img src="images/question.png" class="img-rounded" alt="Miscellaneous" height="200" width="200">
-      		<a href="search?param=academic" class="btn btn-blue">Miscellaneous</a>
+      		<a href="search?param=Category&terms=Miscellaneous" class="btn btn-blue">Miscellaneous</a>
       	</a>
       </div>
     </div>
   </div><br>
 </div>
 
-<div class="container-fluid" ng-show="show"> 
+<div class="container-fluid" ng-show="show" ng-controller="topCtrl"> 
     <div class="panel panel-default">
         <div class="panel-body">
             <h1 align="center">Top 10 Courses</h1>
             <ul class="nav nav-pills">
-               <li class="active"><a>Academic</a></li>
-               <li><a>Music/Art</a></li>
-               <li><a>Cooking</a></li>
-               <li><a>Home-Related</a></li>
-               <li><a>Office/Document</a></li>
-               <li><a>Sports/Gaming</a></li>
-               <li><a>Technological</a></li>
-               <li><a>Miscellaneous</a></li>
+               <li class="active" ng-click="changeList('Academic')"><a>Academic</a></li>
+               <li ng-click="changeList('Music/Art')"><a>Music/Art</a></li>
+               <li ng-click="changeList()"><a>Cooking</a></li>
+               <li ng-click="changeList()"><a>Home-Related</a></li>
+               <li ng-click="changeList()"><a>Office/Document</a></li>
+               <li ng-click="changeList()"><a>Sports/Gaming</a></li>
+               <li ng-click="changeList()"><a>Technological</a></li>
+               <li ng-click="changeList()"><a>Miscellaneous</a></li>
             </ul> <br>
-            <div ng-controller="topCtrl">
+            <div>
                 <ul class="list-group col-sm-6 col-sm-offset-3">
                   <li class="list-group-item" ng-repeat="x in topList"> {{ x.rank + ') '}}<a>{{x.course}}</a>
                     <span class="badge" data-toggle="tooltip" title="# of votes">{{x.votes}}</span>

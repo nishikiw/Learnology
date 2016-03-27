@@ -1,5 +1,6 @@
 app.controller("list", function($scope, $http) {
       $scope.title = "Users List";
+      $scope.use = true;
       convertList ('screen_name', { method: 'GET', url: 'users' });
 
       function convertList (type, req) {
@@ -20,10 +21,12 @@ app.controller("list", function($scope, $http) {
       $scope.getlist = function(list) {
         if (list == 'users') {
           $scope.title = "Users List";
+          $scope.use = true;
           convertList ('screen_name', { method: 'GET', url: 'users' });
         }
         else {
           $scope.title = "Courses List";
+          $scope.use = false;
           convertList ('title', { method: 'GET', url: 'courses' });
         }
       };
@@ -37,7 +40,7 @@ app.controller("list", function($scope, $http) {
           $http({
             method: 'POST', 
             url: 'delete/user', 
-            data: $.param(screen_name: $scope.value}),
+            data: $.param({screen_name: $scope.value}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
           }).success(function(data){
             convertList ('screen_name', { method: 'GET', url: 'users' });
