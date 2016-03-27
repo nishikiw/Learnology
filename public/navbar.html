@@ -93,7 +93,7 @@
             <h4 class="modal-title">Sign Up</h4>
          </div>
          <div class="modal-body" ng-controller="signUpFormCtrl">
-            <form role="form" class="form-signin" name="signupForm" action="/users/user" method="POST" ng-submit="signupForm.$valid && !isInvalid">
+            <form role="form" class="form-signin" name="signupForm" action="/users/user" method="POST" ng-submit="signupForm.$valid && !isInvalid && !screenNameInvalid && !screenNameFound && !passwordNotMatch">
 				<div class="form-group">
 					<label for="inputEmailSU" class="sr-only">Email</label>
 					<input type="email" name="email" class="form-control" id="inputEmailSU" ng-model="email" placeholder="Email Address" ng-model-options="{updateOn: 'blur'}" ng-change="emailExists()" required>
