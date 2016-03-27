@@ -11,55 +11,15 @@
 		<link rel="stylesheet" type="text/css" href="css/style.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+		<script src="scripts/app.js"></script>
 		<script src="scripts/course.js"></script>
 		<script src="scripts/navbar.js"></script>
 	</head>
-	<body data-spy="scroll" data-target="#courseScrollspy" data-offset="60">	
-		<nav class="navbar navbar-inverse navbar-fixed-top">
-			<div class="container-fluid">
-			    <div class="navbar-header">
-					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-					<a class="navbar-brand" style="color:white;"><span class="glyphicon glyphicon-education"></span> Learnology</a>
-			    </div>
-			    <div class="collapse navbar-collapse" id="myNavbar">
-					<ul class="nav navbar-nav">
-						<li><a href="#">Home</a></li>
-						<li><a href="#">Create a Course</a></li>
-						<li><a href="categories">Categories</a></li> 
-						<div class="col-sm-3 col-md-6">
-							<form class="navbar-form navbar-left" role="search">
-								<div class="input-group">
-									<div class="input-group-btn search-panel">
-										<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-											<span id="search_by">Search by</span> <span class="caret"></span>
-										</button>
-										<ul class="dropdown-menu" role="menu">
-											<li><a href="#">Keywords</a></li>
-											<li><a href="#">Teacher Name</a></li>
-											<li><a href="#">Tag</a></li>
-										</ul>
-									</div>
-									<input type="hidden" name="search_param" value="Keywords" id="search_param">
-									<input type="text" class="form-control" name="search_terms" placeholder="Search">
-									<span class="input-group-btn">
-										<button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
-									</span>
-								</div>
-							</form>
-					    </div>
-					</ul>
-					<ul class="nav navbar-nav navbar-right">
-						<li><a id="view">USER VIEW</a></li>
-						<li><a href="profile"><span class="glyphicon glyphicon-user"></span> JohnSmith</a></li>
-						<li><a id="logout" data-toggle="modal" data-target="#logoutModal"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
-					</ul>
-				</div>
-			</div>
-		</nav>
+	<body data-spy="scroll" data-target="#courseScrollspy" data-offset="60" ng-app="learnologyApp">	
+	<div ng-controller="navCtrl"> 
+	  <div ng-include="'navbar.html'"></div>
+	</div> 
 		
 		<main>
 			<div class="container-fluid">
