@@ -42,7 +42,7 @@
         </form>
         <ul class="list-group">
           <li class="list-group-item" ng-repeat="x in data">
-            <a ng-href="{{link}}/{{x}}">{{x}}</a>
+            <a ng-href="{{link}}?id={{x}}">{{x}}</a>
             <button type="button" class="close" data-toggle="modal" ng-click="delete($index)" data-target="#confirmModal">&times;</button>
           </li>
         </ul>

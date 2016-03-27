@@ -20,9 +20,10 @@ db.once('open', function() {
 });
 
 app.set('port', (process.env.PORT || 5000));
-app.set('view engine', 'html');
+
 
 app.use('/', express.static(__dirname + '/public'));
+app.set('view engine', 'html');
 
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
@@ -44,7 +45,7 @@ app.get('/categories', function(req, res) {
   res.sendFile(__dirname + '/public/categories.html');
 });
 
-app.get('/course/:id', function(req, res) {
+app.get('/course', function(req, res) {
   res.sendFile(__dirname + '/public/course.html');
 });
 
@@ -52,7 +53,7 @@ app.get('/coursecreation', function(req, res) {
   res.sendFile(__dirname + '/public/coursecreation.html');
 });
 
-app.get('/profile/:id', function(req, res) {
+app.get('/profile', function(req, res) {
   res.sendFile(__dirname + '/public/profile.html');
 });
 
@@ -60,7 +61,7 @@ app.get('/search', function(req, res) {
   res.sendFile(__dirname + '/public/search.html');
 });
 
-app.get('/edit-profile/:id', function(req, res) {
+app.get('/edit-profile', function(req, res) {
   res.sendFile(__dirname + '/public/edit-profile.html');
 });
 
