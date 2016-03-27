@@ -30,6 +30,9 @@ app.controller('signUpFormCtrl', function ($scope, $http){
 				// or server returns response with an error status.
 			});
 		}
+		else{
+			$scope.isInvalid = false;
+		}
 	}
 	
 	$scope.screenNameValidation = function(){
@@ -59,6 +62,7 @@ app.controller('signUpFormCtrl', function ($scope, $http){
 		}
 		else{
 			$scope.screenNameFound = false;
+			$scope.screenNameInvalid = false;
 		}
 	}
 	
