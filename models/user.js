@@ -6,11 +6,16 @@ var userSchema = mongoose.Schema({
 		type: String,
 		required: true,
 		unique: true
+
 	},
 	screen_name: {
 		type: String,
 		unique: true,
 		'default': shortid.generate
+	},
+	flagged: {
+		type: Boolean,
+		'default': false
 	}
 });
 

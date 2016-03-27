@@ -78,10 +78,32 @@ app.get('/logout', function(req, res){
 });
 
 app.get('/users', function(req, res){
-	User.find({}, {"screen_name":1, _id:1}, function (err, users) {
+	User.find({}, {}, function (err, users) {
 		if (err) return console.error(err);
 		res.send(users);
 	});
+});
+
+app.get('/users/flagged', function(req, res){
+	User.find({"flagged" : true}, {}, function (err, users) {
+		if (err) return console.error(err);
+		res.send(users);
+	});
+});
+
+app.post('/admin/search', urlencodedParser, function(req, res){
+	if (req.body.type == 'user') {
+		User.find({"screen_name" : {$regex : ".*"+req.body.screen_name+".*"}}, {}, function (err, users) {
+			if (err) return console.error(err);
+			res.send(users);
+		});
+	}
+	else {
+		Course.find({"title" : req.body.title}, {}, function (err, courses) {
+		if (err) return console.error(err);
+			res.send(courses);
+		});
+	}
 });
 
 app.get('/courses', function(req, res){

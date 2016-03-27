@@ -1,5 +1,6 @@
 app.controller("list", function($scope, $http) {
     $scope.title = "Users List";
+    $scope.link = "profile";
     $scope.use = true;
     convertList ('screen_name', { method: 'GET', url: 'users' });
 
@@ -21,11 +22,13 @@ app.controller("list", function($scope, $http) {
     $scope.getlist = function(list) {
       if (list == 'users') {
         $scope.title = "Users List";
+        $scope.link = "profile";
         $scope.use = true;
         convertList ('screen_name', { method: 'GET', url: 'users' });
       }
       else {
         $scope.title = "Courses List";
+        $scope.link = "course";
         $scope.use = false;
         convertList ('title', { method: 'GET', url: 'courses' });
       }
@@ -52,6 +55,27 @@ app.controller("list", function($scope, $http) {
 
     $scope.delete = function(x) {
       $scope.value = $scope.data[x];
+    };
+
+    $scope.findItem = function () {
+      if($scope.title == "Users List") {
+        var req = { 
+          method: 'POST', 
+          url: 'admin/search', 
+          data: $.param({type: 'user', screen_name: $scope.searchID}),
+          headers: {'Content-Type': 'application/x-www-form-urlencoded'}};
+
+        convertList ('screen_name', req);
+      }
+      else {
+        var req = { 
+          method: 'POST', 
+          url: 'admin/search', 
+          data: $.param({type: 'course', title: $scope.searchID}),
+          headers: {'Content-Type': 'application/x-www-form-urlencoded'}};
+
+        convertList ('title', req);
+      }
     };
 
     $scope.removeItem = function () {
