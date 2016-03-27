@@ -136,7 +136,7 @@ app.post('/users/user', urlencodedParser, function(req, res){
 	var screenName = req.body.screenName;
 	var email = req.body.email;
 	var password = req.body.password;
-	var userObj
+	var userObj, user;
 	
 	if (screenName == ""){
 		userObj = {
@@ -159,22 +159,13 @@ app.post('/users/user', urlencodedParser, function(req, res){
 		if (err) return console.error(err);
 	});
 	
-	User.create(userObj, function (err) {
+	var user = new User(userObj);
+	user.save(function (err, user) {
 		if (err) return console.error(err);
+		console.log(user);
+		req.session.data.user = user.screen_name;
+		res.redirect('/edit-profile/' + user.screen_name);
 	});
-	
-	User.find(function (err, users) {
-		if (err) return console.error(err);
-		console.log(users);
-	});
-	
-	Validation.find(function (err, users) {
-		if (err) return console.error(err);
-		console.log(users);
-	});
-
-	req.session.data.user = req.body.screenName;
-	res.redirect('/edit-profile/' + req.body.screenName);
 });
 
 app.post('/create', urlencodedParser, function(req, res){

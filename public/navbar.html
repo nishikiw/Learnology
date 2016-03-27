@@ -106,7 +106,7 @@
 				</div>
 				<div class="form-group">
 					<label for="inputPasswordSU" class="sr-only">Re-enter Password</label>
-					<input type="password" ng-model="reEnterPassword" name="reEnterPassword" class="form-control" id="inputPasswordSU" placeholder="Re-enter Password" ng-model-options="{updateOn: 'blur'}" ng-change="confirmPassword()" required>
+					<input type="password" ng-model="reEnterPassword" name="reEnterPassword" class="form-control" id="inputPasswordSU" placeholder="Re-enter Password" ng-change="confirmPassword()" required>
 					<span ng-show="passwordNotMatch" ng-init="passwordNotMatch = false">* Re-entered password does not match.</span>
 				</div>
 				<div class="form-group">
