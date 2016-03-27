@@ -109,6 +109,65 @@ app.controller('login', function($scope, $http) {
     };
 });
 
+app.directive("searchRes", function() {
+    return {
+        controller: function ($scope, $http, $location) {
+        
+            var searchBy;
+            var terms;
+            // from https://css-tricks.com/snippets/javascript/get-url-variables/
+            var query = window.location.search.substring(1);
+            var vars = query.split("&");
+            for (var i=0;i<vars.length;i++) {
+                var pair = vars[i].split("=");
+                if(pair[0] == "param"){
+                    searchBy = pair[1];
+                }
+                if(pair[0] == "terms"){
+                    terms = pair[1];
+                }
+            }
+            
+            
+            var req = { 
+                method: 'POST',
+                url: 'search/res',
+                data: $.param({searchBy : searchBy , terms : terms}),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }
+            $http(req).success(function(courses){
+                var numRes;
+                if (courses.length == 0)
+                    numRes = '<h3 id="result">Total number of results: 0'+
+                    '</h3><section class="col-xs-12 col-sm-6 col-md-12"><article class="search-result-row">';
+                else
+                    numRes = '<h3 id="result">Total number of results: ' + courses.length+
+                    ' </h3><section class="col-xs-12 col-sm-6 col-md-12"><article class="search-result-row">';
+                $("#searchRes").append(numRes);
+                
+                for (var i = 0; i < courses.length; i++) {
+                    var rating = "";
+                    var course = courses[i]; 
+                    if (course.rating !=undefined) {
+                        for (var j = 0; j < Math.round(course.rating); j++) {
+                            rating +='<i class="glyphicon glyphicon-star"></i>';
+                        }
+                    } else {
+                        rating = "none";
+                    }
+                       
+                    var res = '<h3><a href="course/'+course._id+'">' + course.title + '</a></h3><ul id="result_info">'+
+                    '<li>Teacher Name: <a href="profile/'+course._id+'">' + course.user + '</a></li><li>Course Rating: '+rating+
+                    '</li><li>Difficulty Level: ' + course.difficulty + '</li></ul><p>' + course.description + '</p>';
+                    
+                    $("#searchRes").append(res);
+                
+                }
+            }).error(function(){});
+        }
+    };
+});
+
 app.directive("userLogin", function() {
     return {
         controller: function ($scope, $http) {
