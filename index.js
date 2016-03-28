@@ -140,6 +140,7 @@ app.post('/search/one', urlencodedParser, function(req, res){
 	else {
 		Course.find({"_id" : req.body.id}, {}, function (err, courses) {
 		if (err) return console.error(err);
+			console.log(courses);
 			res.send(courses);
 		});
 	}
