@@ -194,7 +194,7 @@ app.post('/users/user', urlencodedParser, function(req, res){
 		if (err) return console.error(err);
 		console.log(user);
 		req.session.data.user = user.screen_name;
-		res.redirect('/edit-profile?id=' + user.screen_name);
+		res.redirect('/edit-profile?screen-name=' + user.screen_name);
 	});
 });
 

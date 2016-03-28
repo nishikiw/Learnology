@@ -11,6 +11,7 @@ var userSchema = mongoose.Schema({
 	screen_name: {
 		type: String,
 		unique: true,
+		required: true,
 		'default': shortid.generate
 	},
 	admin: {
@@ -20,6 +21,17 @@ var userSchema = mongoose.Schema({
 	flagged: {
 		type: Boolean,
 		'default': false
+	},
+	first_name: String,
+	last_name: String,
+	gender: String,
+	date_of_birth: Date,
+	phone: Number,
+	address: {
+		street: String,
+		city: String,
+		province: String,
+		Country: String
 	}
 });
 

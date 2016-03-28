@@ -9,128 +9,94 @@
 		<link rel="stylesheet" type="text/css" href="css/edit-profile.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+		<script src="scripts/app.js"></script>
 		<script src="scripts/navbar.js"></script>
 	</head>
-	<body>		
-		<nav class="navbar navbar-inverse navbar-fixed-top">
-			<div class="container-fluid">
-			    <div class="navbar-header">
-					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-					<a class="navbar-brand" style="color:white;"><span class="glyphicon glyphicon-education"></span> Learnology</a>
-			    </div>
-			    <div class="collapse navbar-collapse" id="myNavbar">
-					<ul class="nav navbar-nav">
-						<li><a href="#">Home</a></li>
-						<li><a href="#">Create a Course</a></li>
-						<li><a href="categories">Categories</a></li> 
-						<div class="col-sm-3 col-md-6">
-							<form class="navbar-form navbar-left" role="search">
-								<div class="input-group">
-									<div class="input-group-btn search-panel">
-										<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-											<span id="search_by">Search by</span> <span class="caret"></span>
-										</button>
-										<ul class="dropdown-menu" role="menu">
-											<li><a href="#">Keywords</a></li>
-											<li><a href="#">Teacher Name</a></li>
-											<li><a href="#">Tag</a></li>
-										</ul>
-									</div>
-									<input type="hidden" name="search_param" value="Keywords" id="search_param">
-									<input type="text" class="form-control" name="search_terms" placeholder="Search">
-									<span class="input-group-btn">
-										<button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
-									</span>
-								</div>
-							</form>
-					    </div>
-					</ul>
-					<ul class="nav navbar-nav navbar-right">
-						<li><a id="view">USER VIEW</a></li>
-						<li><a href="profile"><span class="glyphicon glyphicon-user"></span> JohnSmith</a></li>
-						<li><a id="logout" data-toggle="modal" data-target="#logoutModal"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
-					</ul>
-				</div>
-			</div>
-		</nav>
+	<body ng-app="learnologyApp">
+		<div ng-controller="navCtrl"> 
+			<div ng-include="'navbar.html'"></div>
+		</div>
 		<main>
 			<div class="container-fluid">
-				<form class="form-horizontal" role="form" action="profile">
+				<form class="form-horizontal" role="form" action="profile" ng-controller="editProfileCtrl" ng-init="init()">
 					<fieldset class="col-sm-6">
 						<legend>Personal Information</legend>
 						<div class="form-group">
+							<label class="control-label col-sm-3" for="screen-name">Screen Name:</label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control" ng-model="screenName" id="screen-name" required>
+							</div>
+						</div>
+						<div class="form-group">
 							<label class="control-label col-sm-3" for="first-name">First Name:</label>
 							<div class="col-sm-8">
-								<input type="text" class="form-control" value="Stéphanie" id="first-name">
+								<input type="text" class="form-control" ng-model="firstName" id="first-name">
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="control-label col-sm-3" for="last-name">Last Name:</label>
 							<div class="col-sm-8">
-								<input type="text" class="form-control" id="last-name" value="Ladner">
+								<input type="text" class="form-control" id="last-name" ng-model="lastName">
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="control-label col-sm-3">Gender:</label>
 							<div class="col-sm-8">
 								<label class="radio-inline">
-									<input type="radio" value="male" name="gender">Male
+									<input type="radio" value="male" name="gender" ng-model="gender">Male
 								</label>
 								<label class="radio-inline">
-									<input type="radio" value="female" name="gender" checked="checked">Female
+									<input type="radio" value="female" name="gender" ng-model="gender">Female
 								</label>
 								<label class="radio-inline">
-									<input type="radio" value="others" name="gender">Others
+									<input type="radio" value="others" name="gender" ng-model="gender">Others
 								</label>
 								<label class="radio-inline">
-									<input type="radio" value="n/a" name="gender">Prefer not to disclose
+									<input type="radio" value="notAvailable" name="gender" ng-model="gender">Prefer not to disclose
 								</label>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="control-label col-sm-3" for="birth-date">Birth Date:</label>
+							<label class="control-label col-sm-3" for="birth-date">Date of Birth:</label>
 							<div class="col-sm-8">
-								<input type="date" class="form-control" id="birth-date">
+								<input type="date" class="form-control" id="birth-date" ng-model="dateOfBirth">
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="control-label col-sm-3" for="email">Email:</label>
 							<div class="col-sm-8">
-								<input type="email" class="form-control" id="email" value="stephanie.ladner@gmail.com">
+								<input type="email" class="form-control" id="email" ng-model="email" required>
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="control-label col-sm-3" for="phone">Phone:</label>
 							<div class="col-sm-8">
-								<input type="tel" class="form-control" id="phone">
+								<input type="tel" class="form-control" id="phone" ng-model="phone">
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="control-label col-sm-3" for="address">Address:</label>
 							<div class="col-sm-8">
-								<input type="text" class="form-control" id="address">
+								<input type="text" class="form-control" id="address" ng-model="address">
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="control-label col-sm-3" for="city">City:</label>
 							<div class="col-sm-8">
-								<input type="text" class="form-control" id="city" value="Toronto">
+								<input type="text" class="form-control" id="city" ng-model="city">
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="control-label col-sm-3" for="province">Province/State:</label>
 							<div class="col-sm-8">
-								<input type="text" class="form-control" id="province" value="ON">
+								<input type="text" class="form-control" id="province" ng-model="province">
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="control-label col-sm-3" for="country">Country:</label>
 							<div class="col-sm-8">
-								<input type="text" class="form-control" id="country" value="Canada">
+								<input type="text" class="form-control" id="country" ng-model="country">
 							</div>
 						</div>
 					</fieldset>
@@ -161,94 +127,5 @@
 				</p>
 			</div>
 		</div>
-
-		  <!-- Modal -->
-  <div class="modal fade" id="loginModal" role="dialog">
-    <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Please sign in</h4>
-        </div>
-        <div class="modal-body text-center">
-          <form class="form-signin">
-            <label for="inputUsername" class="sr-only">Username</label>
-            <input type="username" id="inputUsername" class="form-control" data-toggle="tooltip" title="JohnSmith" placeholder="Username" required="">
-            <br>
-            <label for="inputPassword" class="sr-only">Password</label>
-            <input type="password" id="inputPassword" class="form-control" data-toggle="tooltip" title="password" placeholder="Password" required="">
-          </form> <br>
-          <div id="notFound" style='color:red; display:none;'>* Account Not Found *</div>
-          <button id="submit" class="btn btn-lg btn-primary" type="submit">Sign in</button>
-          <br>
-          <div> Want to create an account? <button id="signup" class="btn btn-primary" type="signup">Sign up</button></div> 
-          <hr>
-          <div>Or Sign In With (PART 2)</div>
-          <a><img src="images/loginFB.png" class="social" alt="LoginFB"></a>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-      
-    </div>
-  </div>
-
-  <!-- Modal -->
-  <div class="modal fade" id="signupModal" role="dialog">
-    <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Sign Up</h4>
-        </div>
-        <div class="modal-body text-center">
-          <form class="form-signin">
-            <label for="inputUsername" class="sr-only">Username</label>
-            <input type="username" id="inputUsernameSU" class="form-control" placeholder="Username" required="">
-            <br>
-            <label for="inputPassword" class="sr-only">Password</label>
-            <input type="password" id="inputPasswordSU" class="form-control" placeholder="Password" required="">
-            <br>
-            <label for="inputEmail" class="sr-only">Email</label>
-            <input type="email" id="inputEmailSU" class="form-control" placeholder="Email Address" required="">
-            <br>
-            <button id="submitSU" class="btn btn-lg btn-primary" type="submit">Sign Up</button>
-          </form> <br>
-          <div> Already have an account? <button id="signin" class="btn btn-primary" type="signin">Login</button></div> 
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-      
-    </div>
-  </div>
-
-  <!-- Modal -->
-  <div class="modal fade" id="logoutModal" role="dialog">
-    <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Logout</h4>
-        </div>
-        <div class="modal-body text-center">
-          <div> Are you sure you want logout?</div> <br>
-          <button id="logout_btn" class="btn btn-primary" type="logout">Logout</button>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-      
-    </div>
-  </div>
 	</body>
 </html>

@@ -10,6 +10,55 @@ function submitform() {
     document.searchform.submit(); 
 } 
 
+app.controller('editProfileCtrl', function ($scope, $http){
+	$scope.init = function(){
+		var url = window.location.href;
+		$scope.screenName = url.split("=")[1];
+		
+		var req = {
+			method: 'GET',
+			url: 'users/user',
+			params: {screenName: $scope.screenName}
+		}
+		$http(req).then(function successCallback(res){
+			var userInfo = res.data;
+			if (userInfo.first_name){
+				$scope.firstName = userInfo.first_name;
+			}
+			if (userInfo.last_name){
+				$scope.lastName = userInfo.last_name;
+			}
+			if (userInfo.gender){
+				$scope.gender = userInfo.gender;
+			}
+			if (userInfo.date_of_birth){
+				$scope.dateOfBirth = userInfo.date_of_birth;
+			}
+			if (userInfo.email){
+				$scope.email = userInfo.email;
+			}
+			if (userInfo.phone){
+				$scope.phone = userInfo.phone;
+			}
+			if (userInfo.address.street){
+				$scope.address = userInfo.address.street;
+			}
+			if (userInfo.address.city){
+				$scope.city = userInfo.address.city;
+			}
+			if (userInfo.address.province){
+				$scope.province = userInfo.address.province;
+			}
+			if (userInfo.address.country){
+				$scope.country = userInfo.address.country;
+			}
+		}, function errorCallback(res) {
+			// called asynchronously if an error occurs
+			// or server returns response with an error status.
+		});
+	}
+});
+
 app.controller('signUpFormCtrl', function ($scope, $http){
 	$scope.emailExists = function(){
 		if ($scope.email){
