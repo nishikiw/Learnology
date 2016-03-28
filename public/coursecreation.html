@@ -19,13 +19,18 @@
       app.controller('create', function($scope, $http) {
          $scope.category = "Academic";
          $scope.level = "Beginner" ;
+         $scope.disable = false;
           $scope.sendPost = function() {
+            if ($scope.disable == true) {
+               $scope.location = "online"
+            }
             var req = { 
-              method: 'POST',
-              url: 'create',
-              data: $.param({
+               method: 'POST',
+               url: 'create',
+               data: $.param({
                title: $scope.title, 
-               category: $scope.category, 
+               location: $scope.location,
+               category: $scope.category,
                description: $scope.description,
                price: $scope.price,
                difficulty: $scope.level,

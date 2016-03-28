@@ -56,7 +56,7 @@ app.controller("list", function($scope, $http) {
     };
 
     $scope.delete = function(x) {
-      $scope.value = $scope.data[x];
+      $scope.value = $scope.data[x][1];
     };
 
     $scope.findItem = function () {

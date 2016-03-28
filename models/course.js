@@ -5,6 +5,7 @@ var courseSchema = mongoose.Schema({
 	user: {type: String, required: true},
 	_id: {type: String, unique: true, 'default': shortid.generate},
 	title: {type: String, required: true},
+	location: {type: String, required: true, default: 'online'},
 	category: {type: String, required: true},
 	price: {type: Number, required: true},
 	description: {type: String, required: true},

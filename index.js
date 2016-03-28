@@ -283,6 +283,7 @@ app.post('/create', urlencodedParser, function(req, res){
 	courseObj = {
 		user: req.session.data.user,
 	    title: req.body.title,
+	    location: req.body.location,
 		category: req.body.category,
 		price: req.body.price,
 		description: req.body.description,
@@ -302,7 +303,7 @@ app.post('/create', urlencodedParser, function(req, res){
 		console.log(courses);
 	});
 
-	res.redirect('course?id=' + courseObj._id);
+	res.redirect('/course?id=' + courseObj._id);
 });
 
 /* app.post('/login', urlencodedParser, function(req, res){
