@@ -26,7 +26,7 @@
                         <ul class="dropdown-menu" role="menu">
                            <li ng-click="changeParam('Keywords')"><a>Keywords</a></li>
                            <li ng-click="changeParam('Teacher Name')"><a>Teacher Name</a></li>
-                           <li ng-click="changeParam('Tag')"><a>Tag</a></li>
+                           <li ng-click="changeParam('Category')"><a>Category</a></li>
                         </ul>
                      </div>
                      <input type="hidden" name="param" value="Keywords" id="param">
@@ -39,7 +39,7 @@
             </div>
          </ul>
          <ul class="nav navbar-nav navbar-right">
-            <li class="user"><a id="admin">ADMIN</a></li>
+            <li ng-class="{ active: isActive('/admin')}" class="user"><a id="admin">ADMIN</a></li>
             <li class="user" style="display:none"><a href="profile" id="screenName"></a></li>
             <li><a id="login" data-toggle="modal" data-target="#loginModal" class="guest"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
             <li><a id="signup" data-toggle="modal" data-target="#signupModal" class="guest"><span class="glyphicon glyphicon-edit"></span> Sign Up</a></li>
@@ -72,7 +72,8 @@
          <br>
          <hr>
          <div>Or Sign In With</div>
-         
+         <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+         </fb:login-button>
       </div>
       <div class="modal-footer">
          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

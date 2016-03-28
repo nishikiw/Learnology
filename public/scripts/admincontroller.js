@@ -1,5 +1,5 @@
 app.controller("list", function($scope, $http) {
-    $scope.title = "Users List";
+    $scope.title = "Users";
     $scope.link = "profile";
     $scope.use = true;
     convertList ('screen_name', { method: 'GET', url: 'users' });
@@ -9,10 +9,10 @@ app.controller("list", function($scope, $http) {
       $http(req).success(function(data){
         for (elem in data) {
           if (type=='screen_name') {
-            arr.push(data[elem].screen_name);
+            arr.push([data[elem].screen_name, data[elem].admin, data[elem].flagged]);
           }
           else {
-            arr.push(data[elem].title);
+            arr.push([data[elem]._id, data[elem].title, data[elem].flagged]);
           }
         }
         $scope.data = arr;
@@ -20,15 +20,15 @@ app.controller("list", function($scope, $http) {
     };
 
     $scope.getlist = function(list) {
-      if (list == 'users') {
-        $scope.title = "Users List";
+      if (list == 'Users') {
+        $scope.title = "Users";
         $scope.link = "profile";
         $scope.use = true;
         $scope.confirmed = false;
         convertList ('screen_name', { method: 'GET', url: 'users' });
       }
       else {
-        $scope.title = "Courses List";
+        $scope.title = "Courses";
         $scope.link = "course";
         $scope.use = false;
         $scope.confirmed = false;
@@ -38,7 +38,7 @@ app.controller("list", function($scope, $http) {
 
     $scope.getFlagged = function() {
       if ($scope.confirmed) {
-        if ($scope.title == "Users List") {
+        if ($scope.title == "Users") {
           convertList ('screen_name', { method: 'GET', url: 'users/flagged' });
         }
         else {
@@ -46,7 +46,7 @@ app.controller("list", function($scope, $http) {
         }
       }
       else {
-        if ($scope.title == "Users List") {
+        if ($scope.title == "Users") {
           convertList ('screen_name', { method: 'GET', url: 'users' });
         }
         else {
@@ -60,7 +60,7 @@ app.controller("list", function($scope, $http) {
     };
 
     $scope.findItem = function () {
-      if($scope.title == "Users List") {
+      if($scope.title == "Users") {
         var req = { 
           method: 'POST', 
           url: 'admin/search', 

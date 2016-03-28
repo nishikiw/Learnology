@@ -61,6 +61,35 @@ app.get('/search', function(req, res) {
   res.sendFile(__dirname + '/public/search.html');
 });
 
+app.post('/search/res', urlencodedParser, function(req, res) {
+    console.log(req.body.searchBy +" " + req.body.terms );
+    var terms = req.body.terms;
+    if (req.body.searchBy == "Keywords") {
+        Course.find({'title': new RegExp('^.*?'+terms+'.*?$', "i")}, function(err, courses) {
+            //for (var i = 0; i < courses.length; i++) {
+                //var course = courses[i];
+                //console.log(course.title);
+                //console.log(course.user);
+                //console.log(course.rating);
+                //console.log(course.difficulty);
+                //console.log(course.description);
+            //}
+            res.send(courses);
+        });
+    } else if (req.body.searchBy == "Teacher+Name") {
+        Course.find({ 'user': new RegExp(terms, "i")}, function(err, courses) {
+            res.send(courses);
+        });
+    } else if (req.body.searchBy == "Category") {
+        Course.find({ 'category': new RegExp(terms, "i")}, function(err, courses) {
+            res.send(courses);
+        });
+    } else {
+        res.send([]);
+    }
+    
+});
+
 app.get('/edit-profile', function(req, res) {
   res.sendFile(__dirname + '/public/edit-profile.html');
 });

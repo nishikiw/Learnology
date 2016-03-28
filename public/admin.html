@@ -23,27 +23,28 @@
   <nav class="col-sm-3">
     <ul class="nav nav-pills nav-stacked">
       <input type="hidden" ng-model="use">
-      <li ng-class="{ 'active': use}"><a ng-click="getlist('users')" >Users</a></li>
-      <li ng-class="{ 'active': !use}"><a ng-click="getlist('courses')">Courses</a></li>
+      <li ng-class="{ 'active': use}"><a ng-click="getlist('Users')" >Users</a></li>
+      <li ng-class="{ 'active': !use}"><a ng-click="getlist('Courses')">Courses</a></li>
     </ul>
   </nav>
   <div class="col-sm-9">
     <div class="panel panel-primary " > 
-      <div class="panel-heading">{{title}}</div>
+      <div class="panel-heading">{{title}} List</div>
       <div class="panel-body">
         <form name="searchform" class="navbar-form" ng-submit="findItem()" method="GET">
           <div class="input-group">
-             <input type="text" class="form-control" ng-model="searchID" placeholder="Search" required>
+             <input type="text" class="form-control" ng-model="searchID" placeholder="Search By ID" required>
              <span class="input-group-btn">
                 <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
              </span>
           </div>
+          <button class="btn btn-default" type="reset" ng-click="getlist(title)">Reset Search</button>
           <label class="checkbox-inline" style="float:right;"><input type="checkbox" ng-model="confirmed" ng-change="getFlagged()">Flagged</label>
         </form>
         <ul class="list-group">
-          <li class="list-group-item" ng-repeat="x in data">
-            <a ng-href="{{link}}?id={{x}}">{{x}}</a>
-            <button type="button" class="close" data-toggle="modal" ng-click="delete($index)" data-target="#confirmModal">&times;</button>
+          <li class="list-group-item" ng-class="{'list-group-item-danger': {{x[2]}}}" ng-repeat="x in data">
+            <a ng-href="{{link}}?id={{x[0]}}">{{x[0]}}</a>
+            <button type="button" class="close" ng-hide="{{x[1]}}" data-toggle="modal" ng-click="delete($index)" data-target="#confirmModal">&times;</button>
           </li>
         </ul>
       </div>
