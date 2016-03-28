@@ -18,8 +18,8 @@
 			<div ng-include="'navbar.html'"></div>
 		</div>
 		<main>
-			<div class="container-fluid">
-				<form class="form-horizontal" role="form" action="profile" ng-controller="editProfileCtrl" ng-init="init()">
+			<div class="container-fluid" ng-controller="editProfileCtrl" ng-init="init()">
+				<form class="form-horizontal" role="form" action="profile">
 					<fieldset class="col-sm-6">
 						<legend>Personal Information</legend>
 						<div class="form-group">
@@ -96,22 +96,26 @@
 								<input type="text" class="form-control" id="country" ng-model="country">
 							</div>
 						</div>
+						<div class="col-sm-offset-4 col-sm-4">
+							<button type="submit" class="btn btn-default">Cancel</button>
+							<button type="submit" class="btn btn-primary">Save</button>
+						</div>
 					</fieldset>
+				</form>
+				<form class="form-horizontal" role="form">
 					<fieldset class="col-sm-6">
 						<legend>Profile Photo</legend>
 						<div class="form-group">
 							<img id="profile-photo" ng-src="images/profile/{{profileImgName}}"
 								class="img-responsive img-rounded center-block" alt="profile photo" width="200" height="200">
+							<span>{{profileImgSrc}}</span>
 							<div class="col-sm-offset-2 col-sm-8">
 								<label class="control-label" for="photo-input">Upload Profile Photo:</label>
-								<input type="file" class="form-control" id="photo-input">
+								<input type="file" class="form-control" name="file" onchange="angular.element(this).scope().uploadFile(this.files)">
+								<span ng-show="uploaded" ng-init="uploaded = false">{{uploadMsg}}</span>
 							</div>
 						</div>
 					</fieldset>
-					<div class="col-sm-offset-4 col-sm-4">
-						<button type="submit" class="btn btn-default">Cancel</button>
-						<button type="submit" class="btn btn-primary">Save</button>
-					</div>
 				</form>
 			</div>
 		</main>

@@ -81,6 +81,29 @@ app.controller('editProfileCtrl', function ($scope, $http){
 			// or server returns response with an error status.
 		});
 	}
+	
+	//Reference: http://stackoverflow.com/questions/13963022/angularjs-how-to-implement-a-simple-file-upload-with-multipart-form
+	$scope.uploadFile = function(files) {
+		var fd = new FormData();
+		var uploadUrl = "/images";
+		fd.append("file", files[0]);
+
+		$http.post(uploadUrl, fd, {
+			withCredentials: true,
+			headers: {'Content-Type': undefined },
+			transformRequest: angular.identity
+		}).then(function successCallback(res){
+			// Reload file.
+			$scope.uploaded = true;
+			$scope.uploadMsg = "Your profile image is updated!";
+			$scope.profileImgSrc = res.data.image_name;
+		}, function errorCallback(res) {
+			// called asynchronously if an error occurs
+			// or server returns response with an error status.
+			$scope.uploaded = true;
+			$scope.uploadMsg = "Failed to upload.";
+		});
+	};
 });
 
 app.controller('signUpFormCtrl', function ($scope, $http){

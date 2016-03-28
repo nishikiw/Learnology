@@ -10,6 +10,9 @@ var User = require('./models/user.js');
 var Course = require('./models/course.js');
 var Validation = require('./models/validation.js');
 var session = require('./node_modules/sesh/lib/core').magicSession();
+var multer  = require('multer');
+
+var upload = multer({dest: './public/images/profile/'}).single('file');
 
 mongoose.connect('mongodb://localhost:27017/learnology');
 var db = mongoose.connection;
@@ -32,6 +35,33 @@ app.listen(app.get('port'), function() {
 // Create application/x-www-form-urlencoded parser
 // Reference: http://www.tutorialspoint.com/nodejs/nodejs_express_framework.htm
 var urlencodedParser = bodyParser.urlencoded({extended: true})
+
+app.post('/images', function (req, res) {
+	upload(req, res, function (err) {
+		if (err) {
+			console.log("Upload error");
+			return
+		}
+		var ext = req.file.mimetype.split("/")[1];
+		var oldPath = req.file.path;
+		var newPath = oldPath + "." + ext;
+		var filename = req.file.filename + "." + ext;
+		fs.rename(oldPath, newPath, function (err) {
+			if (err) {
+				console.log("Rename error");
+				return
+			}
+			
+			// Update user image src in database.
+			User.findOne({ screen_name: req.session.data.user }, function (err, userInfo){
+				if (err) return console.error(err);
+				userInfo.image_name = filename;
+				userInfo.save();
+				res.json(userInfo);
+			});
+		});
+	})
+})
 
 app.get('/aboutus', function(req, res) {
   res.sendFile(__dirname + '/public/aboutus.html');
@@ -214,17 +244,12 @@ app.post('/users/user', urlencodedParser, function(req, res){
 	
 	if (req.body.login){
 		// Login authentication.
-		console.log("In login");
 		Validation.findOne({'email': email}, function (err, user) {
 			if (err) return handleError(err);
 			if (user){
-				console.log("Find email");
 				user.verifyPassword(password, function(err, valid) {
 					if (err) return handleError(err);
-					console.log(valid ? "ValidAsync" : "InvalidAsync");
-					console.log(valid);
 					if (valid){
-						console.log("Success");
 						User.findOne({'email': email}, function(err, userInfo){
 							if (err) return handleError(err);
 							if (userInfo){
@@ -237,7 +262,6 @@ app.post('/users/user', urlencodedParser, function(req, res){
 						});
 					}
 					else{
-						console.log("Fail");
 						msg = {
 							msg: "passwordIncorrect"
 						};
@@ -246,7 +270,6 @@ app.post('/users/user', urlencodedParser, function(req, res){
 				});
 			}
 			else{
-				console.log("Cannot find email");
 				msg = {
 					msg: "emailNotExist"
 				};
@@ -313,10 +336,3 @@ app.post('/create', urlencodedParser, function(req, res){
 
 	res.redirect('/course?id=' + courseObj._id);
 });
-
-/* app.post('/login', urlencodedParser, function(req, res){
-	if(typeof req.body.screen_name != 'undefined'){
-		req.session.data.user = req.body.screen_name; 
-	}
-	res.send(req.session.data.user);
-}); */
