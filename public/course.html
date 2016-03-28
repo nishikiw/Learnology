@@ -1,5 +1,3 @@
-<!-- Course sample: https://www.coursera.org/learn/video-game-world -->
-
 <!DOCTYPE html>
 <html>
 	<head>
@@ -15,9 +13,32 @@
 		<script src="scripts/app.js"></script>
 		<script src="scripts/course.js"></script>
 		<script src="scripts/navbar.js"></script>
+		<script>
+		app.directive("courseContent", function() {
+		    return {
+		        controller: function ($scope, $http, $location) {
+		        	var l = getLocation($location.absUrl());
+		        	var param = l.search.substring(l.search.indexOf("=")+1);
+					var req = { 
+						method: 'POST',
+						url: '/search/one',
+						data: $.param({type: 'course', id : param}),
+						headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+					};
+					$http(req).success(function(data) {
+						$scope.title = data[0].title;
+						$scope.category = data[0].category;
+						$scope.price = data[0].price;
+						$scope.location = data[0].location;
+						$scope.description = data[0].description;
+					});
+		        }
+		    }
+		});
+		</script>
 	</head>
 	<body data-spy="scroll" data-target="#courseScrollspy" data-offset="60" ng-app="learnologyApp">	
-	
+	<div course-content>
 	<div ng-controller="navCtrl"> 
 	  <div ng-include="'navbar.html'"></div>
 	</div> 
@@ -34,15 +55,8 @@
 						</ul>
 					</nav>
 					<div class="col-sm-9">
-						<div class="btn-group">
-							<button type="button" id="currentUserType" class="btn btn-primary btn-xs navbar-btn dropdown-toggle" data-toggle="dropdown">Instructor <span class="caret"></span></button>
-							<ul class="dropdown-menu" role="menu">
-							    <li><a href="#" id="optionalUserType1">Student </a></li>
-								<li><a href="#" id="optionalUserType2">Visitor </a></li>
-							</ul>
-						</div>
 						<button type="button" id="course-control" class="btn btn-default col-sm-offset-10 btn-lg pull-right">Edit Course</button>
-						<h3 class="text-center">World Design for Video Games</h3>
+						<h3 class="text-center">{{title}}</h3>
 						<div class="text-center rating">
 							<a href="#reviews">
 								<span class="glyphicon glyphicon-star"></span>
@@ -60,19 +74,15 @@
 									<div class="col-sm-10">
 										<div class="row">
 											<div class="col-sm-2">Category:</div>
-											<div class="col-sm-10"><a href="#">Sports and Games</a></div>
+											<div class="col-sm-10">{{category}}</div>
 										</div>
 										<div class="row">
 											<div class="col-sm-2">Price:</div>
-											<div class="col-sm-10">$20 / Class</div>
+											<div class="col-sm-10">{{price}}</div>
 										</div>
 										<div class="row">
 											<div class="col-sm-2">Type:</div>
-											<div class="col-sm-10">Online</div>
-										</div>
-										<div class="row">
-											<div class="col-sm-2">Time:</div>
-											<div class="col-sm-10">Mondays: 7pm - 9pm</div>
+											<div class="col-sm-10">{{location}}</div>
 										</div>
 										<div class="row">
 											<div class="col-sm-2">Prerequisites:</div>
@@ -89,16 +99,7 @@
 						<div id="overview" class="panel panel-default">
 						    <div class="panel-heading">Overview</div>
 						    <div class="panel-body">
-								<p>Start creating your world. A game world is not just a backdrop for your game—be it minimal or detailed,
-									contained or part of a much bigger universe, it provides the context for your player. Ultimately, 
-									a game world should feel alive and wholly unique to any player who will experience it. </p>
-								<p>In this course, we will explore game worlds in existing games and study the art and influences 
-									that inform their themes and styles. We will also investigate key components of environment 
-									and level design as well as strategies designers use to define gameplay or advance it. 
-									We’ll also look at navigation and the elements that make your world as real (or unreal) 
-									as you want it to be. A weekly challenge will prompt you to explore styles and inspirations 
-									for possible game worlds, and you’ll learn effective ways to communicate your ideas from concepts 
-									to presentation-worthy proofs of concept.</p>
+								{{description}}
 							</div>
 						</div>
 						<div id="instructor" class="panel panel-default">
@@ -235,6 +236,6 @@
 				</p>
 			</div>
 		</div>
-
+</div>
 	</body>
 </html>

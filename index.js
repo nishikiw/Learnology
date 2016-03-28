@@ -130,7 +130,7 @@ app.get('/users/flagged', function(req, res){
 	});
 });
 
-app.post('/admin/search', urlencodedParser, function(req, res){
+app.post('/search/one', urlencodedParser, function(req, res){
 	if (req.body.type == 'user') {
 		User.find({"screen_name" : {$regex : ".*"+req.body.screen_name+".*"}}, {}, function (err, users) {
 			if (err) return console.error(err);

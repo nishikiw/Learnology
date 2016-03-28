@@ -63,7 +63,7 @@ app.controller("list", function($scope, $http) {
       if($scope.title == "Users") {
         var req = { 
           method: 'POST', 
-          url: 'admin/search', 
+          url: '/search/one', 
           data: $.param({type: 'user', screen_name: $scope.searchID}),
           headers: {'Content-Type': 'application/x-www-form-urlencoded'}};
 
@@ -72,7 +72,7 @@ app.controller("list", function($scope, $http) {
       else {
         var req = { 
           method: 'POST', 
-          url: 'admin/search', 
+          url: '/search/one', 
           data: $.param({type: 'course', id: $scope.searchID}),
           headers: {'Content-Type': 'application/x-www-form-urlencoded'}};
 
