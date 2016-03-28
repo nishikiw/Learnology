@@ -46,9 +46,3 @@ ul.nav-pills {
 .text-center.rating {
 	clear: right;
 }
-
-@media screen and (max-width: 810px) {
-	.panel {
-		margin-left: 150px;
-	}
-}
