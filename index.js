@@ -62,8 +62,17 @@ app.get('/search', function(req, res) {
 });
 
 app.post('/search/res', urlencodedParser, function(req, res) {
-    console.log(req.body.searchBy +" " + req.body.terms );
-    var terms = req.body.terms;
+    // Attack concepts from http://blog.websecurify.com/2014/08/hacking-nodejs-and-mongodb.html
+    //console.log(req.body.searchBy +" " + req.body.terms );
+    var terms = req.body.terms.toString(10); //Make sure it's a string
+    // From http://stackoverflow.com/questions/13283470/regex-for-allowing-alphanumeric-and-space
+    var regex = new RegExp("^[a-z\d\\-_\s]+$", "i"); // Allow alphanumeric characters, spaces, hyphens, underscores
+    
+    if(!regex.test(terms)){
+        res.send([]);
+        return
+    }
+    
     if (req.body.searchBy == "Keywords") {
         Course.find({'title': new RegExp('^.*?'+terms+'.*?$', "i")}, function(err, courses) {
             //for (var i = 0; i < courses.length; i++) {

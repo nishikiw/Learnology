@@ -47,7 +47,7 @@
       </div>
       <div class="jumbotron text-center">
          <h1>Course Creation Page</h1>
-         <p>Select one of these categories and browse through the courses offered in that subject area</p>
+         <p>Create Your Course For Everyone To See</p>
          <div>
          </div>
       </div>
@@ -59,6 +59,17 @@
                      <label class="control-label col-sm-3" for="first-name">Course Title</label>
                      <div class="col-sm-8">
                         <input type="text" class="form-control" placeholder="Biology" ng-model="title" maxlength="30" required>
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label class="control-label col-sm-3" for="location">Location</label>
+                     <div class="col-sm-8">
+                        <div class="col-sm-9">
+                           <input type="text" class="form-control" placeholder="Location" ng-model="location" ng-disabled="disable" maxlength="40" required>
+                        </div>
+                        <div class="col-sm-3">
+                           <label class="checkbox-inline"><input type="checkbox" ng-model="disable">Online</label>
+                        </div>
                      </div>
                   </div>
                   <div class="form-group">
@@ -93,7 +104,7 @@
                   </div>
                   <div class="form-group">
                      <label class="control-label col-sm-3" for="price">Price:</label>
-                     <div class="col-sm-8">
+                     <div class="col-sm-3">
                         <input type="price" class="form-control" ng-model="price" placeholder='10'; pattern="\d+(\.\d{2})?" maxlength="5" required>
                      </div>
                   </div>
@@ -115,7 +126,7 @@
                      <label class="control-label col-sm-3">Challenge Level:</label>
                      <div class="col-sm-8">
                         <label class="radio-inline">
-                           <input type="radio" value="Beginner" name="level" ng-model="level">Beginner
+                           <input type="radio" value="Beginner" name="level" ng-model="level" checked="checked">Beginner
                         </label>
                         <label class="radio-inline">
                            <input type="radio" value="Intermediate" ng-model="level" name="level">Intermediate
