@@ -169,7 +169,6 @@ app.get('/users/user', function(req, res){
 		Validation.findOne({'email': req.query.email}, function (err, user) {
 			if (err) return handleError(err);
 			if (user){
-				console.log(user);
 				res.end(JSON.stringify(user));
 			}
 			else{
@@ -181,7 +180,6 @@ app.get('/users/user', function(req, res){
 		User.findOne({'screen_name': req.query.screenName}, function (err, user) {
 			if (err) return handleError(err);
 			if (user){
-				console.log(user);
 				res.end(JSON.stringify(user));
 			}
 			else{
@@ -195,36 +193,80 @@ app.post('/users/user', urlencodedParser, function(req, res){
 	var screenName = req.body.screenName;
 	var email = req.body.email;
 	var password = req.body.password;
-	var userObj, user;
+	var userObj, user, msg;
 	
-	if (screenName == ""){
-		userObj = {
-			email: email,
-		};
+	if (req.body.login){
+		// Login authentication.
+		console.log("In login");
+		Validation.findOne({'email': email}, function (err, user) {
+			if (err) return handleError(err);
+			if (user){
+				console.log("Find email");
+				user.verifyPassword(password, function(err, valid) {
+					if (err) return handleError(err);
+					console.log(valid ? "ValidAsync" : "InvalidAsync");
+					console.log(valid);
+					if (valid){
+						console.log("Success");
+						User.findOne({'email': email}, function(err, userInfo){
+							if (err) return handleError(err);
+							if (userInfo){
+								req.session.data.user = userInfo.screen_name; 
+								msg = {
+									msg: "success"
+								};
+								res.end(JSON.stringify(msg));
+							}
+						});
+					}
+					else{
+						console.log("Fail");
+						msg = {
+							msg: "passwordIncorrect"
+						};
+						res.end(JSON.stringify(msg));
+					}
+				});
+			}
+			else{
+				console.log("Cannot find email");
+				msg = {
+					msg: "emailNotExist"
+				};
+				res.end(JSON.stringify(msg));
+			}
+		});
 	}
 	else{
-		userObj = {
+		// Sign up.
+		if (screenName == ""){
+			userObj = {
+				email: email,
+			};
+		}
+		else{
+			userObj = {
+				email: email,
+				screen_name: screenName
+			};
+		}
+
+		var validationObj = {
 			email: email,
-			screen_name: screenName
-		};
+			password: password
+		}
+	
+		Validation.create(validationObj, function (err) {
+			if (err) return console.error(err);
+		});
+	
+		var user = new User(userObj);
+		user.save(function (err, user) {
+			if (err) return console.error(err);
+			req.session.data.user = user.screen_name;
+			res.redirect('/edit-profile?screen-name=' + user.screen_name);
+		});
 	}
-	
-	var validationObj = {
-		email: email,
-		password: password
-	}
-	
-	Validation.create(validationObj, function (err) {
-		if (err) return console.error(err);
-	});
-	
-	var user = new User(userObj);
-	user.save(function (err, user) {
-		if (err) return console.error(err);
-		console.log(user);
-		req.session.data.user = user.screen_name;
-		res.redirect('/edit-profile?screen-name=' + user.screen_name);
-	});
 });
 
 app.post('/create', urlencodedParser, function(req, res){
@@ -254,9 +296,9 @@ app.post('/create', urlencodedParser, function(req, res){
 	res.redirect('course?id=' + courseObj._id);
 });
 
-app.post('/login', urlencodedParser, function(req, res){
-  if(typeof req.body.screen_name != 'undefined'){
-    req.session.data.user = req.body.screen_name; 
-  }
-  res.send(req.session.data.user);
-});
+/* app.post('/login', urlencodedParser, function(req, res){
+	if(typeof req.body.screen_name != 'undefined'){
+		req.session.data.user = req.body.screen_name; 
+	}
+	res.send(req.session.data.user);
+}); */

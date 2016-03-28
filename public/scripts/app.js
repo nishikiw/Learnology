@@ -141,20 +141,34 @@ app.controller('searchCtrl', function ($scope) {
 
 app.controller('login', function($scope, $http) {
     $scope.sendPost = function() {
-      var req = { 
-        method: 'POST',
-        url: 'login',
-        data: $.param({username: $scope.username, password: $scope.password}),
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-      }
-      $http(req).success(function(data){
-        if (data != 'Guest') {
-          $('#loginModal').modal('toggle');
-          $("#screenName").html("<span class='glyphicon glyphicon-user'></span> " + data);
-          $(".user").show();
-          $(".guest").hide();
-        }
-      }).error(function(){});
+		var req = { 
+			method: 'POST',
+			url: 'users/user',
+			data: $.param({email: $scope.email, password: $scope.password, login: true}),
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		}
+		$http(req).then(function successCallback(res){
+			if (!jQuery.isEmptyObject(res.data)){
+				if (res.data.msg == "emailNotExist"){
+					$scope.emailNotExist = true;
+					$scope.passwordIncorrect = false;
+				}
+				else if (res.data.msg == "passwordIncorrect"){
+					$scope.passwordIncorrect = true;
+					$scope.emailNotExist = false;
+				}
+				else{
+					location.reload();
+				}
+			}
+			else{
+				$scope.emailNotExist = false;
+				$scope.passwordIncorrect = false;
+			}
+		}, function errorCallback(res) {
+			// called asynchronously if an error occurs
+			// or server returns response with an error status.
+		});
     };
 });
 

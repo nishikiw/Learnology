@@ -57,21 +57,28 @@
       <div class="modal-content">
       <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal">&times;</button>
-      <h4 class="modal-title">Please sign in</h4>
+      <h4 class="modal-title">Please Login</h4>
       </div>
-      <div class="modal-body text-center" ng-controller="login" autocomplete=off>
-         <form class="form-signin" ng-submit="sendPost()">
-            <label for="inputUsername" class="sr-only">Username</label>
-            <input type="username" ng-model="username" id="inputUsername" class="form-control" placeholder="Username" required>
-            <br>
-            <label for="inputPassword" class="sr-only">Password</label>
-            <input type="password" ng-model="password" id="inputPassword" class="form-control" placeholder="Password" required>
-            <br>
-            <button id="submit" class="btn btn-lg btn-primary" type="submit">Sign in</button>
+      <div class="modal-body">
+         <form role="form" class="form-signin" name="loginForm" ng-controller="login" ng-submit="sendPost()" autocomplete=off>
+			<div class="form-group">
+				<label for="inputUsername" class="sr-only">Email</label>
+				<input type="email" name="email" ng-model="email" id="inputEmail" class="form-control" placeholder="Email" ng-model-options="{updateOn: 'blur'}" required>
+				<span ng-show="loginForm.email.$error.email">* Invalid email address.</span>
+			</div>
+			<div class="form-group">
+				<label for="inputPassword" class="sr-only">Password</label>
+				<input type="password" ng-model="password" id="inputPassword" class="form-control" placeholder="Password" required>
+			</div>
+			<div class="form-group text-center">
+				<button id="submit" class="btn btn-lg btn-primary" type="submit" ng-disabled="!loginForm.$valid">Login</button>
+			</div>
+			<p ng-show="emailNotExist" ng-init="emailNotExist = false">* Email is not registered, please <a data-toggle="modal" href="#signupModal">sign up</a>.</p>
+			<p ng-show="passwordIncorrect" ng-init="passwordIncorrect = false">* Incorrect Password.</p>
          </form>
          <br>
          <hr>
-         <div>Or Sign In With</div>
+         <div class="text-center">Or Login With</div>
          <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
          </fb:login-button>
       </div>
