@@ -32,11 +32,12 @@ var userSchema = mongoose.Schema({
 		city: String,
 		province: String,
 		Country: String
-	}，
+	},
 	favorites: {
 		categories: [String],
 		teachers: [String]
-	}
+	},
+	image_name: String
 });
 
 var User = mongoose.model('User', userSchema);

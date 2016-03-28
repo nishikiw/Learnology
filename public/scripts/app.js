@@ -13,15 +13,18 @@ function submitform() {
 app.controller('editProfileCtrl', function ($scope, $http){
 	$scope.init = function(){
 		var url = window.location.href;
-		$scope.screenName = url.split("=")[1];
+		var name = url.split("=")[1];
 		
 		var req = {
 			method: 'GET',
 			url: 'users/user',
-			params: {screenName: $scope.screenName}
+			params: {screenName: name}
 		}
 		$http(req).then(function successCallback(res){
 			var userInfo = res.data;
+			if (userInfo.screen_name){
+				$scope.screenName = userInfo.screen_name;
+			}
 			if (userInfo.first_name){
 				$scope.firstName = userInfo.first_name;
 			}
@@ -40,17 +43,38 @@ app.controller('editProfileCtrl', function ($scope, $http){
 			if (userInfo.phone){
 				$scope.phone = userInfo.phone;
 			}
-			if (userInfo.address.street){
-				$scope.address = userInfo.address.street;
+			if (userInfo.address){
+				if (userInfo.address.street){
+					$scope.address = userInfo.address.street;
+				}
+				if (userInfo.address.city){
+					$scope.city = userInfo.address.city;
+				}
+				if (userInfo.address.province){
+					$scope.province = userInfo.address.province;
+				}
+				if (userInfo.address.country){
+					$scope.country = userInfo.address.country;
+				}
 			}
-			if (userInfo.address.city){
-				$scope.city = userInfo.address.city;
+			if (userInfo.image_name){
+				$scope.profileImgName = userInfo.image_name;
 			}
-			if (userInfo.address.province){
-				$scope.province = userInfo.address.province;
-			}
-			if (userInfo.address.country){
-				$scope.country = userInfo.address.country;
+			else {
+				if (userInfo.gender){
+					switch (userInfo.gender){
+						case "female":
+							$scope.profileImgName = "female.png";
+							break;
+						case "male":
+						case "others":
+						default:
+							$scope.profileImgName = "male.png";
+					}
+				}
+				else{
+					$scope.profileImgName = "male.png";
+				}
 			}
 		}, function errorCallback(res) {
 			// called asynchronously if an error occurs

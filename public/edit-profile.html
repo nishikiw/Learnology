@@ -52,9 +52,6 @@
 								<label class="radio-inline">
 									<input type="radio" value="others" name="gender" ng-model="gender">Others
 								</label>
-								<label class="radio-inline">
-									<input type="radio" value="notAvailable" name="gender" ng-model="gender">Prefer not to disclose
-								</label>
 							</div>
 						</div>
 						<div class="form-group">
@@ -103,7 +100,7 @@
 					<fieldset class="col-sm-6">
 						<legend>Profile Photo</legend>
 						<div class="form-group">
-							<img id="profile-photo" src="https://saanichbaptist.org/wp-content/uploads/2014/12/team-placeholder-female.png" 
+							<img id="profile-photo" ng-src="images/profile/{{profileImgName}}"
 								class="img-responsive img-rounded center-block" alt="profile photo" width="200" height="200">
 							<div class="col-sm-offset-2 col-sm-8">
 								<label class="control-label" for="photo-input">Upload Profile Photo:</label>
