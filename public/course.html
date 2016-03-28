@@ -14,6 +14,17 @@
 		<script src="scripts/course.js"></script>
 		<script src="scripts/navbar.js"></script>
 		<script>
+		app.controller ("rating", function($scope) {
+			$scope.checkRating = function (pos, rating) {
+				if (rating >= pos) {
+					return true;
+				}
+				else {
+					return false;
+				}
+			}	
+		});
+		
 		app.directive("courseContent", function() {
 		    return {
 		        controller: function ($scope, $http, $location) {
@@ -29,8 +40,12 @@
 						$scope.title = data[0].title;
 						$scope.category = data[0].category;
 						$scope.price = data[0].price;
+						$scope.skills = data[0].skills;
+						$scope.votes = data[0].votes;
+						$scope.difficulty = data[0].difficulty;
 						$scope.location = data[0].location;
 						$scope.description = data[0].description;
+						$scope.comments = data[0].comments;
 					});
 		        }
 		    }
@@ -46,7 +61,7 @@
 		<main>
 			<div class="container-fluid">
 				<div class="row">
-					<nav class="col-sm-3" id="courseScrollspy">
+					<nav class="col-sm-3 col-xs-3" id="courseScrollspy">
 						<ul class="nav nav-pills nav-stacked">
 						    <li><a href="#general-info">General Information</a></li>
 							<li><a href="#overview">Overview</a></li>
@@ -54,8 +69,8 @@
 							<li><a href="#reviews">Reviews</a></li>
 						</ul>
 					</nav>
-					<div class="col-sm-9">
-						<button type="button" id="course-control" class="btn btn-default col-sm-offset-10 btn-lg pull-right">Edit Course</button>
+					<div class="col-sm-9 col-xs-9">
+						<!--<button type="button" id="course-control" class="btn btn-default col-sm-offset-10 btn-lg pull-right">Edit Course</button>-->
 						<h3 class="text-center">{{title}}</h3>
 						<div class="text-center rating">
 							<a href="#reviews">
@@ -64,34 +79,34 @@
 								<span class="glyphicon glyphicon-star"></span>
 								<span class="glyphicon glyphicon-star"></span>
 								<span class="glyphicon glyphicon-star-empty"></span>
-								<p>(2 reviews)</p>
+								<p>({{votes}} reviews)</p>
 							</a>
 						</div>
 						<div id="general-info" class="panel panel-default">
 						    <div class="panel-heading">General Information</div>
 						    <div class="panel-body">
 								<div class="row">
-									<div class="col-sm-10">
+									<div class="col-sm-12">
 										<div class="row">
-											<div class="col-sm-2">Category:</div>
-											<div class="col-sm-10">{{category}}</div>
+											<div class="col-sm-3">Category:</div>
+											<div class="col-sm-9">{{category}}</div>
 										</div>
 										<div class="row">
-											<div class="col-sm-2">Price:</div>
-											<div class="col-sm-10">{{price}}</div>
+											<div class="col-sm-3">Price:</div>
+											<div class="col-sm-9">{{price}}</div>
 										</div>
 										<div class="row">
-											<div class="col-sm-2">Type:</div>
-											<div class="col-sm-10">{{location}}</div>
+											<div class="col-sm-3">Type:</div>
+											<div class="col-sm-9">{{location}}</div>
 										</div>
 										<div class="row">
-											<div class="col-sm-2">Prerequisites:</div>
-											<div class="col-sm-10">None</div>
+											<div class="col-sm-3">Challenge Level:</div>
+											<div class="col-sm-9">{{difficulty}}</div>
 										</div>
-									</div>
-									<div class="col-sm-2">
-										<img src="https://d3njjcbhbojbot.cloudfront.net/api/utilities/v1/imageproxy/https://coursera-course-photos.s3.amazonaws.com/b0/d82cc088ba11e585f3eff94fdbec60/3_Theo_World.jpg?auto=format&dpr=2&w=100&h=100&fit=fill&bg=FFF" 
-											class="img-rounded" alt="video game image" width="100" height="100">
+										<div class="row">
+											<div class="col-sm-3">Prerequisites:</div>
+											<div class="col-sm-9">{{skills}}</div>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -99,7 +114,7 @@
 						<div id="overview" class="panel panel-default">
 						    <div class="panel-heading">Overview</div>
 						    <div class="panel-body">
-								{{description}}
+								<div style="white-space: pre-wrap; width: 100%;">{{description}}</div>
 							</div>
 						</div>
 						<div id="instructor" class="panel panel-default">
@@ -160,7 +175,7 @@
 									</fieldset>	
 								</form>
 								<ul class="list-group">
-								    <li class="list-group-item">
+								    <li class="list-group-item" ng-repeat="x in comments">
 										<div class="row">
 											<div class="col-sm-2">
 												<a href="#">
@@ -168,57 +183,25 @@
 														class="img-responsive img-rounded center-block" alt="profile image" width="100" height="100">
 												</a>
 												<h5 class="text-center">
-													<a href="#">Anna Smith</a>
+													<a href="#">{{x.user}}</a>
 													<small><br>Vancouver, BC, Canada</small>
 												</h5>
 											</div>
 											<div class="col-sm-10">
 												<div class="row">
-													<div class="col-sm-10 rating">
-														<span class="glyphicon glyphicon-star"></span>
-														<span class="glyphicon glyphicon-star"></span>
-														<span class="glyphicon glyphicon-star"></span>
-														<span class="glyphicon glyphicon-star"></span>
-														<span class="glyphicon glyphicon-star"></span>
-														<p class="rating-class">Perfect!</p>
+													<div class="col-sm-12 rating" ng-controller="rating">
+														<span ng-class="{'glyphicon-star': checkRating(1, x.rating), 'glyphicon-star-empty': !checkRating(1, x.rating)}" class="glyphicon"></span>
+														<span ng-class="{'glyphicon-star': checkRating(2, x.rating), 'glyphicon-star-empty': !checkRating(2, x.rating)}" class="glyphicon"></span>
+														<span ng-class="{'glyphicon-star': checkRating(3, x.rating), 'glyphicon-star-empty': !checkRating(3, x.rating)}" class="glyphicon"></span>
+														<span ng-class="{'glyphicon-star': checkRating(4, x.rating), 'glyphicon-star-empty': !checkRating(4, x.rating)}" class="glyphicon"></span>
+														<span ng-class="{'glyphicon-star': checkRating(5, x.rating), 'glyphicon-star-empty': !checkRating(5, x.rating)}" class="glyphicon"></span>
+														<p class="rating-class">{{x.heading}}</p>
 													</div>
-													<div class="col-sm-2">27/2/2016</div>
 												</div>
-												<p>Théo is a great teacher! I absolutely enjoyed this course and felt like learned a lot.</p>
+												<p>{{x.body}}</p>
 											</div>
 										</div>
 									</li>
-								    <li class="list-group-item">
-										<div class="row">
-											<div class="col-sm-2">
-												<a href="#">
-													<img id="profile-image" src="https://saanichbaptist.org/wp-content/uploads/2014/12/team-placeholder-male.png" 
-														class="img-responsive img-rounded center-block" alt="profile image" width="100" height="100">
-												</a>
-												<h5 class="text-center">
-													<a href="#">William Wong</a>
-													<small><br>Boston, NY, US</small>
-												</h5>
-											</div>
-											<div class="col-sm-10">
-												<div class="row">
-													<div class="col-sm-10 rating">
-														<span class="glyphicon glyphicon-star"></span>
-														<span class="glyphicon glyphicon-star"></span>
-														<span class="glyphicon glyphicon-star"></span>
-														<span class="glyphicon glyphicon-star-empty"></span>
-														<span class="glyphicon glyphicon-star-empty"></span>
-														<p class="rating-class">Okay</p>
-													</div>
-													<div class="col-sm-2">5/1/2016</div>
-												</div>
-												<p>Just a general course... The tuition fee should be cheaper.</p>
-											</div>
-										</div>
-									</li>
-								</ul>
-								<ul class="pagination pagination-sm pull-right">
-								    <li class="active"><a href="#">1</a></li>
 								</ul>
 							</div>
 						</div>
