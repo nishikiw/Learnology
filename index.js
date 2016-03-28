@@ -178,7 +178,10 @@ app.get('/users/user', function(req, res){
 		Validation.findOne({'email': req.query.email}, function (err, user) {
 			if (err) return handleError(err);
 			if (user){
-				res.end(JSON.stringify(user));
+				var userInfo = {
+					email: user.email
+				}
+				res.end(JSON.stringify(userInfo));
 			}
 			else{
 				res.end("{}");
@@ -186,15 +189,20 @@ app.get('/users/user', function(req, res){
 		});
 	}
 	else if (req.query.screenName){
-		User.findOne({'screen_name': req.query.screenName}, function (err, user) {
-			if (err) return handleError(err);
-			if (user){
-				res.end(JSON.stringify(user));
-			}
-			else{
-				res.end("{}");
-			}
-		});
+		if (req.query.screenName == req.session.data.user){
+			User.findOne({'screen_name': req.query.screenName}, function (err, user) {
+				if (err) return handleError(err);
+				if (user){
+					res.end(JSON.stringify(user));
+				}
+				else{
+					res.end("{}");
+				}
+			});
+		}
+		else{
+			res.end("{}");
+		}
 	}
 });
 

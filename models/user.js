@@ -32,6 +32,10 @@ var userSchema = mongoose.Schema({
 		city: String,
 		province: String,
 		Country: String
+	}，
+	favorites: {
+		categories: [String],
+		teachers: [String]
 	}
 });
 
