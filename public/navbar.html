@@ -39,7 +39,7 @@
             </div>
          </ul>
          <ul class="nav navbar-nav navbar-right">
-            <li class="user"><a id="admin">ADMIN</a></li>
+            <li ng-class="{ active: isActive('/admin')}" class="user"><a id="admin">ADMIN</a></li>
             <li class="user" style="display:none"><a href="profile" id="screenName"></a></li>
             <li><a id="login" data-toggle="modal" data-target="#loginModal" class="guest"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
             <li><a id="signup" data-toggle="modal" data-target="#signupModal" class="guest"><span class="glyphicon glyphicon-edit"></span> Sign Up</a></li>
