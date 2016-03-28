@@ -24,6 +24,14 @@
 				}
 			}	
 		});
+
+		function overall (comments) {
+			var sumRatings = 0;
+			for (i=0; i<comments.length; i++) {
+				sumRatings += comments[i].rating;
+			}
+			return Math.round(sumRatings/comments.length * 100) / 100;
+		};
 		
 		app.directive("courseContent", function() {
 		    return {
@@ -46,6 +54,7 @@
 						$scope.location = data[0].location;
 						$scope.description = data[0].description;
 						$scope.comments = data[0].comments;
+						$scope.overall = overall(data[0].comments);
 					});
 		        }
 		    }
@@ -53,10 +62,10 @@
 		</script>
 	</head>
 	<body data-spy="scroll" data-target="#courseScrollspy" data-offset="60" ng-app="learnologyApp">	
-	<div course-content>
-	<div ng-controller="navCtrl"> 
-	  <div ng-include="'navbar.html'"></div>
-	</div> 
+		<div course-content>
+		<div ng-controller="navCtrl"> 
+		  <div ng-include="'navbar.html'"></div>
+		</div> 
 		
 		<main>
 			<div class="container-fluid">
@@ -74,11 +83,11 @@
 						<h3 class="text-center">{{title}}</h3>
 						<div class="text-center rating">
 							<a href="#reviews">
-								<span class="glyphicon glyphicon-star"></span>
-								<span class="glyphicon glyphicon-star"></span>
-								<span class="glyphicon glyphicon-star"></span>
-								<span class="glyphicon glyphicon-star"></span>
-								<span class="glyphicon glyphicon-star-empty"></span>
+								<div class="progress center-block" style="width:20%; margin-bottom: 0px;">
+								  <div class="progress-bar" role="progressbar" aria-valuenow="{{overall*20}}" aria-valuemin="0" aria-valuemax="100" style="width:{{overall*20}}%">
+								    {{overall}}/5 Stars
+								  </div>
+								</div>
 								<p>({{votes}} reviews)</p>
 							</a>
 						</div>
@@ -183,7 +192,7 @@
 														class="img-responsive img-rounded center-block" alt="profile image" width="100" height="100">
 												</a>
 												<h5 class="text-center">
-													<a href="#">{{x.user}}</a>
+													<a href="profile?screen-name={{x.user}}">{{x.user}}</a>
 													<small><br>Vancouver, BC, Canada</small>
 												</h5>
 											</div>
