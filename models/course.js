@@ -13,7 +13,6 @@ var courseSchema = mongoose.Schema({
 	difficulty: {type: String, required: true},
 	comments: [{ rating: Number, heading: String, body: String, user: String}],
 	votes: { type: Number, default: 0},
-	ratings: [{ rating: Number }],
 	flagged: { type: Boolean, default: false }
 });
 
