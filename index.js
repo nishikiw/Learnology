@@ -469,7 +469,7 @@ app.post('/users/user', urlencodedParser, function(req, res){
 
 app.post('/users/user/*', urlencodedParser, function(req, res){
 	var screenName = req.session.data.user;
-	if (screenName){
+	if (screenName && (req.body.originalScreenName == screenName)){
 		User.findOne({'screen_name': screenName}, function (err, userInfo) {
 			if (err) return console.error(err);
 			if (userInfo){
@@ -481,6 +481,7 @@ app.post('/users/user/*', urlencodedParser, function(req, res){
 				}
 				if (req.body.screenName && (req.body.screenName != userInfo.screen_name)){
 					userInfo.screen_name = req.body.screenName;
+					req.session.data.user = userInfo.screen_name;
 				}
 				if (req.body.email && (req.body.email != userInfo.email)){
 					userInfo.email = req.body.email;
@@ -508,7 +509,6 @@ app.post('/users/user/*', urlencodedParser, function(req, res){
 				}
 				userInfo.save(function (err) {
 					if (err) return console.error(err);
-					console.log(userInfo);
 					res.redirect('/profile?screen-name=' + userInfo.screen_name);
 				});
 			}
