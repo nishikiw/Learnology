@@ -96,7 +96,7 @@ app.controller('editProfileCtrl', function ($scope, $http){
 			// Reload file.
 			$scope.uploaded = true;
 			$scope.uploadMsg = "Your profile image is updated!";
-			$scope.profileImgSrc = res.data.image_name;
+			$scope.profileImgName = res.data.image_name;
 		}, function errorCallback(res) {
 			// called asynchronously if an error occurs
 			// or server returns response with an error status.
