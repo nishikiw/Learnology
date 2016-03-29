@@ -24,6 +24,7 @@ app.controller('editProfileCtrl', function ($scope, $http){
 			var userInfo = res.data;
 			if (userInfo.screen_name){
 				$scope.screenName = userInfo.screen_name;
+				$scope.originalScreenName = userInfo.screen_name;
 			}
 			if (userInfo.first_name){
 				$scope.firstName = userInfo.first_name;
@@ -39,6 +40,7 @@ app.controller('editProfileCtrl', function ($scope, $http){
 			}
 			if (userInfo.email){
 				$scope.email = userInfo.email;
+				$scope.originalEmail = userInfo.email;
 			}
 			if (userInfo.phone){
 				$scope.phone = userInfo.phone;
@@ -104,6 +106,65 @@ app.controller('editProfileCtrl', function ($scope, $http){
 			$scope.uploadMsg = "Failed to upload.";
 		});
 	};
+	
+	$scope.backToProfile = function(){
+		location.href = "profile?screen-name="+$scope.screenName;
+	}
+	
+	$scope.emailExists = function(){
+		if ($scope.email && ($scope.email != $scope.originalEmail)){
+			var req = {
+				method: 'GET',
+				url: 'users/user',
+				params: {email: $scope.email}
+			}
+			$http(req).then(function successCallback(res){
+				if (jQuery.isEmptyObject(res.data)){
+					$scope.isInvalid = false;
+				}
+				else{
+					$scope.isInvalid = true;
+				}
+			}, function errorCallback(res) {
+				// called asynchronously if an error occurs
+				// or server returns response with an error status.
+			});
+		}
+		else{
+			$scope.isInvalid = false;
+		}
+	}
+	
+	$scope.screenNameValidation = function(){
+		if ($scope.screenName && ($scope.screenName != $scope.originalScreenName)){
+			if ($scope.screenName.indexOf(" ") >= 0){
+				$scope.screenNameInvalid = true;
+			}
+			else{
+				$scope.screenNameInvalid = false;
+				var req = {
+					method: 'GET',
+					url: 'users/user',
+					params: {screenName: $scope.screenName}
+				}
+				$http(req).then(function successCallback(res){
+					if (jQuery.isEmptyObject(res.data)){
+						$scope.screenNameFound = false;
+					}
+					else{
+						$scope.screenNameFound = true;
+					}
+				}, function errorCallback(res) {
+					// called asynchronously if an error occurs
+					// or server returns response with an error status.
+				});
+			}
+		}
+		else{
+			$scope.screenNameFound = false;
+			$scope.screenNameInvalid = false;
+		}
+	}
 });
 
 app.controller('signUpFormCtrl', function ($scope, $http){

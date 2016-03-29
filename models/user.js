@@ -26,7 +26,7 @@ var userSchema = mongoose.Schema({
 	last_name: String,
 	gender: String,
 	date_of_birth: Date,
-	phone: Number,
+	phone: String,
 	address: {
 		street: String,
 		city: String,

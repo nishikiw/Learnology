@@ -463,6 +463,59 @@ app.post('/users/user', urlencodedParser, function(req, res){
 	}
 });
 
+app.post('/users/user/*', urlencodedParser, function(req, res){
+	var screenName = req.session.data.user;
+	if (screenName){
+		User.findOne({'screen_name': screenName}, function (err, userInfo) {
+			if (err) return console.error(err);
+			if (userInfo){
+				if (req.body.firstName){
+					userInfo.first_name = req.body.firstName;
+				}
+				if (req.body.lastName){
+					userInfo.last_name = req.body.lastName;
+				}
+				if (req.body.screenName && (req.body.screenName != userInfo.screen_name)){
+					userInfo.screen_name = req.body.screenName;
+				}
+				if (req.body.email && (req.body.email != userInfo.email)){
+					userInfo.email = req.body.email;
+				}
+				if (req.body.gender){
+					userInfo.gender = req.body.gender;
+				}
+				if (req.body.dateOfBirth){
+					userInfo.date_of_birth = req.body.dateOfBirth;
+				}
+				if (req.body.phone){
+					userInfo.phone = req.body.phone;
+				}
+				if (req.body.address){
+					userInfo.address.street = req.body.address;
+				}
+				if (req.body.city){
+					userInfo.address.city = req.body.city;
+				}
+				if (req.body.province){
+					userInfo.address.province = req.body.province;
+				}
+				if (req.body.country){
+					userInfo.address.country = req.body.country;
+				}
+				userInfo.save(function (err) {
+					if (err) return console.error(err);
+					console.log(userInfo);
+					res.redirect('/profile?screen-name=' + userInfo.screen_name);
+				});
+			}
+			else{
+				console.log("User not found");
+				return
+			}
+		});
+	}
+});
+
 app.post('/create', urlencodedParser, function(req, res){
 	// Prepare output in JSON format
 	courseObj = {

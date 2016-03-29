@@ -18,26 +18,30 @@
 			<div ng-include="'navbar.html'"></div>
 		</div>
 		<main>
-			<div class="container-fluid" ng-controller="editProfileCtrl" ng-init="init()">
-				<form class="form-horizontal" role="form" action="profile">
+			<div class="container-fluid" ng-controller="editProfileCtrl" ng-init="init()" ng-submit="applyChanges()">
+				<form class="form-horizontal" name="editProfileForm" role="form" action="{{'users/user/'+originalScreenName}}" method="POST">
 					<fieldset class="col-sm-6">
 						<legend>Personal Information</legend>
 						<div class="form-group">
 							<label class="control-label col-sm-3" for="screen-name">Screen Name:</label>
 							<div class="col-sm-8">
-								<input type="text" class="form-control" ng-model="screenName" id="screen-name" required>
+								<input type="text" name="screenName" class="form-control" ng-model="screenName" id="screen-name" ng-change="screenNameValidation()" ng-model-options="{updateOn: 'blur'}" required>
+							</div>
+							<div class="row">
+								<span class="col-sm-offset-3 col-sm-8" ng-show="screenNameInvalid" ng-init="screenNameInvalid = false">* Screen name cannot contain any space.</span>
+								<span class="col-sm-offset-3 col-sm-8" ng-show="screenNameFound" ng-init="screenNameFound = false">* Screen name has been registered.</span>
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="control-label col-sm-3" for="first-name">First Name:</label>
 							<div class="col-sm-8">
-								<input type="text" class="form-control" ng-model="firstName" id="first-name">
+								<input type="text" name="firstName" class="form-control" ng-model="firstName" id="first-name">
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="control-label col-sm-3" for="last-name">Last Name:</label>
 							<div class="col-sm-8">
-								<input type="text" class="form-control" id="last-name" ng-model="lastName">
+								<input type="text" class="form-control" name="lastName" id="last-name" ng-model="lastName">
 							</div>
 						</div>
 						<div class="form-group">
@@ -57,48 +61,55 @@
 						<div class="form-group">
 							<label class="control-label col-sm-3" for="birth-date">Date of Birth:</label>
 							<div class="col-sm-8">
-								<input type="date" class="form-control" id="birth-date" ng-model="dateOfBirth">
+								<input type="date" name="dateOfBirth" class="form-control" id="birth-date" ng-model="dateOfBirth">
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="control-label col-sm-3" for="email">Email:</label>
 							<div class="col-sm-8">
-								<input type="email" class="form-control" id="email" ng-model="email" required>
+								<input type="email" name="email" ng-model-options="{updateOn: 'blur'}" ng-change="emailExists()" class="form-control" id="email" ng-model="email" required>
+							</div>
+							<div class="row">
+								<div class="col-sm-offset-3 col-sm-8" ng-show="editProfileForm.email.$error.email">* Invalid email address.</div>
+								<div class="col-sm-offset-3 col-sm-8" ng-show="isInvalid" ng-init="isInvalid = false">* Email has been registered.</div>
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="control-label col-sm-3" for="phone">Phone:</label>
 							<div class="col-sm-8">
-								<input type="tel" class="form-control" id="phone" ng-model="phone">
+								<input type="tel" class="form-control" name="phone" id="phone" ng-model="phone" pattern="\d{3}-\d{3}-\d{4}" placeholder="555-555-5555">
+							</div>
+							<div class="row">
+								<div class="col-sm-offset-3 col-sm-8">* Phone number format: xxx-xxx-xxxx.</div>
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="control-label col-sm-3" for="address">Address:</label>
 							<div class="col-sm-8">
-								<input type="text" class="form-control" id="address" ng-model="address">
+								<input type="text" class="form-control" name="address" id="address" ng-model="address">
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="control-label col-sm-3" for="city">City:</label>
 							<div class="col-sm-8">
-								<input type="text" class="form-control" id="city" ng-model="city">
+								<input type="text" class="form-control" name="city" id="city" ng-model="city">
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="control-label col-sm-3" for="province">Province/State:</label>
 							<div class="col-sm-8">
-								<input type="text" class="form-control" id="province" ng-model="province">
+								<input type="text" class="form-control" name="province" id="province" ng-model="province">
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="control-label col-sm-3" for="country">Country:</label>
 							<div class="col-sm-8">
-								<input type="text" class="form-control" id="country" ng-model="country">
+								<input type="text" class="form-control" name="country" id="country" ng-model="country">
 							</div>
 						</div>
 						<div class="col-sm-offset-4 col-sm-4">
-							<button type="submit" class="btn btn-default">Cancel</button>
-							<button type="submit" class="btn btn-primary">Save</button>
+							<button type="button" class="btn btn-default" ng-click="backToProfile()">Cancel</button>
+							<button type="submit" class="btn btn-primary" ng-disabled="editProfileForm.$invalid || isInvalid || screenNameInvalid || screenNameFound">Save</button>
 						</div>
 					</fieldset>
 				</form>
