@@ -613,3 +613,19 @@ app.post('/course/save', urlencodedParser, function(req, res){
 
 	res.redirect('/course?id=' + req.body.id);
 });
+
+app.post('/course/comment', urlencodedParser, function(req, res){
+
+	Course.update({_id:"EkENfrM0l"}, 
+		{$addToSet: {'comments' : [{ 
+			'rating': req.body.rating, 
+			'body': req.body.comment, 
+			'user': req.body.user}]
+		}}, 
+		function (err, data) {
+		if (err) console.log(err);
+		else console.log('Saved : ', data );
+	});
+
+	res.redirect('/course?id=' + req.body.id);
+});

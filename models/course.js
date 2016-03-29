@@ -11,7 +11,7 @@ var courseSchema = mongoose.Schema({
 	description: {type: String, required: true},
 	skills: {type: String},
 	difficulty: {type: String, required: true},
-	comments: [{ rating: Number, heading: String, body: String, user: String}],
+	comments: [{ rating: Number, body: String, user: String}],
 	votes: { type: Number, default: 0},
 	flagged: { type: Boolean, default: false }
 });

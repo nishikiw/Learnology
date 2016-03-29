@@ -19,6 +19,24 @@
       	};
 
 		app.controller ("rating", function($scope) {
+			$scope.heading = function (rating) {
+				if (rating == 5) {
+					return 'Perfect!';
+				}
+				if (rating == 4) {
+					return 'Great';
+				}
+				if (rating == 3) {
+					return 'Okay';
+				}
+				if (rating == 2) {
+					return 'Not Great';
+				}
+				if (rating == 1) {
+					return 'Terrible';
+				}
+			}
+
 			$scope.checkRating = function (pos, rating) {
 				if (rating >= pos) {
 					return true;
@@ -263,7 +281,7 @@
 														<span ng-class="{'glyphicon-star': checkRating(3, x.rating), 'glyphicon-star-empty': !checkRating(3, x.rating)}" class="glyphicon"></span>
 														<span ng-class="{'glyphicon-star': checkRating(4, x.rating), 'glyphicon-star-empty': !checkRating(4, x.rating)}" class="glyphicon"></span>
 														<span ng-class="{'glyphicon-star': checkRating(5, x.rating), 'glyphicon-star-empty': !checkRating(5, x.rating)}" class="glyphicon"></span>
-														<p class="rating-class">{{x.heading}}</p>
+														<p class="rating-class">{{heading(x.rating)}}</p>
 														<button type="delete" class="btn btn-danger pull-right">Delete</button>
 													</div>
 												</div>
