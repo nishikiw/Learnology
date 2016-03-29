@@ -104,25 +104,136 @@ app.post('/search/res', urlencodedParser, function(req, res) {
     }
     
     if (req.body.searchBy == "Keywords") {
-        Course.find({'title': new RegExp('^.*?'+terms+'.*?$', "i")}, function(err, courses) {
-            //for (var i = 0; i < courses.length; i++) {
-                //var course = courses[i];
-                //console.log(course.title);
-                //console.log(course.user);
-                //console.log(course.rating);
-                //console.log(course.difficulty);
-                //console.log(course.description);
-            //}
-            res.send(courses);
+        
+       User.find({ 'screen_name': req.session.data.user }, 'favorites', function (err, userArr) {
+             if (userArr.length == 0) {
+                
+                Course.find({'title': new RegExp('^.*?'+terms+'.*?$', "i")}).exec(function(err, courses)  {
+                     res.send(courses);
+                });
+            }
+            userArr.forEach(function(user) { // Need loop so the block below can see user. Javascript doesn't have block scope
+                Course.find({'title': new RegExp('^.*?'+terms+'.*?$', "i")}).exec(function(err, courses) {
+                    if (user == null) {
+                        res.send(courses);
+                    } else {
+                            
+                        var result = [];
+                        //var categories = ["Academic"]; 
+                        //var users = ["Sky"];
+                        var categories = user.favorites.categories;
+                        var users = user.favorites.teachers;
+                        for (var i = 0; i < courses.length; i++) { 
+                            var course = courses[i];
+                            result.push(course._id);
+                        }
+                        for (var i = 0; i < courses.length; i++) {
+                            
+                            var course = courses[i];
+                            if (contains(categories, course.category)) {
+                                result.push(course._id);
+                            } 
+                            
+                            if (contains(users, course.user)) {
+                                result.push(course._id);
+                            } 
+                        }
+                        result = sortByFrequencyAndRemoveDuplicates(result);
+                        
+                        for (var i = 0; i < courses.length; i++) {
+                            
+                            var course = courses[i];
+                            result[result.indexOf(course._id)] = course;
+                        }
+                        
+                        res.send(result);
+                    }
+                });
+            });
         });
     } else if (req.body.searchBy == "Teacher+Name") {
-        Course.find({ 'user': new RegExp(terms, "i")}, function(err, courses) {
-            res.send(courses);
+          User.find({ 'screen_name': req.session.data.user }, 'favorites', function (err, userArr) {
+            
+            if (userArr.length == 0) {
+                
+                Course.find({ 'user': new RegExp(terms, "i")}, function(err, courses) {
+                    res.send(courses);
+                });
+            }
+            userArr.forEach(function(user) { // Need loop so the block below can see user. Javascript doesn't have block scope
+                Course.find({ 'user': new RegExp(terms, "i")}, function(err, courses) {
+
+                    var result = [];
+                    //var categories = ["Academic"]; 
+                    var categories = user.favorites.categories;
+                    
+                    for (var i = 0; i < courses.length; i++) { 
+                        var course = courses[i];
+                        result.push(course._id);
+                    }
+                    for (var i = 0; i < courses.length; i++) {
+                        
+                        var course = courses[i];
+                        if (contains(categories, course.category)) {
+                            result.push(course._id);
+                        } 
+                    }
+                    result = sortByFrequencyAndRemoveDuplicates(result);
+                    
+                    for (var i = 0; i < courses.length; i++) {
+                        
+                        var course = courses[i];
+                        result[result.indexOf(course._id)] = course;
+                    }
+                    
+                    res.send(result);
+                    
+                });
+            });
         });
+        
     } else if (req.body.searchBy == "Category") {
-        Course.find({ 'category': new RegExp(terms, "i")}, function(err, courses) {
-            res.send(courses);
+         User.find({ 'screen_name': req.session.data.user }, 'favorites', function (err, userArr) {
+            
+            if (userArr.length == 0) {
+                
+                Course.find({ 'category': new RegExp(terms, "i")}, function(err, courses) {
+                    res.send(courses);
+                });
+            }
+            userArr.forEach(function(user) { // Need loop so the block below can see user. Javascript doesn't have block scope
+                Course.find({ 'category': new RegExp(terms, "i")}, function(err, courses) {
+
+                    var result = [];
+                    var users = ["Sky"];
+                    //var users = user.favorites.teachers;
+                    
+                    for (var i = 0; i < courses.length; i++) { 
+                        var course = courses[i];
+                        result.push(course._id);
+                    }
+                    for (var i = 0; i < courses.length; i++) {
+                        
+                        var course = courses[i];
+                        
+                        if (contains(users, course.user)) {
+                            result.push(course._id);
+                        } 
+                    }
+                    result = sortByFrequencyAndRemoveDuplicates(result);
+                    
+                    for (var i = 0; i < courses.length; i++) {
+                        
+                        var course = courses[i];
+                        result[result.indexOf(course._id)] = course;
+                    }
+                    
+                    res.send(result);
+                    
+                });
+            });
         });
+        
     } else {
         res.send([]);
     }

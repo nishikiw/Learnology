@@ -267,7 +267,8 @@ app.directive("searchRes", function() {
                     }
                        
                     var res = '<h3><a href="course/'+course._id+'">' + course.title + '</a></h3><ul id="result_info">'+
-                    '<li>Teacher Name: <a href="profile/'+course._id+'">' + course.user + '</a></li><li>Course Rating: '+rating+
+                    '<li>Category: '+course.category+
+                    '</li><li>Teacher Name: <a href="profile/'+course._id+'">' + course.user + '</a></li><li>Course Rating: '+rating+
                     '</li><li>Difficulty Level: ' + course.difficulty + '</li></ul><p>' + course.description + '</p>';
                     
                     $("#searchRes").append(res);
