@@ -348,9 +348,12 @@ app.get('/courses/flagged', function(req, res){
 });
 
 app.post('/delete/user', urlencodedParser, function(req, res){
-	User.remove({'screen_name': req.body.screen_name}, function (err) {
+	Course.remove({"user" : req.body.screen_name}, function (err) {
 		if (err) return console.error(err);
-		res.send('done');
+		User.remove({'screen_name': req.body.screen_name}, function (err) {
+			if (err) return console.error(err);
+			res.send('done');
+		});
 	});
 });
 
@@ -574,4 +577,25 @@ app.post('/create', urlencodedParser, function(req, res){
 	});
 
 	res.redirect('/course?id=' + courseObj._id);
+});
+
+app.post('/course/save', urlencodedParser, function(req, res){
+
+	Course.update(
+		{'_id' : req.body.id}, 
+		{ "title": req.body.title,
+		  "location": req.body.location,
+		  "category": req.body.category,
+		  "price": req.body.price,
+		  "description": req.body.description,
+		  "skills": req.body.skills,
+		  "difficulty": req.body.difficulty
+		}, 
+		{ upsert: true }, 
+		function (err, data) {
+		if (err) console.log(err);
+		else console.log('Saved : ', data );
+	});
+
+	res.redirect('/course?id=' + req.body.id);
 });
