@@ -29,6 +29,25 @@
 			}	
 		});
 
+		app.controller ("submitForm", function($scope, $http) {
+			$scope.submit = function (course) {
+				var req = { 
+					method: 'POST',
+					url: '/course/comment',
+					data: $.param({
+						id : course,
+						user: $scope.session,
+						rating: $scope.rate,
+						comment: $scope.comment
+					}),
+					headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+				};
+				$http(req).success(function(data) {
+					
+				});
+			}	
+		});
+
 		function getUser ($http, $scope, screen_name) {
 				var req = { 
 					method: 'POST',
@@ -190,28 +209,28 @@
 						</div>
 						<div id="reviews" class="panel panel-default">
 						    <div class="panel-heading">Reviews</div>
-						    <div class="panel-body">
+						    <div class="panel-body" ng-controller="submitForm">
 						    	<div get-user>
-								<form id="form-review" class="form-horizontal" role="form">
+								<form id="form-review" class="form-horizontal" ng-submit='submit(id)' role="form">
 									<fieldset>
 										<legend>Rate this course</legend>
 										<div class="form-group">
 											<label class="control-label col-sm-2" for="rating-stars">User:</label>
 											<div class="col-sm-10">
-												<input type="user" value="{{session}}" disabled/>
+												<input type="user" ng-model='session' disabled/>
 											</div>
 										</div>
 										<div class="form-group">
 											<label class="control-label col-sm-2" for="rating-stars">Rating:</label>
-											<div class="col-sm-5">
-												<input type="number" name="rate" min="1" max="5" required>
+											<div class="col-sm-10">
+												<input type="number" ng-model='rate' name="rate" min="1" max="5" required>
 												<p class="text-muted">Please enter an integer from 1 to 5.</p>
 											</div>
 										</div>
 										<div class="form-group">
 											<label class="control-label col-sm-2" for="comment">Comment:</label>
 											<div class="col-sm-10">
-												<textarea class="form-control" rows="4" id="comment" maxlength="200" required></textarea>
+												<textarea class="form-control" ng-model='comment' rows="4" id="comment" maxlength="200" required></textarea>
 											</div>
 										</div>
 										<div class="form-group">
@@ -245,6 +264,7 @@
 														<span ng-class="{'glyphicon-star': checkRating(4, x.rating), 'glyphicon-star-empty': !checkRating(4, x.rating)}" class="glyphicon"></span>
 														<span ng-class="{'glyphicon-star': checkRating(5, x.rating), 'glyphicon-star-empty': !checkRating(5, x.rating)}" class="glyphicon"></span>
 														<p class="rating-class">{{x.heading}}</p>
+														<button type="delete" class="btn btn-danger pull-right">Delete</button>
 													</div>
 												</div>
 												<p>{{x.body}}</p>
