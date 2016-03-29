@@ -47,7 +47,7 @@
 			}	
 		});
 
-		app.controller ("submitForm", function($scope, $http) {
+		app.controller ("submitForm", function($scope, $http, $window) {
 			$scope.submit = function (course) {
 				var req = { 
 					method: 'POST',
@@ -61,7 +61,7 @@
 					headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 				};
 				$http(req).success(function(data) {
-					
+					$window.location.href = "/course?id=" + course;
 				});
 			}	
 		});
