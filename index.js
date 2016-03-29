@@ -90,7 +90,43 @@ app.get('/profile', function(req, res) {
 app.get('/search', function(req, res) {
   res.sendFile(__dirname + '/public/search.html');
 });
+// From stackoverflow.com/questions/3579486/sort-a-javascript-array-by-frequency-and-then-filter-repeats
+function sortByFrequencyAndRemoveDuplicates(array) {
+    var frequency = {}, value;
 
+    // compute frequencies of each value
+    for(var i = 0; i < array.length; i++) {
+        value = array[i];
+        if(value in frequency) {
+            frequency[value]++;
+        }
+        else {
+            frequency[value] = 1;
+        }
+    }
+
+    // make array from the frequency object to de-duplicate
+    var uniques = [];
+    for(value in frequency) {
+        uniques.push(value);
+    }
+
+    // sort the uniques array in descending order by frequency
+    function compareFrequency(a, b) {
+        return frequency[b] - frequency[a];
+    }
+
+    return uniques.sort(compareFrequency);
+}
+
+function contains(array, obj) {
+    for (var i = 0; i < array.length; i++) {
+        if (array[i] === obj) {
+            return true;
+        }
+    }
+    return false;
+}
 app.post('/search/res', urlencodedParser, function(req, res) {
     // Attack concepts from http://blog.websecurify.com/2014/08/hacking-nodejs-and-mongodb.html
     //console.log(req.body.searchBy +" " + req.body.terms );
@@ -205,8 +241,8 @@ app.post('/search/res', urlencodedParser, function(req, res) {
                 Course.find({ 'category': new RegExp(terms, "i")}, function(err, courses) {
 
                     var result = [];
-                    var users = ["Sky"];
-                    //var users = user.favorites.teachers;
+                    //var users = ["Sky"];
+                    var users = user.favorites.teachers;
                     
                     for (var i = 0; i < courses.length; i++) { 
                         var course = courses[i];
