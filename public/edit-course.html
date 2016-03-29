@@ -12,7 +12,7 @@
       <script src="scripts/app.js"></script>
       <link rel="stylesheet" href="css/style.css">
       <script>
-      app.controller('save', function($scope, $http) {
+      app.controller('save', function($scope, $http, $window) {
           $scope.save = function() {
             if ($scope.disable == true) {
                $scope.location = "online"
@@ -21,7 +21,7 @@
                method: 'POST',
                url: 'course/save',
                data: $.param({
-               id: $scope.id
+               id: $scope.id,
                title: $scope.title.toString(), 
                location: $scope.location.toString(),
                category: $scope.category.toString(),
@@ -31,7 +31,9 @@
                skills: $scope.skills.toString()}),
               headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             }
-            $http(req);
+            $http(req).success(function(data) {
+               $window.location.href = "/course?id=" + $scope.id;
+            });
           }; 
       });
 

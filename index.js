@@ -568,11 +568,6 @@ app.post('/course/save', urlencodedParser, function(req, res){
 		if (err) console.log(err);
 		else console.log('Saved : ', data );
 	});
-	
-	Course.find(function (err, courses) {
-		if (err) return console.error(err);
-		console.log(courses);
-	});
 
-	res.redirect('/course?id=' + courseObj._id);
+	res.redirect('/course?id=' + req.body.id);
 });
