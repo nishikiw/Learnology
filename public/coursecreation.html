@@ -108,13 +108,13 @@
                   <div class="form-group">
                      <label class="control-label col-sm-3" for="price">Price:</label>
                      <div class="col-sm-3">
-                        <input type="price" class="form-control" ng-model="price" placeholder='$20 / Class' required>
+                        <input type="price" class="form-control" ng-model="price" maxlength="50" placeholder='$20 / Class' required>
                      </div>
                   </div>
                   <div class="form-group">
                      <label class="control-label col-sm-3" for="description">Course Description:</label>
                      <div class="col-sm-8">
-                        <textarea name="description" rows="4" class="form-control" ng-model="description" placeholder="Tell everyone what the course is about" required></textarea>
+                        <textarea name="description" rows="8" class="form-control" ng-model="description" placeholder="Tell everyone what the course is about" required></textarea>
                      </div>
                   </div>
                   <div class="form-group">
@@ -137,9 +137,9 @@
                         </label>
                      </div>
                   </div>
-                  <div>
-                     <button type="submit" class="btn btn-primary btn-block">Create Course</button>
-                     <input type="button" class="btn btn-danger btn-block" onclick="reset()" value="Cancel">
+                  <div class="col-sm-offset-4 col-sm-8">
+                     <button type="submit" class="btn btn-primary">Create Course</button>
+                     <input type="button" class="btn btn-danger" onclick="reset()" value="Cancel">
                   </div> 
                </fieldset>
             </form>      

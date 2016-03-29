@@ -12,14 +12,14 @@
       <script src="scripts/app.js"></script>
       <link rel="stylesheet" href="css/style.css">
       <script>
-      app.controller('create', function($scope, $http) {
-          $scope.sendPost = function() {
+      app.controller('save', function($scope, $http) {
+          $scope.save = function() {
             if ($scope.disable == true) {
                $scope.location = "online"
             }
             var req = { 
                method: 'POST',
-               url: 'create',
+               url: 'course/save',
                data: $.param({
                title: $scope.title.toString(), 
                location: $scope.location.toString(),
@@ -75,9 +75,9 @@
          <p>Course ID: {{id}}</p>
       </div>
       <br>
-         <div class="container-fluid" ng-controller="create">
-            <form id="create" class="form-horizontal" ng-submit="sendPost()" autocomplete=off>
-               <fieldset class="col-sm-6 col-sm-offset-3">
+         <div class="container-fluid" ng-controller="save">
+            <form id="create" class="form-horizontal" ng-submit="save()" autocomplete=off>
+               <fieldset class="col-sm-8 col-sm-offset-2">
                   <div class="form-group">
                      <label class="control-label col-sm-3" for="first-name">Course Title</label>
                      <div class="col-sm-8">
@@ -127,14 +127,14 @@
                   </div>
                   <div class="form-group">
                      <label class="control-label col-sm-3" for="price">Price:</label>
-                     <div class="col-sm-3">
-                        <input type="price" class="form-control" ng-model="price" required>
+                     <div class="col-sm-5">
+                        <input type="price" class="form-control" ng-model="price" maxlength="50" required>
                      </div>
                   </div>
                   <div class="form-group">
                      <label class="control-label col-sm-3" for="description">Course Description:</label>
                      <div class="col-sm-8">
-                        <textarea name="description" rows="4" class="form-control" ng-model="description" required></textarea>
+                        <textarea name="description" rows="8" class="form-control" ng-model="description" required></textarea>
                      </div>
                   </div>
                   <div class="form-group">
@@ -157,9 +157,9 @@
                         </label>
                      </div>
                   </div>
-                  <div>
-                     <button type="submit" class="btn btn-primary btn-block">Submit Changes</button>
-                     <a type="button" class="btn btn-danger btn-block" href="course?id={{id}}">Cancel</a>
+                  <div class="col-sm-offset-4 col-sm-8">
+                     <button type="submit" class="btn btn-success">Submit Changes</button>
+                     <a type="button" class="btn btn-danger" href="course?id={{id}}">Cancel</a>
                   </div> 
                </fieldset>
             </form>      
