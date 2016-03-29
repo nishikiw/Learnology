@@ -16,7 +16,7 @@
           document.getElementById("create").reset();
       }
 
-      app.controller('create', function($scope, $http) {
+      app.controller('create', function($scope, $http, $window) {
          $scope.category = "Academic";
          $scope.level = "Beginner" ;
          $scope.disable = false;
@@ -37,7 +37,9 @@
                skills: $scope.skills.toString()}),
               headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             }
-            $http(req);
+            $http(req).success(function(data) {
+               $window.location.href = "/course?id=" + data;
+            });
           }; 
       });
       </script>

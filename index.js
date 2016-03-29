@@ -582,15 +582,11 @@ app.post('/create', urlencodedParser, function(req, res){
 	
 	course.save(function (err, data) {
 		if (err) console.log(err);
-		else console.log('Saved : ', data );
+		else {
+			console.log('Saved : ', data );
+			res.send(data._id)
+		}
 	});
-	
-	Course.find(function (err, courses) {
-		if (err) return console.error(err);
-		console.log(courses);
-	});
-
-	res.redirect('/course?id=' + courseObj._id);
 });
 
 app.post('/course/save', urlencodedParser, function(req, res){
@@ -611,7 +607,7 @@ app.post('/course/save', urlencodedParser, function(req, res){
 		else console.log('Saved : ', data );
 	});
 
-	res.redirect('/course?id=' + req.body.id);
+	res.send(req.body.id);
 });
 
 app.post('/course/comment', urlencodedParser, function(req, res){

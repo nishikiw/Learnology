@@ -54,9 +54,9 @@
 					url: '/course/comment',
 					data: $.param({
 						id : course,
-						user: $scope.session,
+						user: $scope.session.toString(),
 						rating: $scope.rate,
-						comment: $scope.comment
+						comment: $scope.comment.toString()
 					}),
 					headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 				};
