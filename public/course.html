@@ -99,7 +99,10 @@
 						</ul>
 					</nav>
 					<div class="col-sm-9 col-xs-9">
-						<a class="btn btn-default pull-right">Edit Course</a>
+						<form action="{{'edit-course?id='+id}}" method="post">
+							<input type="hidden" name="screen_name" value="{{screen_name}}">
+						    <input type="submit" class="btn btn-default pull-right" value="Edit Course"/>
+						</form>
 						<button type="report" class="btn btn-danger" data-toggle="modal" data-target="#confirmModal">Report</button>
 						<h3 class="text-center">{{title}}</h3>
 						<div class="text-center rating">

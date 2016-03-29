@@ -280,6 +280,10 @@ app.get('/edit-profile', function(req, res) {
   res.sendFile(__dirname + '/public/edit-profile.html');
 });
 
+app.post('/edit-course', urlencodedParser, function(req, res) {
+	res.sendFile(__dirname + '/public/edit-course.html');
+});
+
 app.get('/admin', function(req, res) {
   res.sendFile(__dirname + '/public/admin.html');
 });
