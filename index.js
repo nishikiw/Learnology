@@ -160,6 +160,13 @@ app.get('/users/flagged', function(req, res){
 	});
 });
 
+app.post('/user/short', urlencodedParser, function(req, res){
+	User.find({"screen_name" : req.body.name}, {"first_name":1, "last_name":1, "email":1, "_id":0}, function (err, user) {
+		if (err) return console.error(err);
+		res.send(user);
+	});
+});
+
 app.post('/search/one', urlencodedParser, function(req, res){
 	if (req.body.type == 'user') {
 		User.find({"screen_name" : {$regex : ".*"+req.body.screen_name+".*"}}, {}, function (err, users) {

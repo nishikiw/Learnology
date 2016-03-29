@@ -25,19 +25,18 @@
 			}	
 		});
 
-		app.controller ("instructor", function($scope, $http) {
-			$scope.getInstructor = function (screen_name) {
+		function getUser ($http, $scope, screen_name) {
 				var req = { 
 					method: 'POST',
 					url: '/user/short',
-					data: $.param({type: 'user', name : screen_name}),
+					data: $.param({name : screen_name}),
 					headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 				};
 				$http(req).success(function(data) {
-					console.log(data);
+					$scope.email = data[0].email;
+					$scope.InstructorName = data[0].first_name +  ' ' + data[0].last_name;
 				});
-			}	
-		});
+			};
 
 		function overall (comments) {
 			var sumRatings = 0;
@@ -59,6 +58,7 @@
 						headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 					};
 					$http(req).success(function(data) {
+						console.log(data);
 						$scope.title = data[0].title;
 						$scope.category = data[0].category;
 						$scope.price = data[0].price;
@@ -69,6 +69,8 @@
 						$scope.description = data[0].description;
 						$scope.comments = data[0].comments;
 						$scope.overall = overall(data[0].comments);
+						$scope.screen_name = data[0].user;
+						getUser ($http, $scope, data[0].user);
 					});
 		        }
 		    }
@@ -151,12 +153,12 @@
 									<div class="col-sm-8">
 										<br><br>
 										<h4 class="">
-											<a href="#">Théotime Vaillant</a>
+											<a href="profile?user={{screen_name}}">{{InstructorName}}</a>
 											<small><br>Instructor, Experimental Animation, School of Film/Video</small>
 										</h4>
 										<div class="row">
 											<div class="col-sm-2">Email:</div>
-											<div class="col-sm-10"><a href="mailto:tvalillant@hotmail.ca">tvalillant@hotmail.ca</a></div>
+											<div class="col-sm-10"><a href="mailto:{{email}}">{{email}}</a></div>
 										</div>
 									</div>
 								</div>
