@@ -444,7 +444,8 @@ app.directive("userLogin", function() {
               if (data != 'Guest') {
                 $(".user").show();
                 $(".guest").hide();
-                $("#screenName").html("<span class='glyphicon glyphicon-user'></span> " + data);
+				$scope.loggedInUser = data;
+				$("#screenName").html("<span class='glyphicon glyphicon-user'></span> " + $scope.loggedInUser);
               }
               else {
                 $(".user").hide();
