@@ -18,7 +18,7 @@
 			<div ng-include="'navbar.html'"></div>
 		</div>
 		<main>
-			<div class="container-fluid" ng-controller="editProfileCtrl" ng-init="init()" ng-submit="applyChanges()">
+			<div class="container-fluid" ng-controller="editProfileCtrl" ng-init="init()">
 				<form class="form-horizontal" name="editProfileForm" role="form" action="{{'users/user/'+originalScreenName}}" method="POST">
 					<fieldset class="col-sm-6">
 						<legend>Personal Information</legend>

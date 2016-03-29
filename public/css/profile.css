@@ -18,6 +18,10 @@ textarea {
 	margin-bottom: 10px;
 }
 
+#descriptionForm {
+	padding: 15px;
+}
+
 .panel-heading {
 	font-weight: bold;
 }

@@ -30,7 +30,7 @@
 							class="img-responsive img-rounded center-block" alt="profile image" width="200" height="200">
 						<div class="panel panel-primary">
 							<div class="panel-heading">About {{screenName}}
-								<a href="edit-profile" class="owner-only"><span id="aboutMe-edit" class="glyphicon glyphicon-edit pull-right"></span></a>
+								<a ng-href="http://127.0.0.1:5000/edit-profile?screen-name={{screenName}}" ng-show="isOwner"><span id="aboutMe-edit" class="glyphicon glyphicon-edit pull-right"></span></a>
 							</div>
 							<div class="panel-body">
 								<div class="row">
@@ -51,11 +51,21 @@
 					<div class="col-sm-9">
 						<div class="panel panel-info">
 							<div class="panel-heading">Description
-								<a id="button-descripion-edit" href="#" class="owner-only" onclick="editDescription()">
+								<a id="button-descripion-edit" href="#" ng-show="isOwner && !descriptionInEdit" ng-click="editDescription()">
 									<span class="glyphicon glyphicon-edit pull-right"></span>
 								</a>
 							</div>
-							<div id="description-body" class="panel-body">{{description}}</div>
+							<div ng-hide="descriptionInEdit" ng-id="description-body" ng-init="descriptionInEdit=false" class="panel-body">{{description}}</div>
+							<form id="descriptionForm" role="form" ng-show="descriptionInEdit" ng-submit="updateDescription()">
+								<div class="form-group">
+									<label for="descriptionTextArea" class="sr-only">Description:</label>
+									<textarea class="form-control" rows="5" id="descriptionTextArea" ng-model="descriptionTextArea" name="description"></textarea>
+								</div>
+								<div class="form-group text-right">
+									<button type="button" class="btn btn-default" ng-click="cancelDescriptionEdit()">Cancel</button>
+									<button type="submit" class="btn btn-primary">Save</button>
+								</div>
+							</form>
 						</div>
 						<div class="panel panel-info">
 							<div class="panel-heading">Courses I take...</div>

@@ -63,9 +63,42 @@ app.controller('profileCtrl', function ($scope, $http){
 							$scope.profileImgName = "male.png";
 					}
 				}
+				if (userInfo.isOwner){
+					$scope.isOwner = userInfo.isOwner;
+				}
 			}
 		}, function errorCallback(res) {
 		});
+	}
+	
+	$scope.cancelDescriptionEdit = function(){
+		$scope.descriptionInEdit = false;
+		$scope.descriptionTextArea = $scope.description;
+	}
+	
+	$scope.editDescription = function(){
+		$scope.descriptionInEdit = true;
+		$scope.descriptionTextArea = $scope.description;
+	}
+	
+	$scope.updateDescription = function(){
+		if ($scope.descriptionTextArea != $scope.description){
+			var req = { 
+				method: 'POST',
+				url: 'users/user/'+$scope.screenName,
+				data: $.param({description: $scope.descriptionTextArea, onlyDescription: true, originalScreenName: $scope.screenName}),
+				headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+			}
+			$http(req).then(function successCallback(res){
+				if (!jQuery.isEmptyObject(res.data)){
+					$scope.description = res.data.description;
+					$scope.descriptionInEdit = false;
+				}
+			}, function errorCallback(res) {
+				// called asynchronously if an error occurs
+				// or server returns response with an error status.
+			});
+		}
 	}
 });
 
