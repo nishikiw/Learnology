@@ -360,7 +360,7 @@ app.post('/delete/course', urlencodedParser, function(req, res){
 app.get('/users/user', function(req, res){
 	if (req.query.email){
 		Validation.findOne({'email': req.query.email}, function (err, user) {
-			if (err) return handleError(err);
+			if (err) return console.error(err);
 			if (user){
 				var userInfo = {
 					email: user.email
@@ -375,7 +375,7 @@ app.get('/users/user', function(req, res){
 	else if (req.query.screenName){
 		if (req.query.screenName == req.session.data.user){
 			User.findOne({'screen_name': req.query.screenName}, function (err, user) {
-				if (err) return handleError(err);
+				if (err) return console.error(err);
 				if (user){
 					res.end(JSON.stringify(user));
 				}
@@ -399,13 +399,13 @@ app.post('/users/user', urlencodedParser, function(req, res){
 	if (req.body.login){
 		// Login authentication.
 		Validation.findOne({'email': email}, function (err, user) {
-			if (err) return handleError(err);
+			if (err) return console.error(err);
 			if (user){
 				user.verifyPassword(password, function(err, valid) {
-					if (err) return handleError(err);
+					if (err) return console.error(err);
 					if (valid){
 						User.findOne({'email': email}, function(err, userInfo){
-							if (err) return handleError(err);
+							if (err) return console.error(err);
 							if (userInfo){
 								req.session.data.user = userInfo.screen_name; 
 								msg = {
