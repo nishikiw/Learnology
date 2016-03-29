@@ -21,6 +21,7 @@
                method: 'POST',
                url: 'course/save',
                data: $.param({
+               id: $scope.id
                title: $scope.title.toString(), 
                location: $scope.location.toString(),
                category: $scope.category.toString(),
