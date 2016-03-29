@@ -79,6 +79,20 @@
 		        }
 		    }
 		});
+
+		app.directive("getUser", function() {
+		    return {
+		        controller: function ($scope, $http) {
+					var req = { 
+						method: 'GET',
+						url: '/getlogin'
+					};
+					$http(req).success(function(data) {
+						$scope.session = data;
+					});
+		        }
+		    }
+		});
 		</script>
 	</head>
 	<body data-spy="scroll" data-target="#courseScrollspy" data-offset="60" ng-app="learnologyApp">	
@@ -177,20 +191,27 @@
 						<div id="reviews" class="panel panel-default">
 						    <div class="panel-heading">Reviews</div>
 						    <div class="panel-body">
+						    	<div get-user>
 								<form id="form-review" class="form-horizontal" role="form">
 									<fieldset>
 										<legend>Rate this course</legend>
 										<div class="form-group">
-											<label class="control-label col-sm-2" for="rating-stars">Rating:</label>
+											<label class="control-label col-sm-2" for="rating-stars">User:</label>
 											<div class="col-sm-10">
-												<input type="number" class="rate" id="test" name="test" data-min="1" data-max="5">
+												<input type="user" value="{{session}}" disabled/>
+											</div>
+										</div>
+										<div class="form-group">
+											<label class="control-label col-sm-2" for="rating-stars">Rating:</label>
+											<div class="col-sm-5">
+												<input type="number" name="rate" min="1" max="5" required>
 												<p class="text-muted">Please enter an integer from 1 to 5.</p>
 											</div>
 										</div>
 										<div class="form-group">
 											<label class="control-label col-sm-2" for="comment">Comment:</label>
 											<div class="col-sm-10">
-												<textarea class="form-control" rows="4" id="comment"></textarea>
+												<textarea class="form-control" rows="4" id="comment" maxlength="200" required></textarea>
 											</div>
 										</div>
 										<div class="form-group">
@@ -201,6 +222,7 @@
 										</div>
 									</fieldset>	
 								</form>
+								</div>
 								<ul class="list-group">
 								    <li class="list-group-item" ng-repeat="x in comments">
 										<div class="row">
