@@ -14,6 +14,10 @@
 		<script src="scripts/course.js"></script>
 		<script src="scripts/navbar.js"></script>
 		<script>
+		function reset() {
+          document.getElementById("form-review").reset();
+      	};
+
 		app.controller ("rating", function($scope) {
 			$scope.checkRating = function (pos, rating) {
 				if (rating >= pos) {
@@ -58,7 +62,7 @@
 						headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 					};
 					$http(req).success(function(data) {
-						console.log(data);
+						$scope.id = param;
 						$scope.title = data[0].title;
 						$scope.category = data[0].category;
 						$scope.price = data[0].price;
@@ -95,7 +99,8 @@
 						</ul>
 					</nav>
 					<div class="col-sm-9 col-xs-9">
-						<!--<button type="button" id="course-control" class="btn btn-default col-sm-offset-10 btn-lg pull-right">Edit Course</button>-->
+						<a class="btn btn-default pull-right">Edit Course</a>
+						<button type="report" class="btn btn-danger" data-toggle="modal" data-target="#confirmModal">Report</button>
 						<h3 class="text-center">{{title}}</h3>
 						<div class="text-center rating">
 							<a href="#reviews">
@@ -170,7 +175,6 @@
 								<form id="form-review" class="form-horizontal" role="form">
 									<fieldset>
 										<legend>Rate this course</legend>
-										<!-- Rating Reference: https://jsfiddle.net/Phoennix/6Sybq/4/ -->
 										<div class="form-group">
 											<label class="control-label col-sm-2" for="rating-stars">Rating:</label>
 											<div class="col-sm-10">
@@ -187,7 +191,7 @@
 										<div class="form-group">
 											<div class="col-sm-12">
 												<button type="submit" class="btn btn-primary pull-right">Submit</button>
-												<button type="submit" class="btn btn-default pull-right">Cancel</button>
+												<button type="reset" onclick="reset()" class="btn btn-default pull-right">Cancel</button>
 											</div>
 										</div>
 									</fieldset>	
@@ -227,6 +231,20 @@
 				</div>
 			</div>
 		</main>
+
+		<div class="modal fade" id="confirmModal">
+		    <div class="modal-dialog modal-sm">
+		      <div class="modal-content">
+		        <div class="modal-body">
+		          <p>Confirm Report Of {{title}}.</p>
+		        </div>
+		        <div class="modal-footer">
+		          <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="">Confirm</button>
+		          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		        </div>
+		      </div>
+		    </div>
+		</div>
 		
 		<div class="panel-footer">
 			<div class="container">
