@@ -377,11 +377,26 @@ app.get('/users/user', function(req, res){
 		});
 	}
 	else if (req.query.screenName){
-		if (req.query.screenName == req.session.data.user){
+		if (req.query.profile){
 			User.findOne({'screen_name': req.query.screenName}, function (err, user) {
 				if (err) return console.error(err);
 				if (user){
-					res.end(JSON.stringify(user));
+					var userInfo = {
+						first_name: user.first_name,
+						last_name: user.last_name,
+						screen_name: user.screen_name,
+						address: user.address,
+						gender: user.gender,
+						description: user.description,
+						image_name: user.image_name
+					}
+					if (req.session.data.user == userInfo.screen_name){
+						userInfo.isOwner = true;
+					}
+					else{
+						userInfo.isOwner = false;
+					}
+					res.end(JSON.stringify(userInfo));
 				}
 				else{
 					res.end("{}");
@@ -389,7 +404,20 @@ app.get('/users/user', function(req, res){
 			});
 		}
 		else{
-			res.end("{}");
+			if (req.query.screenName == req.session.data.user){
+				User.findOne({'screen_name': req.query.screenName}, function (err, user) {
+					if (err) return console.error(err);
+					if (user){
+						res.end(JSON.stringify(user));
+					}
+					else{
+						res.end("{}");
+					}
+				});
+			}
+			else{
+				res.end("{}");
+			}
 		}
 	}
 });

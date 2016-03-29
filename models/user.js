@@ -31,13 +31,16 @@ var userSchema = mongoose.Schema({
 		street: String,
 		city: String,
 		province: String,
-		Country: String
+		country: String
 	},
 	favorites: {
 		categories: [String],
 		teachers: [String]
 	},
-	image_name: String
+	image_name: String,
+	description: String,
+	courses_taken: [String],
+	courses_created: [String]
 });
 
 var User = mongoose.model('User', userSchema);

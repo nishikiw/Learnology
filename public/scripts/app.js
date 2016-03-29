@@ -10,6 +10,65 @@ function submitform() {
     document.searchform.submit(); 
 } 
 
+app.controller('profileCtrl', function ($scope, $http){
+	$scope.initProfile = function(){
+		var url = window.location.href;
+		var reqScreenName = url.split("=")[1];
+		
+		var req = {
+			method: 'GET',
+			url: 'users/user',
+			params: {screenName: reqScreenName, profile: true}
+		}
+		$http(req).then(function successCallback(res){
+			var userInfo = res.data;
+			if (userInfo){
+				if (userInfo.screen_name){
+					$scope.screenName = userInfo.screen_name;
+				}
+				if (userInfo.gender){
+					$scope.gender = userInfo.gender;
+				}
+				if (userInfo.first_name){
+					$scope.firstName = userInfo.first_name;
+				}
+				if (userInfo.last_name){
+					$scope.lastName = userInfo.last_name;
+				}
+				if (userInfo.address){
+					if (userInfo.address.city){
+						$scope.city = userInfo.address.city;
+					}
+					if (userInfo.address.province){
+						$scope.province = userInfo.address.province;
+					}
+					if (userInfo.address.country){
+						$scope.country = userInfo.address.country;
+					}
+				}
+				if (userInfo.description){
+					$scope.description = userInfo.description;
+				}
+				if (userInfo.image_name){
+					$scope.profileImgName = userInfo.image_name;
+				}
+				else{
+					switch ($scope.gender){
+						case "female":
+							$scope.profileImgName = "female.png";
+							break;
+						case "male":
+						case "others":
+						case "default":
+							$scope.profileImgName = "male.png";
+					}
+				}
+			}
+		}, function errorCallback(res) {
+		});
+	}
+});
+
 app.controller('editProfileCtrl', function ($scope, $http){
 	$scope.init = function(){
 		var url = window.location.href;
@@ -22,60 +81,62 @@ app.controller('editProfileCtrl', function ($scope, $http){
 		}
 		$http(req).then(function successCallback(res){
 			var userInfo = res.data;
-			if (userInfo.screen_name){
-				$scope.screenName = userInfo.screen_name;
-				$scope.originalScreenName = userInfo.screen_name;
-			}
-			if (userInfo.first_name){
-				$scope.firstName = userInfo.first_name;
-			}
-			if (userInfo.last_name){
-				$scope.lastName = userInfo.last_name;
-			}
-			if (userInfo.gender){
-				$scope.gender = userInfo.gender;
-			}
-			if (userInfo.date_of_birth){
-				$scope.dateOfBirth = userInfo.date_of_birth;
-			}
-			if (userInfo.email){
-				$scope.email = userInfo.email;
-				$scope.originalEmail = userInfo.email;
-			}
-			if (userInfo.phone){
-				$scope.phone = userInfo.phone;
-			}
-			if (userInfo.address){
-				if (userInfo.address.street){
-					$scope.address = userInfo.address.street;
+			if (userInfo){
+				if (userInfo.screen_name){
+					$scope.screenName = userInfo.screen_name;
+					$scope.originalScreenName = userInfo.screen_name;
 				}
-				if (userInfo.address.city){
-					$scope.city = userInfo.address.city;
+				if (userInfo.first_name){
+					$scope.firstName = userInfo.first_name;
 				}
-				if (userInfo.address.province){
-					$scope.province = userInfo.address.province;
+				if (userInfo.last_name){
+					$scope.lastName = userInfo.last_name;
 				}
-				if (userInfo.address.country){
-					$scope.country = userInfo.address.country;
-				}
-			}
-			if (userInfo.image_name){
-				$scope.profileImgName = userInfo.image_name;
-			}
-			else {
 				if (userInfo.gender){
-					switch (userInfo.gender){
-						case "female":
-							$scope.profileImgName = "female.png";
-							break;
-						case "male":
-						case "others":
-						default:
-							$scope.profileImgName = "male.png";
+					$scope.gender = userInfo.gender;
+				}
+				if (userInfo.date_of_birth){
+					$scope.dateOfBirth = userInfo.date_of_birth;
+				}
+				if (userInfo.email){
+					$scope.email = userInfo.email;
+					$scope.originalEmail = userInfo.email;
+				}
+				if (userInfo.phone){
+					$scope.phone = userInfo.phone;
+				}
+				if (userInfo.address){
+					if (userInfo.address.street){
+						$scope.address = userInfo.address.street;
+					}
+					if (userInfo.address.city){
+						$scope.city = userInfo.address.city;
+					}
+					if (userInfo.address.province){
+						$scope.province = userInfo.address.province;
+					}
+					if (userInfo.address.country){
+						$scope.country = userInfo.address.country;
 					}
 				}
-				else{
-					$scope.profileImgName = "male.png";
+				if (userInfo.image_name){
+					$scope.profileImgName = userInfo.image_name;
+				}
+				else {
+					if (userInfo.gender){
+						switch (userInfo.gender){
+							case "female":
+								$scope.profileImgName = "female.png";
+								break;
+							case "male":
+							case "others":
+							default:
+								$scope.profileImgName = "male.png";
+						}
+					}
+					else{
+						$scope.profileImgName = "male.png";
+					}
 				}
 			}
 		}, function errorCallback(res) {
