@@ -20,6 +20,23 @@
          $scope.category = "Academic";
          $scope.level = "Beginner" ;
          $scope.disable = false;
+		
+		$scope.initCourseCreation = function() {
+			var req = {
+				method: 'GET',
+				url: '/getlogin'
+			};
+			$http(req).then(function successCallback(res){
+				if (res.data != 'Guest') {
+					$scope.screenName = res.data;
+				}
+				else {
+					location.href = "/";
+				}
+			}, function errorCallback(res) {
+			});
+		}
+		
           $scope.sendPost = function() {
             if ($scope.disable == true) {
                $scope.location = "online"
@@ -57,7 +74,7 @@
          </div>
       </div>
       <br>
-         <div class="container-fluid" ng-controller="create">
+         <div class="container-fluid" ng-controller="create" ng-init="initCourseCreation()">
             <form id="create" class="form-horizontal" ng-submit="sendPost()" autocomplete=off>
                <fieldset class="col-sm-8 col-sm-offset-2">
                   <div class="form-group">
@@ -104,7 +121,7 @@
                         <label class="radio-inline">
                            <input type="radio" value="Miscellaneous" name="category" ng-model="category" >Miscellaneous (Other)
                         </label> 
-                        </divalue=""v>
+                        <!-- </divalue=""v> -->
                      </div>
                   </div>
                   <div class="form-group">

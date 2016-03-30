@@ -600,7 +600,15 @@ app.post('/create', urlencodedParser, function(req, res){
 		if (err) console.log(err);
 		else {
 			console.log('Saved : ', data );
-			res.send(data._id)
+			// Append course id to user profile.
+			User.findOne({'screen_name': req.session.data.user}, function (err, user) {
+				if (err) return console.error(err);
+				user.courses_created.push(data._id);
+				user.save(function (err){
+					if (err) console.log(err);
+					res.send(data._id);
+				});
+			});
 		}
 	});
 });
