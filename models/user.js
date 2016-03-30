@@ -16,7 +16,7 @@ var userSchema = mongoose.Schema({
 	},
 	admin: {
 		type: Boolean,
-		'default': true
+		'default': false
 	},
 	flagged: {
 		type: Boolean,

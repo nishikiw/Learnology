@@ -286,7 +286,16 @@ app.post('/edit-course', urlencodedParser, function(req, res) {
 });
 
 app.get('/admin', function(req, res) {
-  res.sendFile(__dirname + '/public/admin.html');
+	User.find({"screen_name" : req.session.data.user}, {'admin':1, '_id':0}, function (err, user) {
+		if (err) return console.error(err);
+		if (user.length > 0 && user[0].admin == true) {
+			res.sendFile(__dirname + '/public/admin.html');
+		}
+		else {
+			res.redirect('/');	
+		}
+	});
+  	
 });
 
 app.get('/getlogin', function(req, res){
