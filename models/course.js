@@ -13,7 +13,12 @@ var courseSchema = mongoose.Schema({
 	difficulty: {type: String, required: true},
 	comments: [{ rating: Number, body: String, user: String}],
 	votes: { type: Number, default: 0},
-	flagged: { type: Boolean, default: false }
+	flagged: { type: Boolean, default: false },
+	students: {
+		enrolled: [String],
+		in_application: [String],
+		finished: [String]
+	}
 });
 
 var Course = mongoose.model('Course', courseSchema);

@@ -336,6 +336,11 @@ app.controller('signUpFormCtrl', function ($scope, $http){
 		if ($scope.screenName){
 			if ($scope.screenName.indexOf(" ") >= 0){
 				$scope.screenNameInvalid = true;
+				$scope.screenNameInvalidMsg = "Screen name cannot contain any space.";
+			}
+			else if ($scope.screenName == "Guest"){
+				$scope.screenNameInvalid = true;
+				$scope.screenNameInvalidMsg = "Screen name cannot be 'Guest'.";
 			}
 			else{
 				$scope.screenNameInvalid = false;

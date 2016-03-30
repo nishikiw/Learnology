@@ -60,10 +60,28 @@
                   $scope.level = data[0].difficulty;
                   $scope.location = data[0].location;
                   $scope.description = data[0].description;
+				  $scope.instructor = data[0].user;
                });
               }
           }
       });
+	  
+	  app.directive("getUser", function() {
+		    return {
+		        controller: function ($scope, $http) {
+					var req = { 
+						method: 'GET',
+						url: '/getlogin'
+					};
+					$http(req).success(function(data) {
+						$scope.session = data;
+						if ($scope.session == "Guest" || $scope.session != $scope.instructor){
+							location.href = "/";
+						}
+					});
+		        }
+		    }
+		});
       </script>
       <head>
    <body ng-app="learnologyApp">
@@ -72,15 +90,17 @@
       <div ng-controller="navCtrl"> 
         <div ng-include="'navbar.html'"></div>
       </div>
-      <div course-content>
+      <div course-content get-user>
       <div class="jumbotron text-center">
          <h1>Course Editing Page</h1>
          <p>Course ID: {{id}}</p>
       </div>
       <br>
          <div class="container-fluid" ng-controller="save">
-            <form id="create" class="form-horizontal" ng-submit="save()" autocomplete=off>
-               <fieldset class="col-sm-8 col-sm-offset-2">
+		 <div class="row">
+            <form id="create" role="form" class="form-horizontal col-sm-6" ng-submit="save()" autocomplete=off>
+               <fieldset>
+				<legend>Course Information</legend>
                   <div class="form-group">
                      <label class="control-label col-sm-3" for="first-name">Course Title</label>
                      <div class="col-sm-8">
@@ -125,7 +145,7 @@
                         <label class="radio-inline">
                            <input type="radio" value="Miscellaneous" name="category" ng-model="category" >Miscellaneous (Other)
                         </label> 
-                        </divalue=""v>
+                        <!-- </divalue=""v> -->
                      </div>
                   </div>
                   <div class="form-group">
@@ -165,7 +185,14 @@
                      <a type="button" class="btn btn-danger" href="course?id={{id}}">Cancel</a>
                   </div> 
                </fieldset>
-            </form>      
+            </form>
+			<form class="form-horizontal col-sm-6" role="form">
+				<fieldset>
+					<legend>Students</legend>
+					
+				</fieldset>
+			</form>
+		</div>
       </div><br>
    </div>
       <div class="panel-footer">

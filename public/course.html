@@ -17,7 +17,7 @@
 		function reset() {
           document.getElementById("form-review").reset();
       	};
-
+		
 		app.controller ("rating", function($scope) {
 			$scope.heading = function (rating) {
 				if (rating == 5) {
@@ -91,7 +91,7 @@
 					headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 				};
 				$http(req).success(function(data) {
-					$scope.email = data[0].contact_email.address;
+					$scope.instructorEmail = data[0].contact_email.address;
 					$scope.InstructorName = data[0].first_name +  ' ' + data[0].last_name;
 					$scope.instructorTitle = data[0].title;
 					if (data[0].phone.is_public && data[0].phone.number){
@@ -111,29 +111,69 @@
 		app.directive("courseContent", function() {
 		    return {
 		        controller: function ($scope, $http, $location) {
-		        	var l = getLocation($location.absUrl());
-		        	var param = l.search.substring(l.search.indexOf("=")+1);
-					var req = { 
-						method: 'POST',
-						url: '/search/one',
-						data: $.param({type: 'course', id : param}),
-						headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-					};
-					$http(req).success(function(data) {
-						$scope.id = param;
-						$scope.title = data[0].title;
-						$scope.category = data[0].category;
-						$scope.price = data[0].price;
-						$scope.skills = data[0].skills;
-						$scope.votes = data[0].votes;
-						$scope.difficulty = data[0].difficulty;
-						$scope.location = data[0].location;
-						$scope.description = data[0].description;
-						$scope.comments = data[0].comments;
-						$scope.overall = overall(data[0].comments);
-						$scope.screen_name = data[0].user;
-						getUser ($http, $scope, data[0].user);
-					});
+					$scope.init = function(){
+						var l = getLocation($location.absUrl());
+						var param = l.search.substring(l.search.indexOf("=")+1);
+						var req = { 
+							method: 'POST',
+							url: '/search/one',
+							data: $.param({type: 'course', id : param}),
+							headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+						};
+						$http(req).success(function(data) {
+							$scope.id = param;
+							$scope.students = data[0].students;
+							$scope.title = data[0].title;
+							$scope.category = data[0].category;
+							$scope.price = data[0].price;
+							$scope.skills = data[0].skills;
+							$scope.votes = data[0].votes;
+							$scope.difficulty = data[0].difficulty;
+							$scope.location = data[0].location;
+							$scope.description = data[0].description;
+							$scope.comments = data[0].comments;
+							$scope.overall = overall(data[0].comments);
+							$scope.screen_name = data[0].user;
+							getUser ($http, $scope, data[0].user);
+						});
+					}
+					
+					$scope.hideEnroll = function(){
+						if ($scope.session == $scope.screen_name || $scope.session == 'Guest'){
+							return true;
+						}
+						else if ($scope.students.enrolled.indexOf($scope.session) >= 0){
+							return true;
+						}
+						else if ($scope.students.in_application.indexOf($scope.session) >= 0){
+							return true;
+						}
+						else{
+							return false;
+						}
+					}
+					
+					$scope.enroll = function(){
+						if ($scope.session && $scope.session != "Guest" && $scope.session != $scope.screen_name){
+							var req = {
+								method: 'POST',
+								url: 'courses/course/'+$scope.id,
+								data: $.param({student: $scope.session}),
+								headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+							}
+							$http(req).then(function successCallback(res){
+								if (res.data == "enrolled"){
+									$scope.students.in_application.push($scope.session);
+								}
+								else{
+									alert("Failed to enroll");
+								}
+							}, function errorCallback(res) {
+								// called asynchronously if an error occurs
+								// or server returns response with an error status.
+							});
+						}
+					}
 		        }
 		    }
 		});
@@ -160,7 +200,8 @@
 		</div> 
 		
 		<main>
-			<div class="container-fluid">
+			<div get-user>
+			<div class="container-fluid" ng-init="init()">
 				<div class="row">
 					<nav class="col-sm-3 col-xs-3" id="courseScrollspy">
 						<ul class="nav nav-pills nav-stacked">
@@ -173,9 +214,9 @@
 					<div class="col-sm-9 col-xs-9">
 						<form action="{{'edit-course?id='+id}}" method="post">
 							<input type="hidden" name="screen_name" value="{{screen_name}}">
-						    <input type="submit" class="btn btn-default pull-right" value="Edit Course"/>
+						    <input type="submit" class="btn btn-default pull-right" value="Manage Course" ng-show="session == screen_name"/>
 						</form>
-						<button type="enrol" class="btn btn-primary pull-right">Enrol</button>
+						<button type="button" class="btn btn-primary pull-right" ng-hide="hideEnroll()" ng-click="enroll()">Enroll</button>
 						<form action="course/unflag" method="post">
 							<input type="hidden" name="id" value="{{id}}">
 						    <input type="submit" class="btn btn-danger" value="Unflag Course"/>
@@ -245,7 +286,7 @@
 										</h4>
 										<div class="row">
 											<div class="col-sm-2">Email:</div>
-											<div class="col-sm-10"><a href="mailto:{{email}}">{{email}}</a></div>
+											<div class="col-sm-10"><a href="mailto:{{email}}">{{instructorEmail}}</a></div>
 										</div>
 										<div class="row" ng-show="phone">
 											<div class="col-sm-2">Phone:</div>
@@ -258,8 +299,8 @@
 						<div id="reviews" class="panel panel-default">
 						    <div class="panel-heading">Reviews</div>
 						    <div class="panel-body" ng-controller="submitForm">
-						    	<div get-user>
-								<form id="form-review" class="form-horizontal" ng-submit='submit(id)' role="form">
+						    	<!-- <div get-user> -->
+								<form id="form-review" class="form-horizontal" ng-submit='submit(id)' role="form" ng-hide="session==screen_name || session=='Guest'">
 									<fieldset>
 										<legend>Rate this course</legend>
 										<div class="form-group">
@@ -289,7 +330,7 @@
 										</div>
 									</fieldset>	
 								</form>
-								</div>
+								<!-- </div> -->
 								<ul class="list-group">
 								    <li class="list-group-item" ng-repeat="x in comments">
 										<div class="row">
@@ -323,6 +364,7 @@
 						</div>
 					</div>
 				</div>
+			</div>
 			</div>
 		</main>
 

@@ -693,6 +693,35 @@ app.post('/course/save', urlencodedParser, function(req, res){
 	res.send(req.body.id);
 });
 
+app.post('/courses/course/:id', urlencodedParser, function(req, res){
+	var courseId = req.params.id;
+	var studentScreenName = req.body.student;
+	console.log(courseId);
+	console.log(studentScreenName);
+	if (studentScreenName){
+		Course.findOne({'_id':courseId}, function (err, course){
+			if (err) return console.error(err);
+			if (course){
+				if (course.students.enrolled.indexOf(studentScreenName) == -1 && course.students.in_application.indexOf(studentScreenName) == -1){
+					course.students.in_application.push(studentScreenName);
+					course.save(function (err, data) {
+						if (err) console.log(err);
+						console.log(data);
+						res.end("enrolled");
+					});
+				}
+				else{
+					res.end("failed");
+				}
+			}
+			else{
+				console.log("Course not found");
+				return
+			}
+		});
+	}
+});
+
 app.post('/course/comment', urlencodedParser, function(req, res){
 	Course.update({_id:req.body.id}, 
 		{ $inc: {"votes": 1},
