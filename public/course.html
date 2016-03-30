@@ -91,8 +91,12 @@
 					headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 				};
 				$http(req).success(function(data) {
-					$scope.email = data[0].email;
+					$scope.email = data[0].contact_email.address;
 					$scope.InstructorName = data[0].first_name +  ' ' + data[0].last_name;
+					$scope.instructorTitle = data[0].title;
+					if (data[0].phone.is_public && data[0].phone.number){
+						$scope.phone = data[0].phone.number;
+					}
 				});
 			};
 
@@ -236,12 +240,16 @@
 									<div class="col-sm-8">
 										<br><br>
 										<h4 class="">
-											<a href="profile?user={{screen_name}}">{{InstructorName}}</a>
-											<small><br>Instructor, Experimental Animation, School of Film/Video</small>
+											<a href="profile?screen-name={{screen_name}}">{{InstructorName}}</a>
+											<small><br>{{instructorTitle}}</small>
 										</h4>
 										<div class="row">
 											<div class="col-sm-2">Email:</div>
 											<div class="col-sm-10"><a href="mailto:{{email}}">{{email}}</a></div>
+										</div>
+										<div class="row" ng-show="phone">
+											<div class="col-sm-2">Phone:</div>
+											<div class="col-sm-10">{{phone}}</div>
 										</div>
 									</div>
 								</div>

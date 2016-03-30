@@ -127,6 +127,7 @@ function contains(array, obj) {
     }
     return false;
 }
+
 app.post('/search/res', urlencodedParser, function(req, res) {
     // Attack concepts from http://blog.websecurify.com/2014/08/hacking-nodejs-and-mongodb.html
     //console.log(req.body.searchBy +" " + req.body.terms );
@@ -312,7 +313,7 @@ app.get('/users/flagged', function(req, res){
 });
 
 app.post('/user/short', urlencodedParser, function(req, res){
-	User.find({"screen_name" : req.body.name}, {"first_name":1, "last_name":1, "email":1, "_id":0}, function (err, user) {
+	User.find({"screen_name" : req.body.name}, {"first_name":1, "last_name":1, "contact_email":1, "phone":1, "title":1, "_id":0}, function (err, user) {
 		if (err) return console.error(err);
 		res.send(user);
 	});
@@ -527,13 +528,17 @@ app.post('/users/user', urlencodedParser, function(req, res){
 				if (screenName == ""){
 					userObj = {
 						email: email,
-						contact_email: email
+						contact_email: {
+							address: email
+						}
 					};
 				}
 				else{
 					userObj = {
 						email: email,
-						contact_email: email,
+						contact_email: {
+							address: email
+						},
 						screen_name: screenName
 					};
 				}
@@ -585,8 +590,14 @@ app.post('/users/user/*', urlencodedParser, function(req, res){
 					if (req.body.email && (req.body.email != userInfo.email)){
 						userInfo.email = req.body.email;
 					}
-					if (req.body.contactEmail && (req.body.contactEmail != userInfo.contact_email)){
-						userInfo.contact_email = req.body.contactEmail;
+					if (req.body.contactEmail && (req.body.contactEmail != userInfo.contact_email.address)){
+						userInfo.contact_email.address = req.body.contactEmail;
+					}
+					if (req.body.isPublicEmail){
+						userInfo.contact_email.is_public = true;
+					}
+					else{
+						userInfo.contact_email.is_public = false;
 					}
 					if (req.body.gender){
 						userInfo.gender = req.body.gender;
@@ -597,7 +608,7 @@ app.post('/users/user/*', urlencodedParser, function(req, res){
 					if (req.body.phone){
 						userInfo.phone.number = req.body.phone;
 					}
-					if (req.body.isPublic){
+					if (req.body.isPublicPhone){
 						userInfo.phone.is_public = true;
 					}
 					else{

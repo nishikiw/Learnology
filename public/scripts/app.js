@@ -35,8 +35,8 @@ app.controller('profileCtrl', function ($scope, $http){
 				if (userInfo.last_name){
 					$scope.lastName = userInfo.last_name;
 				}
-				if (userInfo.contact_email){
-					$scope.contactEmail = userInfo.contact_email;
+				if (userInfo.contact_email && userInfo.contact_email.is_public && userInfo.contact_email.address){
+					$scope.contactEmail = userInfo.contact_email.address;
 				}
 				if (userInfo.title){
 					$scope.title = userInfo.title;
@@ -154,17 +154,25 @@ app.controller('editProfileCtrl', function ($scope, $http){
 					$scope.originalEmail = userInfo.email;
 				}
 				if (userInfo.contact_email){
-					$scope.contactEmail = userInfo.contact_email;
+					if (userInfo.contact_email.address){
+						$scope.contactEmail = userInfo.contact_email.address;
+					}
+					if (userInfo.contact_email.is_public){
+						$scope.isPublicEmail = userInfo.contact_email.is_public;
+					}
+					else{
+						$scope.isPublicEmail = false;
+					}
 				}
 				if (userInfo.phone){
 					if (userInfo.phone.number){
 						$scope.phone = userInfo.phone.number;
 					}
 					if (userInfo.phone.is_public){
-						$scope.isPublic = userInfo.phone.is_public;
+						$scope.isPublicPhone = userInfo.phone.is_public;
 					}
 					else{
-						$scope.isPublic = false;
+						$scope.isPublicPhone = false;
 					}
 				}
 				if (userInfo.address){
@@ -263,7 +271,7 @@ app.controller('editProfileCtrl', function ($scope, $http){
 
 	$scope.checkPhone = function(){
 		if ($scope.phone == ""){
-			$scope.isPublic = false;
+			$scope.isPublicPhone = false;
 		}
 	}
 	

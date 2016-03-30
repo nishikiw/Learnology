@@ -48,8 +48,15 @@ var userSchema = mongoose.Schema({
 	courses_taken: [String],
 	courses_created: [String],
 	contact_email: {
-		type: String,
-		required: true
+		address: {
+			type: String,
+			required: true
+		},
+		is_public: {
+			type: Boolean,
+			'default': false,
+			required: true
+		}
 	},
 	title: String
 });
