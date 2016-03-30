@@ -127,6 +127,7 @@
 							$scope.category = data[0].category;
 							$scope.price = data[0].price;
 							$scope.skills = data[0].skills;
+							$scope.flagged = data[0].flagged;
 							$scope.votes = data[0].votes;
 							$scope.difficulty = data[0].difficulty;
 							$scope.location = data[0].location;
@@ -140,6 +141,15 @@
 					
 					$scope.hideEnroll = function(){
 						if ($scope.session == $scope.screen_name || $scope.session == 'Guest'){
+							return true;
+						}
+						else{
+							return false;
+						}
+					}
+
+					$scope.hideUnflag = function(){
+						if ($scope.flagged == true && $scope.admin == true){
 							return true;
 						}
 						else{
@@ -228,11 +238,11 @@
 						<button type="button" class="btn btn-primary pull-right" ng-hide="hideEnroll()" ng-disabled="disableEnroll()" ng-model="enroll" ng-click="enroll()">{{enrollText}}</button>
 						<form action="course/unflag" method="post">
 							<input type="hidden" name="id" value="{{id}}">
-						    <input type="submit" class="btn btn-danger" value="Unflag Course"/>
+						    <input type="submit" ng-show="hideUnflag()" class="btn btn-danger" value="Unflag Course"/>
 						</form>
 						
-						<button type="report" class="btn btn-danger" data-toggle="modal" data-target="#confirmModal">Report</button>
-						<button type="delete" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Delete</button>
+						<button type="report" class="btn btn-danger" data-toggle="modal" data-target="#confirmModal" ng-hide="hideEnroll()">Report</button>
+						<button type="delete" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" ng-show="session == screen_name">Delete</button>
 						<h3 class="text-center">{{title}}</h3>
 						<div class="text-center rating">
 							<a href="#reviews">
