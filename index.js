@@ -612,8 +612,9 @@ app.post('/course/save', urlencodedParser, function(req, res){
 
 app.post('/course/comment', urlencodedParser, function(req, res){
 
-	Course.update({_id:"EkENfrM0l"}, 
-		{$addToSet: {'comments' : { 
+	Course.update({_id:req.body.id}, 
+		{ $inc: {"votes": 1},
+		$addToSet: {'comments' : { 
 			'rating': req.body.rating, 
 			'body': req.body.comment, 
 			'user': req.body.user}}
