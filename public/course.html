@@ -136,6 +136,15 @@
 							$scope.overall = overall(data[0].comments);
 							$scope.screen_name = data[0].user;
 							getUser ($http, $scope, data[0].user);
+							var req = { 
+							method: 'POST',
+							url: '/admin/check',
+							data: $.param({screen_name: $scope.session}),
+							headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+							};
+							$http(req).success(function(data) {
+								$scope.admin = data[0].admin;
+							});
 						});
 					}
 					
@@ -150,6 +159,15 @@
 
 					$scope.hideUnflag = function(){
 						if ($scope.flagged == true && $scope.admin == true){
+							return true;
+						}
+						else{
+							return false;
+						}
+					}
+
+					$scope.hideReport = function(){
+						if ($scope.session == $scope.screen_name || $scope.session == 'Guest' || $scope.admin){
 							return true;
 						}
 						else{
@@ -241,7 +259,7 @@
 						    <input type="submit" ng-show="hideUnflag()" class="btn btn-danger" value="Unflag Course"/>
 						</form>
 						
-						<button type="report" class="btn btn-danger" data-toggle="modal" data-target="#confirmModal" ng-hide="hideEnroll()">Report</button>
+						<button type="report" class="btn btn-danger" data-toggle="modal" data-target="#confirmModal" ng-hide="hideReport()">Report</button>
 						<button type="delete" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" ng-show="session == screen_name">Delete</button>
 						<h3 class="text-center">{{title}}</h3>
 						<div class="text-center rating">
@@ -371,7 +389,7 @@
 														<span ng-class="{'glyphicon-star': checkRating(4, x.rating), 'glyphicon-star-empty': !checkRating(4, x.rating)}" class="glyphicon"></span>
 														<span ng-class="{'glyphicon-star': checkRating(5, x.rating), 'glyphicon-star-empty': !checkRating(5, x.rating)}" class="glyphicon"></span>
 														<p class="rating-class">{{heading(x.rating)}}</p>
-														<button type="delete" ng-click="removeComment(x.user, id, x.rating, x.body)"class="btn btn-danger pull-right">Delete</button>
+														<button type="delete" ng-show="admin" ng-click="removeComment(x.user, id, x.rating, x.body)" class="btn btn-danger pull-right">Delete</button>
 													</div>
 												</div>
 												<p>{{x.body}}</p>

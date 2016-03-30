@@ -312,6 +312,13 @@ app.get('/users/flagged', function(req, res){
 	});
 });
 
+app.post('/admin/check', urlencodedParser, function(req, res){
+	User.find({"screen_name" : req.body.screen_name}, {'admin':1, '_id':0}, function (err, user) {
+		if (err) return console.error(err);
+		res.send(user);
+	});
+});
+
 app.post('/user/short', urlencodedParser, function(req, res){
 	User.find({"screen_name" : req.body.name}, {"first_name":1, "last_name":1, "contact_email":1, "phone":1, "title":1, "_id":0}, function (err, user) {
 		if (err) return console.error(err);
