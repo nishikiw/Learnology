@@ -39,8 +39,8 @@
             </div>
          </ul>
          <ul class="nav navbar-nav navbar-right">
-            <li ng-class="{ active: isActive('/admin')}" class="user"><a id="admin">ADMIN</a></li>
-            <li class="user" style="display:none"><a ng-href="http://127.0.0.1:5000/profile?screen-name={{loggedInUser}}" id="screenName"></a></li>
+            <li ng-class="{ active: isActive('/admin')}" class="admin"><a href="admin">ADMIN</a></li>
+            <li class="user" ng-class="{ active: isActive('/profile')}" style="display:none"><a ng-href="profile?screen-name={{loggedInUser}}" id="screenName"></a></li>
             <li><a id="login" data-toggle="modal" data-target="#loginModal" class="guest"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
             <li><a id="signup" data-toggle="modal" data-target="#signupModal" class="guest"><span class="glyphicon glyphicon-edit"></span> Sign Up</a></li>
             <li><a id="signout" data-toggle="modal" data-target="#logoutModal" class="user" style="display:none"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>

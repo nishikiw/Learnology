@@ -497,6 +497,20 @@ app.directive("userLogin", function() {
                 $(".guest").hide();
 				$scope.loggedInUser = data;
 				$("#screenName").html("<span class='glyphicon glyphicon-user'></span> " + $scope.loggedInUser);
+				var req = { 
+					method: 'POST',
+					url: '/admin/check',
+					data: $.param({screen_name: data}),
+					headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+					};
+					$http(req).success(function(data) {
+						if (data[0].admin == true) {
+							$(".admin").show();
+						}
+						else {
+							$(".admin").hide();
+						}
+					});
               }
               else {
                 $(".user").hide();
