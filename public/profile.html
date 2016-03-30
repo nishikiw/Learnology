@@ -37,6 +37,10 @@
 									<div class="border col-sm-3">Name</div>
 									<div class="border col-sm-9">{{firstName + " " + lastName}}</div>
 								</div>
+								<div class="row" ng-show="title">
+									<div class="border col-sm-3">Title</div>
+									<div class="border col-sm-9">{{title}}</div>
+								</div>
 								<div class="row" ng-show="gender">
 									<div class="border col-sm-3">Gender</div>
 									<div class="border col-sm-9">{{gender}}</div>
@@ -44,6 +48,14 @@
 								<div class="row" ng-show="city || province || country">
 									<div class="border col-sm-3">Location</div>
 									<div class="border col-sm-9">{{city+", "+province+", "+country}}</div>
+								</div>
+								<div class="row" ng-show="contactEmail">
+									<div class="border col-sm-3">Email</div>
+									<div class="border col-sm-9">{{contactEmail}}</div>
+								</div>
+								<div class="row" ng-show="phone">
+									<div class="border col-sm-3">Phone</div>
+									<div class="border col-sm-9">{{phone}}</div>
 								</div>
 							</div>
 						</div>
@@ -164,7 +176,7 @@
 											</div>
 										</div>
 									</div>
-									<button type="button" ng-show="isOwner" class="btn btn-default btn-md button-addcourse">
+									<button type="button" onclick="window.location.href='http://127.0.0.1:5000/coursecreation'" ng-show="isOwner" class="btn btn-default btn-md button-addcourse">
 									    <span class="glyphicon glyphicon-plus"></span> Create a New Course
 									</button>
 								</div>

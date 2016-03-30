@@ -11,6 +11,7 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 		<script src="scripts/app.js"></script>
+		<script src="scripts/edit-profile.js"></script>
 		<script src="scripts/navbar.js"></script>
 	</head>
 	<body ng-app="learnologyApp">
@@ -32,10 +33,8 @@
 							<label class="control-label col-sm-3" for="screen-name">Screen Name:</label>
 							<div class="col-sm-8">
 								<input type="text" name="screenName" class="form-control" ng-model="screenName" id="screen-name" ng-change="screenNameValidation()" ng-model-options="{updateOn: 'blur'}" required>
-							</div>
-							<div class="row">
-								<span class="col-sm-offset-3 col-sm-8" ng-show="screenNameInvalid" ng-init="screenNameInvalid = false">* Screen name cannot contain any space.</span>
-								<span class="col-sm-offset-3 col-sm-8" ng-show="screenNameFound" ng-init="screenNameFound = false">* Screen name has been registered.</span>
+								<div ng-show="screenNameInvalid" ng-init="screenNameInvalid = false">* Screen name cannot contain any space.</div>
+								<div ng-show="screenNameFound" ng-init="screenNameFound = false">* Screen name has been registered.</div>
 							</div>
 						</div>
 						<div class="form-group">
@@ -48,6 +47,12 @@
 							<label class="control-label col-sm-3" for="last-name">Last Name:</label>
 							<div class="col-sm-8">
 								<input type="text" class="form-control" name="lastName" id="last-name" ng-model="lastName">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-sm-3" for="title">Title:</label>
+							<div class="col-sm-8" data-toggle="tooltip" title="Title used for instructor">
+								<input type="text" class="form-control" name="title" id="title" ng-model="title" placeholder="Master Lecturer">
 							</div>
 						</div>
 						<div class="form-group">
@@ -74,19 +79,29 @@
 							<label class="control-label col-sm-3" for="email">Email:</label>
 							<div class="col-sm-8">
 								<input type="email" name="email" ng-model-options="{updateOn: 'blur'}" ng-change="emailExists()" class="form-control" id="email" ng-model="email" required>
+								<div ng-show="isInvalid" ng-init="isInvalid = false">* Email has been registered.</div>
 							</div>
-							<div class="row">
-								<div class="col-sm-offset-3 col-sm-8" ng-show="editProfileForm.email.$error.email">* Invalid email address.</div>
-								<div class="col-sm-offset-3 col-sm-8" ng-show="isInvalid" ng-init="isInvalid = false">* Email has been registered.</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-sm-3" for="contactEmail">Contact Email:</label>
+							<div class="col-sm-8" data-toggle="tooltip" title="Used as contact info to public">
+								<input type="email" name="contactEmail" class="form-control" id="contactEmail" ng-model="contactEmail" required>
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="control-label col-sm-3" for="phone">Phone:</label>
 							<div class="col-sm-8">
-								<input type="tel" class="form-control" name="phone" id="phone" ng-model="phone" pattern="\d{3}-\d{3}-\d{4}" placeholder="555-555-5555">
-							</div>
-							<div class="row">
-								<div class="col-sm-offset-3 col-sm-8">* Phone number format: xxx-xxx-xxxx.</div>
+								<div class="row">
+									<div class="col-sm-7">
+										<input type="tel" class="form-control" name="phone" id="phone" ng-model="phone" ng-change="checkPhone()" pattern="\d{3}-\d{3}-\d{4}" placeholder="555-555-5555">
+									</div>
+									<div class="col-sm-5">
+										<div class="checkbox">
+											<label><input type="checkbox" name="isPublic" ng-model="isPublic" ng-disabled="phone==''" ng-checked="isPublic">Show to public</label>
+										</div>
+									</div>
+								</div>
+								<div>* Phone number format: xxx-xxx-xxxx.</div>
 							</div>
 						</div>
 						<div class="form-group">
@@ -115,7 +130,7 @@
 						</div>
 						<div class="col-sm-offset-7 col-sm-5" id="buttons">
 							<button type="button" class="btn btn-default" ng-click="backToProfile()">Cancel</button>
-							<button type="submit" class="btn btn-primary" ng-disabled="editProfileForm.$invalid || isInvalid || screenNameInvalid || screenNameFound">Save</button>
+							<button type="submit" class="btn btn-primary" ng-disabled="isInvalid || screenNameInvalid || screenNameFound">Save</button>
 						</div>
 					</fieldset>
 				</form>

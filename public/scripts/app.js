@@ -35,6 +35,15 @@ app.controller('profileCtrl', function ($scope, $http){
 				if (userInfo.last_name){
 					$scope.lastName = userInfo.last_name;
 				}
+				if (userInfo.contact_email){
+					$scope.contactEmail = userInfo.contact_email;
+				}
+				if (userInfo.title){
+					$scope.title = userInfo.title;
+				}
+				if (userInfo.phone && userInfo.phone.is_public && userInfo.phone.number){
+					$scope.phone = userInfo.phone.number;
+				}
 				if (userInfo.address){
 					if (userInfo.address.city){
 						$scope.city = userInfo.address.city;
@@ -100,6 +109,12 @@ app.controller('profileCtrl', function ($scope, $http){
 			});
 		}
 	}
+	
+	$scope.setContactPhone = function(){
+		if ($scope.checked){
+			$scope.contactPhone = $scope.phone;
+		}
+	}
 });
 
 app.controller('editProfileCtrl', function ($scope, $http){
@@ -125,6 +140,9 @@ app.controller('editProfileCtrl', function ($scope, $http){
 				if (userInfo.last_name){
 					$scope.lastName = userInfo.last_name;
 				}
+				if (userInfo.title){
+					$scope.title = userInfo.title;
+				}
 				if (userInfo.gender){
 					$scope.gender = userInfo.gender;
 				}
@@ -135,8 +153,19 @@ app.controller('editProfileCtrl', function ($scope, $http){
 					$scope.email = userInfo.email;
 					$scope.originalEmail = userInfo.email;
 				}
+				if (userInfo.contact_email){
+					$scope.contactEmail = userInfo.contact_email;
+				}
 				if (userInfo.phone){
-					$scope.phone = userInfo.phone;
+					if (userInfo.phone.number){
+						$scope.phone = userInfo.phone.number;
+					}
+					if (userInfo.phone.is_public){
+						$scope.isPublic = userInfo.phone.is_public;
+					}
+					else{
+						$scope.isPublic = false;
+					}
 				}
 				if (userInfo.address){
 					if (userInfo.address.street){
@@ -229,6 +258,12 @@ app.controller('editProfileCtrl', function ($scope, $http){
 		}
 		else{
 			$scope.isInvalid = false;
+		}
+	}
+
+	$scope.checkPhone = function(){
+		if ($scope.phone == ""){
+			$scope.isPublic = false;
 		}
 	}
 	
@@ -426,7 +461,7 @@ app.directive("searchRes", function() {
                        
                     var res = '<h3><a href="course?id='+course._id+'">' + course.title + '</a></h3><ul id="result_info">'+
                     '<li>Category: '+course.category+
-                    '</li><li>Teacher Name: <a href="profile/'+course._id+'">' + course.user + '</a></li><li>Course Rating: '+rating+
+                    '</li><li>Teacher Name: <a href="profile?screen-name='+course.user+'">' + course.user + '</a></li><li>Course Rating: '+rating+
                     '</li><li>Difficulty Level: ' + course.difficulty + '</li></ul><p>' + course.description + '</p>';
                     
                     $("#searchRes").append(res);

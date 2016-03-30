@@ -26,7 +26,13 @@ var userSchema = mongoose.Schema({
 	last_name: String,
 	gender: String,
 	date_of_birth: Date,
-	phone: String,
+	phone: {
+		number: String,
+		is_public: {
+			type: Boolean,
+			'default': false
+		}
+	},
 	address: {
 		street: String,
 		city: String,
@@ -40,7 +46,12 @@ var userSchema = mongoose.Schema({
 	image_name: String,
 	description: String,
 	courses_taken: [String],
-	courses_created: [String]
+	courses_created: [String],
+	contact_email: {
+		type: String,
+		required: true
+	},
+	title: String
 });
 
 var User = mongoose.model('User', userSchema);

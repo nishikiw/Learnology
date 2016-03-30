@@ -422,7 +422,10 @@ app.get('/users/user', function(req, res){
 						address: user.address,
 						gender: user.gender,
 						description: user.description,
-						image_name: user.image_name
+						image_name: user.image_name,
+						phone: user.phone,
+						contact_email: user.contact_email,
+						title: user.title
 					}
 					if (req.session.data.user == userInfo.screen_name){
 						userInfo.isOwner = true;
@@ -524,11 +527,13 @@ app.post('/users/user', urlencodedParser, function(req, res){
 				if (screenName == ""){
 					userObj = {
 						email: email,
+						contact_email: email
 					};
 				}
 				else{
 					userObj = {
 						email: email,
+						contact_email: email,
 						screen_name: screenName
 					};
 				}
@@ -570,12 +575,18 @@ app.post('/users/user/*', urlencodedParser, function(req, res){
 					if (req.body.lastName){
 						userInfo.last_name = req.body.lastName;
 					}
+					if (req.body.title){
+						userInfo.title = req.body.title;
+					}
 					if (req.body.screenName && (req.body.screenName != userInfo.screen_name)){
 						userInfo.screen_name = req.body.screenName;
 						req.session.data.user = userInfo.screen_name;
 					}
 					if (req.body.email && (req.body.email != userInfo.email)){
 						userInfo.email = req.body.email;
+					}
+					if (req.body.contactEmail && (req.body.contactEmail != userInfo.contact_email)){
+						userInfo.contact_email = req.body.contactEmail;
 					}
 					if (req.body.gender){
 						userInfo.gender = req.body.gender;
@@ -584,7 +595,13 @@ app.post('/users/user/*', urlencodedParser, function(req, res){
 						userInfo.date_of_birth = req.body.dateOfBirth;
 					}
 					if (req.body.phone){
-						userInfo.phone = req.body.phone;
+						userInfo.phone.number = req.body.phone;
+					}
+					if (req.body.isPublic){
+						userInfo.phone.is_public = true;
+					}
+					else{
+						userInfo.phone.is_public = false;
 					}
 					if (req.body.address){
 						userInfo.address.street = req.body.address;
