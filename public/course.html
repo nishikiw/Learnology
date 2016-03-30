@@ -142,13 +142,22 @@
 						if ($scope.session == $scope.screen_name || $scope.session == 'Guest'){
 							return true;
 						}
-						else if ($scope.students.enrolled.indexOf($scope.session) >= 0){
+						else{
+							return false;
+						}
+					}
+					
+					$scope.disableEnroll = function(){
+						if ($scope.students.enrolled.indexOf($scope.session) >= 0){
+							$scope.enrollText = "You have enrolled";
 							return true;
 						}
 						else if ($scope.students.in_application.indexOf($scope.session) >= 0){
+							$scope.enrollText = "You have applied";
 							return true;
 						}
 						else{
+							$scope.enrollText = "Enroll";
 							return false;
 						}
 					}
@@ -216,7 +225,7 @@
 							<input type="hidden" name="screen_name" value="{{screen_name}}">
 						    <input type="submit" class="btn btn-default pull-right" value="Manage Course" ng-show="session == screen_name"/>
 						</form>
-						<button type="button" class="btn btn-primary pull-right" ng-hide="hideEnroll()" ng-click="enroll()">Enroll</button>
+						<button type="button" class="btn btn-primary pull-right" ng-hide="hideEnroll()" ng-disabled="disableEnroll()" ng-model="enroll" ng-click="enroll()">{{enrollText}}</button>
 						<form action="course/unflag" method="post">
 							<input type="hidden" name="id" value="{{id}}">
 						    <input type="submit" class="btn btn-danger" value="Unflag Course"/>
