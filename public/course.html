@@ -19,6 +19,24 @@
       	};
 
 		app.controller ("rating", function($scope) {
+			$scope.heading = function (rating) {
+				if (rating == 5) {
+					return 'Perfect!';
+				}
+				if (rating == 4) {
+					return 'Great';
+				}
+				if (rating == 3) {
+					return 'Okay';
+				}
+				if (rating == 2) {
+					return 'Not Great';
+				}
+				if (rating == 1) {
+					return 'Terrible';
+				}
+			}
+
 			$scope.checkRating = function (pos, rating) {
 				if (rating >= pos) {
 					return true;
@@ -26,6 +44,25 @@
 				else {
 					return false;
 				}
+			}	
+		});
+
+		app.controller ("submitForm", function($scope, $http, $window) {
+			$scope.submit = function (course) {
+				var req = { 
+					method: 'POST',
+					url: '/course/comment',
+					data: $.param({
+						id : course,
+						user: $scope.session.toString(),
+						rating: $scope.rate,
+						comment: $scope.comment.toString()
+					}),
+					headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+				};
+				$http(req).success(function(data) {
+					$window.location.href = "/course?id=" + course;
+				});
 			}	
 		});
 
@@ -79,6 +116,20 @@
 		        }
 		    }
 		});
+
+		app.directive("getUser", function() {
+		    return {
+		        controller: function ($scope, $http) {
+					var req = { 
+						method: 'GET',
+						url: '/getlogin'
+					};
+					$http(req).success(function(data) {
+						$scope.session = data;
+					});
+		        }
+		    }
+		});
 		</script>
 	</head>
 	<body data-spy="scroll" data-target="#courseScrollspy" data-offset="60" ng-app="learnologyApp">	
@@ -106,6 +157,7 @@
 						<button type="unflag" class="btn btn-danger" data-toggle="modal" data-target="#unflagModal">Unflag Course</button>
 						<button type="enrol" class="btn btn-primary pull-right">Enrol</button>
 						<button type="report" class="btn btn-danger" data-toggle="modal" data-target="#confirmModal">Report</button>
+						<button type="delete" class="btn btn-danger">Delete</button>
 						<h3 class="text-center">{{title}}</h3>
 						<div class="text-center rating">
 							<a href="#reviews">
@@ -176,21 +228,28 @@
 						</div>
 						<div id="reviews" class="panel panel-default">
 						    <div class="panel-heading">Reviews</div>
-						    <div class="panel-body">
-								<form id="form-review" class="form-horizontal" role="form">
+						    <div class="panel-body" ng-controller="submitForm">
+						    	<div get-user>
+								<form id="form-review" class="form-horizontal" ng-submit='submit(id)' role="form">
 									<fieldset>
 										<legend>Rate this course</legend>
 										<div class="form-group">
+											<label class="control-label col-sm-2" for="rating-stars">User:</label>
+											<div class="col-sm-10">
+												<input type="user" ng-model='session' disabled/>
+											</div>
+										</div>
+										<div class="form-group">
 											<label class="control-label col-sm-2" for="rating-stars">Rating:</label>
 											<div class="col-sm-10">
-												<input type="number" class="rate" id="test" name="test" data-min="1" data-max="5">
+												<input type="number" ng-model='rate' name="rate" min="1" max="5" required>
 												<p class="text-muted">Please enter an integer from 1 to 5.</p>
 											</div>
 										</div>
 										<div class="form-group">
 											<label class="control-label col-sm-2" for="comment">Comment:</label>
 											<div class="col-sm-10">
-												<textarea class="form-control" rows="4" id="comment"></textarea>
+												<textarea class="form-control" ng-model='comment' rows="4" id="comment" maxlength="200" required></textarea>
 											</div>
 										</div>
 										<div class="form-group">
@@ -201,6 +260,7 @@
 										</div>
 									</fieldset>	
 								</form>
+								</div>
 								<ul class="list-group">
 								    <li class="list-group-item" ng-repeat="x in comments">
 										<div class="row">
@@ -222,7 +282,8 @@
 														<span ng-class="{'glyphicon-star': checkRating(3, x.rating), 'glyphicon-star-empty': !checkRating(3, x.rating)}" class="glyphicon"></span>
 														<span ng-class="{'glyphicon-star': checkRating(4, x.rating), 'glyphicon-star-empty': !checkRating(4, x.rating)}" class="glyphicon"></span>
 														<span ng-class="{'glyphicon-star': checkRating(5, x.rating), 'glyphicon-star-empty': !checkRating(5, x.rating)}" class="glyphicon"></span>
-														<p class="rating-class">{{x.heading}}</p>
+														<p class="rating-class">{{heading(x.rating)}}</p>
+														<button type="delete" class="btn btn-danger pull-right">Delete</button>
 													</div>
 												</div>
 												<p>{{x.body}}</p>
