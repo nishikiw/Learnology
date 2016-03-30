@@ -114,7 +114,7 @@ app.controller('editProfileCtrl', function ($scope, $http){
 		}
 		$http(req).then(function successCallback(res){
 			var userInfo = res.data;
-			if (userInfo){
+			if (userInfo && !jQuery.isEmptyObject(userInfo)){
 				if (userInfo.screen_name){
 					$scope.screenName = userInfo.screen_name;
 					$scope.originalScreenName = userInfo.screen_name;
@@ -171,6 +171,9 @@ app.controller('editProfileCtrl', function ($scope, $http){
 						$scope.profileImgName = "male.png";
 					}
 				}
+			}
+			else{
+				location.href = "/";
 			}
 		}, function errorCallback(res) {
 			// called asynchronously if an error occurs
@@ -421,7 +424,7 @@ app.directive("searchRes", function() {
                         rating = "none";
                     }
                        
-                    var res = '<h3><a href="course/'+course._id+'">' + course.title + '</a></h3><ul id="result_info">'+
+                    var res = '<h3><a href="course?id='+course._id+'">' + course.title + '</a></h3><ul id="result_info">'+
                     '<li>Category: '+course.category+
                     '</li><li>Teacher Name: <a href="profile/'+course._id+'">' + course.user + '</a></li><li>Course Rating: '+rating+
                     '</li><li>Difficulty Level: ' + course.difficulty + '</li></ul><p>' + course.description + '</p>';
