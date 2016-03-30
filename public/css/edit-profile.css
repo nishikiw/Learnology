@@ -6,6 +6,6 @@
 	margin-left: 10px;
 }
 
-.col-sm-offset-4 > button[type="submit"]{
-	margin-bottom: 20px;
+#buttons {
+	margin-bottom: 10px;
 }

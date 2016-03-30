@@ -429,7 +429,7 @@ app.post('/users/user', urlencodedParser, function(req, res){
 	var screenName = req.body.screenName;
 	var email = req.body.email;
 	var password = req.body.password;
-	var userObj, user, msg;
+	var userObj, msg;
 	
 	if (req.body.login){
 		// Login authentication.
@@ -468,18 +468,6 @@ app.post('/users/user', urlencodedParser, function(req, res){
 	}
 	else{
 		// Sign up.
-		if (screenName == ""){
-			userObj = {
-				email: email,
-			};
-		}
-		else{
-			userObj = {
-				email: email,
-				screen_name: screenName
-			};
-		}
-
 		var validationObj = {
 			email: email,
 			password: password
@@ -488,13 +476,41 @@ app.post('/users/user', urlencodedParser, function(req, res){
 		Validation.create(validationObj, function (err) {
 			if (err) return console.error(err);
 		});
-	
-		var user = new User(userObj);
-		user.save(function (err, user) {
+		
+		User.findOne({'email': email}, function (err, user){
 			if (err) return console.error(err);
-			req.session.data.user = user.screen_name;
-			res.redirect('/edit-profile?screen-name=' + user.screen_name);
+			if (user){
+				if (screenName != ""){
+					user.screen_name = screenName;
+					user.save(function (err, user) {
+						if (err) return console.error(err);
+						req.session.data.user = user.screen_name;
+						res.redirect('/edit-profile?screen-name=' + user.screen_name);
+					});
+				}
+			}
+			else{
+				if (screenName == ""){
+					userObj = {
+						email: email,
+					};
+				}
+				else{
+					userObj = {
+						email: email,
+						screen_name: screenName
+					};
+				}
+				var userInstance = new User(userObj);
+				userInstance.save(function (err, user) {
+					if (err) return console.error(err);
+					req.session.data.user = user.screen_name;
+					res.redirect('/edit-profile?screen-name=' + user.screen_name);
+				});
+			}
 		});
+		
+		
 	}
 });
 

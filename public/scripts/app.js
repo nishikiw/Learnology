@@ -59,7 +59,7 @@ app.controller('profileCtrl', function ($scope, $http){
 							break;
 						case "male":
 						case "others":
-						case "default":
+						default:
 							$scope.profileImgName = "male.png";
 					}
 				}
@@ -129,7 +129,7 @@ app.controller('editProfileCtrl', function ($scope, $http){
 					$scope.gender = userInfo.gender;
 				}
 				if (userInfo.date_of_birth){
-					$scope.dateOfBirth = userInfo.date_of_birth;
+					$scope.dateOfBirth = new Date(userInfo.date_of_birth);
 				}
 				if (userInfo.email){
 					$scope.email = userInfo.email;

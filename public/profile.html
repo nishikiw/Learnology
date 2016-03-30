@@ -33,15 +33,15 @@
 								<a ng-href="http://127.0.0.1:5000/edit-profile?screen-name={{screenName}}" ng-show="isOwner"><span id="aboutMe-edit" class="glyphicon glyphicon-edit pull-right"></span></a>
 							</div>
 							<div class="panel-body">
-								<div class="row">
+								<div class="row" ng-show="firstName || lastName">
 									<div class="border col-sm-3">Name</div>
 									<div class="border col-sm-9">{{firstName + " " + lastName}}</div>
 								</div>
-								<div class="row">
+								<div class="row" ng-show="gender">
 									<div class="border col-sm-3">Gender</div>
 									<div class="border col-sm-9">{{gender}}</div>
 								</div>
-								<div class="row">
+								<div class="row" ng-show="city || province || country">
 									<div class="border col-sm-3">Location</div>
 									<div class="border col-sm-9">{{city+", "+province+", "+country}}</div>
 								</div>
@@ -59,7 +59,7 @@
 							<form id="descriptionForm" role="form" ng-show="descriptionInEdit" ng-submit="updateDescription()">
 								<div class="form-group">
 									<label for="descriptionTextArea" class="sr-only">Description:</label>
-									<textarea class="form-control" rows="5" id="descriptionTextArea" ng-model="descriptionTextArea" name="description"></textarea>
+									<textarea class="form-control" rows="5" placeholder="Describe yourself here..." id="descriptionTextArea" ng-model="descriptionTextArea" name="description"></textarea>
 								</div>
 								<div class="form-group text-right">
 									<button type="button" class="btn btn-default" ng-click="cancelDescriptionEdit()">Cancel</button>
@@ -75,7 +75,7 @@
 										<div class="panel-heading">
 											<h4 class="panel-title">
 												<a data-toggle="collapse" href="#javascript-details">Interactivity with Javascript
-													<a href="#" class="owner-only"><span class="glyphicon glyphicon-remove pull-right"></span></a>
+													<a href="#" ng-show="isOwner"><span class="glyphicon glyphicon-remove pull-right"></span></a>
 												</a>
 											</h4>
 										</div>
@@ -102,7 +102,7 @@
 										<div class="panel-heading">
 											<h4 class="panel-title">
 												<a data-toggle="collapse" href="#machineLearning-details">Machine Learning
-													<a href="#" class="owner-only"><span class="glyphicon glyphicon-remove pull-right"></span></a>
+													<a href="#" ng-show="isOwner"><span class="glyphicon glyphicon-remove pull-right"></span></a>
 												</a>
 											</h4>
 										</div>
@@ -125,9 +125,6 @@
 											</div>
 										</div>
 									</div>
-									<button type="button" class="btn btn-default btn-md button-addcourse owner-only">
-									    <span class="glyphicon glyphicon-plus"></span> Take a New Course
-									</button>
 								</div>
 							</div>
 						</div>
@@ -139,8 +136,8 @@
 										<div class="panel-heading">
 											<h4 class="panel-title">
 												<a data-toggle="collapse" href="#art-details">Dog Emotion and Cognition
-													<a href="#" class="owner-only"><span class="glyphicon glyphicon-remove pull-right"></span></a>
-													<a href="#" class="owner-only"><span class="glyphicon glyphicon-edit pull-right left-icon"></span></a>
+													<a href="#" ng-show="isOwner"><span class="glyphicon glyphicon-remove pull-right"></span></a>
+													<a href="#" ng-show="isOwner"><span class="glyphicon glyphicon-edit pull-right left-icon"></span></a>
 												</a>
 											</h4>
 										</div>
@@ -162,10 +159,12 @@
 												    <div class="col-sm-2">Timetable:</div>
 												    <div class="col-sm-10">Weekdays, 8pm-9pm</div>
 												</div>
+												<br>
+												<a href="#">Go to course page for more info...</a>
 											</div>
 										</div>
 									</div>
-									<button type="button" class="btn btn-default btn-md button-addcourse owner-only">
+									<button type="button" ng-show="isOwner" class="btn btn-default btn-md button-addcourse">
 									    <span class="glyphicon glyphicon-plus"></span> Create a New Course
 									</button>
 								</div>
