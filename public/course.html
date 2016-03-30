@@ -44,7 +44,7 @@
 				else {
 					return false;
 				}
-			}	
+			};
 		});
 
 		app.controller ("submitForm", function($scope, $http, $window) {
@@ -57,6 +57,23 @@
 						user: $scope.session.toString(),
 						rating: $scope.rate,
 						comment: $scope.comment.toString()
+					}),
+					headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+				};
+				$http(req).success(function(data) {
+					$window.location.href = "/course?id=" + course;
+				});
+			}
+
+			$scope.removeComment = function (user, course, rate, body) {
+				var req = { 
+					method: 'POST',
+					url: '/course/comment/remove',
+					data: $.param({
+						id : course,
+						screen_name: user,
+						rating: rate,
+						comment: body
 					}),
 					headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 				};
@@ -154,10 +171,14 @@
 							<input type="hidden" name="screen_name" value="{{screen_name}}">
 						    <input type="submit" class="btn btn-default pull-right" value="Edit Course"/>
 						</form>
-						<button type="unflag" class="btn btn-danger" data-toggle="modal" data-target="#unflagModal">Unflag Course</button>
 						<button type="enrol" class="btn btn-primary pull-right">Enrol</button>
+						<form action="course/unflag" method="post">
+							<input type="hidden" name="id" value="{{id}}">
+						    <input type="submit" class="btn btn-danger" value="Unflag Course"/>
+						</form>
+						
 						<button type="report" class="btn btn-danger" data-toggle="modal" data-target="#confirmModal">Report</button>
-						<button type="delete" class="btn btn-danger">Delete</button>
+						<button type="delete" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Delete</button>
 						<h3 class="text-center">{{title}}</h3>
 						<div class="text-center rating">
 							<a href="#reviews">
@@ -271,7 +292,6 @@
 												</a>
 												<h5 class="text-center">
 													<a href="profile?screen-name={{x.user}}">{{x.user}}</a>
-													<small><br>Vancouver, BC, Canada</small>
 												</h5>
 											</div>
 											<div class="col-sm-10">
@@ -283,7 +303,7 @@
 														<span ng-class="{'glyphicon-star': checkRating(4, x.rating), 'glyphicon-star-empty': !checkRating(4, x.rating)}" class="glyphicon"></span>
 														<span ng-class="{'glyphicon-star': checkRating(5, x.rating), 'glyphicon-star-empty': !checkRating(5, x.rating)}" class="glyphicon"></span>
 														<p class="rating-class">{{heading(x.rating)}}</p>
-														<button type="delete" class="btn btn-danger pull-right">Delete</button>
+														<button type="delete" ng-click="removeComment(x.user, id, x.rating, x.body)"class="btn btn-danger pull-right">Delete</button>
 													</div>
 												</div>
 												<p>{{x.body}}</p>
@@ -305,21 +325,28 @@
 		          <p>Confirm Report Of {{title}}.</p>
 		        </div>
 		        <div class="modal-footer">
-		          <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="">Confirm</button>
-		          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		        	<form action="course/flag" method="post">
+						<input type="hidden" name="id" value="{{id}}">
+					    <input type="submit" class="btn btn-primary pull-left" value="Confirm"/>
+					</form>
+		          	<button type="button" class="btn btn-default pull-right" data-dismiss="modal">Close</button>
 		        </div>
 		      </div>
 		    </div>
 		</div>
 
-		<div class="modal fade" id="unflagModal">
+		<div class="modal fade" id="deleteModal">
 		    <div class="modal-dialog modal-sm">
 		      <div class="modal-content">
 		        <div class="modal-body">
-		          <p>{{title}} is unflagged.</p>
+		          <p>Confirm Deletion Of {{title}}.</p>
 		        </div>
 		        <div class="modal-footer">
-		          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		        	<form action="delete/course/user" method="post">
+						<input type="hidden" name="id" value="{{id}}">
+					    <input type="submit" class="btn btn-danger pull-left" value="Confirm"/>
+					</form>
+		          	<button type="button" class="btn btn-default pull-right" data-dismiss="modal">Close</button>
 		        </div>
 		      </div>
 		    </div>

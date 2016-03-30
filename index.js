@@ -347,6 +347,30 @@ app.get('/courses/flagged', function(req, res){
 	});
 });
 
+app.post('/course/flag', urlencodedParser, function(req, res){
+	Course.update(
+		{ '_id' : req.body.id}, 
+		{ "flagged": true}, 
+		{ upsert: true }, 
+		function (err, data) {
+		if (err) console.log(err);
+		else console.log('Saved : ', data );
+	});
+	res.redirect('back');
+});
+
+app.post('/course/unflag', urlencodedParser, function(req, res){
+	Course.update(
+		{'_id' : req.body.id}, 
+		{ "flagged": false}, 
+		{ upsert: true }, 
+		function (err, data) {
+		if (err) console.log(err);
+		else console.log('Saved : ', data );
+	});
+	res.redirect('back');
+});
+
 app.post('/delete/user', urlencodedParser, function(req, res){
 	Course.remove({"user" : req.body.screen_name}, function (err) {
 		if (err) return console.error(err);
@@ -358,9 +382,16 @@ app.post('/delete/user', urlencodedParser, function(req, res){
 });
 
 app.post('/delete/course', urlencodedParser, function(req, res){
-	Course.remove({'title': req.body.title}, function (err) {
+	Course.remove({'_id': req.body.id}, function (err) {
 		if (err) return console.error(err);
 		res.send('done');
+	});
+});
+
+app.post('/delete/course/user', urlencodedParser, function(req, res){
+	Course.remove({'_id': req.body.id}, function (err) {
+		if (err) return console.error(err);
+		res.redirect('/');
 	});
 });
 
@@ -635,13 +666,28 @@ app.post('/course/save', urlencodedParser, function(req, res){
 });
 
 app.post('/course/comment', urlencodedParser, function(req, res){
-
 	Course.update({_id:req.body.id}, 
 		{ $inc: {"votes": 1},
 		$addToSet: {'comments' : { 
 			'rating': req.body.rating, 
 			'body': req.body.comment, 
 			'user': req.body.user}}
+		}, 
+		function (err, data) {
+		if (err) console.log(err);
+		else console.log('Saved : ', data );
+	});
+
+	res.end();
+});
+
+app.post('/course/comment/remove', urlencodedParser, function(req, res){
+	Course.update({_id:req.body.id}, 
+		{$inc: {"votes": -1},
+		$pull: {'comments': { 
+			'rating': req.body.rating, 
+			'body': req.body.comment, 
+			'user': req.body.screen_name}}
 		}, 
 		function (err, data) {
 		if (err) console.log(err);

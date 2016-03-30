@@ -9,10 +9,10 @@ app.controller("list", function($scope, $http) {
       $http(req).success(function(data){
         for (elem in data) {
           if (type=='screen_name') {
-            arr.push([data[elem].screen_name, data[elem].admin, data[elem].flagged]);
+            arr.push([data[elem].screen_name, data[elem].screen_name, data[elem].admin, data[elem].flagged]);
           }
           else {
-            arr.push([data[elem]._id, data[elem].title, data[elem].flagged]);
+            arr.push([data[elem]._id, data[elem].title, 'blank', data[elem].flagged]);
           }
         }
         $scope.data = arr;
@@ -56,7 +56,7 @@ app.controller("list", function($scope, $http) {
     };
 
     $scope.delete = function(x) {
-      $scope.value = $scope.data[x][1];
+      $scope.value = $scope.data[x][0];
     };
 
     $scope.findItem = function () {
@@ -95,7 +95,7 @@ app.controller("list", function($scope, $http) {
         $http({
           method: 'POST', 
           url: 'delete/course', 
-          data: $.param({title: $scope.value}),
+          data: $.param({id: $scope.value}),
           headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).success(function(data){
           convertList ('title', { method: 'GET', url: 'courses' });

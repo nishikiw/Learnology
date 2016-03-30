@@ -42,9 +42,9 @@
           <label class="checkbox-inline" style="float:right;"><input type="checkbox" ng-model="confirmed" ng-change="getFlagged()">Flagged</label>
         </form>
         <ul class="list-group">
-          <li class="list-group-item" ng-class="{'list-group-item-danger': {{x[2]}}}" ng-repeat="x in data">
-            <a ng-href="{{link}}?id={{x[0]}}">{{x[0]}}</a>
-            <button type="button" class="close" ng-hide="{{x[1]}}" data-toggle="modal" ng-click="delete($index)" data-target="#confirmModal">&times;</button>
+          <li class="list-group-item" ng-class="{'list-group-item-danger': {{x[3]}}}" ng-repeat="x in data">
+            <a ng-href="{{link}}?id={{x[0]}}">{{x[1]}}</a>
+            <button type="button" class="close" ng-hide="{{x[2]}}" data-toggle="modal" ng-click="delete($index)" data-target="#confirmModal">&times;</button>
           </li>
         </ul>
       </div>
@@ -54,7 +54,7 @@
       <div class="modal-dialog modal-sm">
         <div class="modal-content">
           <div class="modal-body">
-            <p>Confirm Deletion Of {{value}}</p>
+            <p>Confirm Deletion Of ID: {{value}}</p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="removeItem()">Confirm</button>
