@@ -140,7 +140,7 @@ app.post('/search/res', urlencodedParser, function(req, res) {
         return
     }
     
-    if (req.body.searchBy == "Keywords") {
+    if (req.body.searchBy == "Course+Name") {
         
        User.find({ 'screen_name': req.session.data.user }, 'favorites', function (err, userArr) {
              if (userArr.length == 0) {
