@@ -24,7 +24,10 @@ var userSchema = mongoose.Schema({
 	},
 	first_name: String,
 	last_name: String,
-	gender: String,
+	gender: {
+		type: String,
+		'default': "male"
+	},
 	date_of_birth: Date,
 	phone: {
 		number: String,

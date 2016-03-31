@@ -71,7 +71,7 @@
 			<div class="form-group text-center">
 				<button id="submit" class="btn btn-lg btn-primary" type="submit">Login</button>
 			</div>
-			<p ng-show="emailNotExist" ng-init="emailNotExist = false">* Email is not registered, please <a data-toggle="modal" href="#signupModal">sign up</a>.</p>
+			<p ng-show="emailNotExist" ng-init="emailNotExist = false">* Email is not registered, please <a data-toggle="modal" href="#signupModal" onclick="$('#loginModal').modal('toggle');">sign up</a>.</p>
 			<p ng-show="passwordIncorrect" ng-init="passwordIncorrect = false">* Incorrect Password.</p>
          </form>
          <br>

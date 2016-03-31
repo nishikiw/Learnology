@@ -16,7 +16,10 @@ var courseSchema = mongoose.Schema({
 	flagged: { type: Boolean, default: false },
 	students: {
 		enrolled: [String],
-		in_application: [String],
+		in_application: [{
+			screen_name: String,
+			message: String
+		}],
 		finished: [String]
 	}
 });

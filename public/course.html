@@ -92,8 +92,28 @@
 				};
 				$http(req).success(function(data) {
 					$scope.instructorEmail = data[0].contact_email.address;
-					$scope.InstructorName = data[0].first_name +  ' ' + data[0].last_name;
+					if (data[0].first_name || data[0].last_name){
+						$scope.InstructorName = data[0].first_name +  ' ' + data[0].last_name;
+					}
+					else{
+						$scope.InstructorName = screen_name;
+					}
 					$scope.instructorTitle = data[0].title;
+					$scope.gender = data[0].gender;
+					if (data[0].image_name){
+						$scope.instructorImageName = data[0].image_name;
+					}
+					else{
+						switch ($scope.gender){
+							case "female":
+								$scope.instructorImageName = "female.png";
+								break;
+							case "male":
+							case "others":
+							default:
+								$scope.instructorImageName = "male.png";
+						}
+					}
 					if (data[0].phone.is_public && data[0].phone.number){
 						$scope.phone = data[0].phone.number;
 					}
@@ -195,12 +215,13 @@
 							var req = {
 								method: 'POST',
 								url: 'courses/course/'+$scope.id,
-								data: $.param({student: $scope.session}),
+								data: $.param({studentScreenName: $scope.session, message: $scope.enrollmentMsg}),
 								headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 							}
 							$http(req).then(function successCallback(res){
 								if (res.data == "enrolled"){
 									$scope.students.in_application.push($scope.session);
+									$('#enrollModal').modal('toggle');
 								}
 								else{
 									alert("Failed to enroll");
@@ -253,7 +274,7 @@
 							<input type="hidden" name="screen_name" value="{{screen_name}}">
 						    <input type="submit" class="btn btn-default pull-right" value="Manage Course" ng-show="session == screen_name"/>
 						</form>
-						<button type="button" class="btn btn-primary pull-right" ng-hide="hideEnroll()" ng-disabled="disableEnroll()" ng-model="enroll" ng-click="enroll()">{{enrollText}}</button>
+						<button type="button" class="btn btn-primary pull-right" ng-hide="hideEnroll()" ng-disabled="disableEnroll()" data-toggle="modal" data-target="#enrollModal">{{enrollText}}</button>
 						<form action="course/unflag" method="post">
 							<input type="hidden" name="id" value="{{id}}">
 						    <input type="submit" ng-show="hideUnflag()" class="btn btn-danger" value="Unflag Course"/>
@@ -312,18 +333,17 @@
 						    <div class="panel-body">
 								<div class="row">
 									<div class="col-sm-4">
-										<img id="profile-image" src="https://saanichbaptist.org/wp-content/uploads/2014/12/team-placeholder-male.png" 
+										<img id="profile-image" ng-src="images/profile/{{instructorImageName}}" 
 											class="img-responsive img-rounded center-block" alt="profile image" width="170" height="170">
 									</div>
 									<div class="col-sm-8">
-										<br><br>
 										<h4 class="">
 											<a href="profile?screen-name={{screen_name}}">{{InstructorName}}</a>
 											<small><br>{{instructorTitle}}</small>
 										</h4>
 										<div class="row">
 											<div class="col-sm-2">Email:</div>
-											<div class="col-sm-10"><a href="mailto:{{email}}">{{instructorEmail}}</a></div>
+											<div class="col-sm-10"><a href="mailto:{{instructorEmail}}">{{instructorEmail}}</a></div>
 										</div>
 										<div class="row" ng-show="phone">
 											<div class="col-sm-2">Phone:</div>
@@ -437,6 +457,30 @@
 		        </div>
 		      </div>
 		    </div>
+		</div>
+		
+		<div id="enrollModal" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">Enrollment Messages</h4>
+					</div>
+					<div class="modal-body">
+						<form role="form">
+							<div class="form-group">
+								<label for="message" class="sr-only">Messages:</label>
+								<textarea class="form-control" rows="5" id="message" ng-model="enrollmentMsg" 
+									placeholder="Anything you want to say to the instructor?"></textarea>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+						<button type="button" class="btn btn-primary" ng-click="enroll()">Submit</button>
+					</div>
+				</div>
+			</div>
 		</div>
 		
 		<div class="panel-footer">

@@ -86,42 +86,51 @@
                   <div class="form-group">
                      <label class="control-label col-sm-3" for="location">Location</label>
                      <div class="col-sm-8">
-                        <div class="col-sm-9">
-                           <input type="text" class="form-control" placeholder="Location" ng-model="location" ng-disabled="disable" maxlength="50" required>
-                        </div>
-                        <div class="col-sm-3">
-                           <label class="checkbox-inline"><input type="checkbox" ng-model="disable">Online</label>
-                        </div>
+						<div class="row">
+							<div class="col-sm-9">
+							   <input type="text" class="form-control" placeholder="Location" ng-model="location" ng-disabled="disable" maxlength="50" required>
+							</div>
+							<div class="col-sm-3">
+							   <label class="checkbox-inline"><input type="checkbox" ng-model="disable">Online</label>
+							</div>
+						</div>
                      </div>
                   </div>
                   <div class="form-group">
-                     <label class="control-label col-sm-3">Course Category:</label>
+                     <label class="control-label col-sm-3">Course Category</label>
                      <div class="col-sm-8">
-                        <label class="radio-inline">
-                           <input type="radio" value="Academic" name="category" ng-model="category" checked="checked">Academic
-                        </label>
-                        <label class="radio-inline">
-                           <input type="radio" value="Music and Arts" name="category" ng-model="category" >Music and Arts
-                        </label>
-                        <label class="radio-inline">
-                           <input type="radio" value="Office Skills" name="category" ng-model="category" >Office Skills
-                        </label>
-                        <label class="radio-inline">
-                           <input type="radio" value="Cooking" name="category" ng-model="category" >Cooking
-                        </label>
-                        <label class="radio-inline">
-                           <input type="radio" value="Home-Related" name="category" ng-model="category" >Home-Related
-                        </label>
-                        <label class="radio-inline">
-                           <input type="radio" value="Sports and Games " name="category" ng-model="category">Sports and Games 
-                        </label>
-                        <label class="radio-inline">
-                           <input type="radio" value="Technology" name="category" ng-model="category" >Technology
-                        </label>
-                        <label class="radio-inline">
-                           <input type="radio" value="Miscellaneous" name="category" ng-model="category" >Miscellaneous (Other)
-                        </label> 
-                        <!-- </divalue=""v> -->
+						<div class="row">
+							<div class="radio col-sm-4">
+								<label class="radio">
+								   <input type="radio" value="Academic" name="category" ng-model="category" checked="checked">Academic
+								</label>
+								<label class="radio">
+								   <input type="radio" value="Music and Arts" name="category" ng-model="category" >Music and Arts
+								</label>
+								<label class="radio">
+								   <input type="radio" value="Office Skills" name="category" ng-model="category" >Office Skills
+								</label>
+							</div>
+							<div class="radio col-sm-4">
+								<label class="radio">
+								   <input type="radio" value="Cooking" name="category" ng-model="category" >Cooking
+								</label>
+								<label class="radio">
+								   <input type="radio" value="Home-Related" name="category" ng-model="category" >Home-Related
+								</label>
+								<label class="radio">
+								   <input type="radio" value="Sports and Games " name="category" ng-model="category">Sports and Games 
+								</label>
+							</div>
+							<div class="radio col-sm-4">
+								<label class="radio">
+								   <input type="radio" value="Technology" name="category" ng-model="category" >Technology
+								</label>
+								<label class="radio">
+								   <input type="radio" value="Miscellaneous" name="category" ng-model="category" >Miscellaneous (Other)
+								</label>
+							</div>
+						</div>
                      </div>
                   </div>
                   <div class="form-group">

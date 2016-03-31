@@ -329,7 +329,7 @@ app.post('/admin/check', urlencodedParser, function(req, res){
 });
 
 app.post('/user/short', urlencodedParser, function(req, res){
-	User.find({"screen_name" : req.body.name}, {"first_name":1, "last_name":1, "contact_email":1, "phone":1, "title":1, "_id":0}, function (err, user) {
+	User.find({"screen_name" : req.body.name}, {"first_name":1, "last_name":1, "contact_email":1, "phone":1, "title":1, "image_name":1, "gender":1, "_id":0}, function (err, user) {
 		if (err) return console.error(err);
 		res.send(user);
 	});
@@ -711,15 +711,21 @@ app.post('/course/save', urlencodedParser, function(req, res){
 
 app.post('/courses/course/:id', urlencodedParser, function(req, res){
 	var courseId = req.params.id;
-	var studentScreenName = req.body.student;
+	var studentScreenName = req.body.studentScreenName;
+	var msg = req.body.message;
 	console.log(courseId);
 	console.log(studentScreenName);
+	console.log(msg);
 	if (studentScreenName){
 		Course.findOne({'_id':courseId}, function (err, course){
 			if (err) return console.error(err);
 			if (course){
 				if (course.students.enrolled.indexOf(studentScreenName) == -1 && course.students.in_application.indexOf(studentScreenName) == -1){
-					course.students.in_application.push(studentScreenName);
+					var enrollObj = {
+						screen_name: studentScreenName,
+						message: msg
+					};
+					course.students.in_application.push(enrollObj);
 					course.save(function (err, data) {
 						if (err) console.log(err);
 						console.log(data);

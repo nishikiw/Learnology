@@ -204,9 +204,6 @@ app.controller('editProfileCtrl', function ($scope, $http){
 								$scope.profileImgName = "male.png";
 						}
 					}
-					else{
-						$scope.profileImgName = "male.png";
-					}
 				}
 			}
 			else{
