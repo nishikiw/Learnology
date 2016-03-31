@@ -30,7 +30,7 @@
 							class="img-responsive img-rounded center-block" alt="profile image" width="200" height="200">
 						<div class="panel panel-primary">
 							<div class="panel-heading">About {{screenName}}
-								<a ng-href="http://127.0.0.1:5000/edit-profile?screen-name={{screenName}}" ng-show="isOwner"><span id="aboutMe-edit" class="glyphicon glyphicon-edit pull-right"></span></a>
+								<a ng-href="/edit-profile?screen-name={{screenName}}" ng-show="isOwner"><span id="aboutMe-edit" class="glyphicon glyphicon-edit pull-right"></span></a>
 							</div>
 							<div class="panel-body">
 								<div class="row" ng-show="firstName || lastName">
@@ -172,7 +172,7 @@
 											</div>
 										</div>
 									</div>
-									<button type="button" onclick="window.location.href='http://127.0.0.1:5000/coursecreation'" ng-show="isOwner" class="btn btn-default btn-md button-addcourse">
+									<button type="button" onclick="window.location.href='/coursecreation'" ng-show="isOwner" class="btn btn-default btn-md button-addcourse">
 									    <span class="glyphicon glyphicon-plus"></span> Create a New Course
 									</button>
 								</div>

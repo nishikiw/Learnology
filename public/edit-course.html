@@ -85,136 +85,168 @@
 		});
       </script>
       <head>
-   <body ng-app="learnologyApp">
-      <script src="scripts/facebooklogin.js"></script>
-     
-      <div ng-controller="navCtrl"> 
-        <div ng-include="'navbar.html'"></div>
-      </div>
-      <div course-content get-user>
-      <div class="jumbotron text-center">
-         <h1>Course Editing Page</h1>
-         <p>Course ID: {{id}}</p>
-      </div>
-      <br>
-         <div class="container-fluid" ng-controller="save">
-		 <div class="row">
-            <form id="create" role="form" class="form-horizontal col-sm-6" ng-submit="save()" autocomplete=off>
-               <fieldset>
-				<legend>Course Information</legend>
-                  <div class="form-group">
-                     <label class="control-label col-sm-3" for="first-name">Course Title</label>
-                     <div class="col-sm-8">
-                        <input type="text" class="form-control" ng-model="title" maxlength="50" required>
-                     </div>
-                  </div>
-                  <div class="form-group">
-                     <label class="control-label col-sm-3" for="location">Location</label>
-                     <div class="col-sm-8">
-                        <div class="col-sm-9">
-                           <input type="text" class="form-control" ng-model="location" ng-disabled="disable" maxlength="50" required>
-                        </div>
-                        <div class="col-sm-3">
-                           <label class="checkbox-inline"><input type="checkbox" ng-model="disable">Online</label>
-                        </div>
-                     </div>
-                  </div>
-                  <div class="form-group">
-                     <label class="control-label col-sm-3">Course Category:</label>
-                     <div class="col-sm-8">
-                        <label class="radio-inline">
-                           <input type="radio" value="Academic" name="category" ng-model="category" checked="checked">Academic
-                        </label>
-                        <label class="radio-inline">
-                           <input type="radio" value="Music and Arts" name="category" ng-model="category" >Music and Arts
-                        </label>
-                        <label class="radio-inline">
-                           <input type="radio" value="Office Skills" name="category" ng-model="category" >Office Skills
-                        </label>
-                        <label class="radio-inline">
-                           <input type="radio" value="Cooking" name="category" ng-model="category" >Cooking
-                        </label>
-                        <label class="radio-inline">
-                           <input type="radio" value="Home-Related" name="category" ng-model="category" >Home-Related
-                        </label>
-                        <label class="radio-inline">
-                           <input type="radio" value="Sports and Games " name="category" ng-model="category">Sports and Games 
-                        </label>
-                        <label class="radio-inline">
-                           <input type="radio" value="Technology" name="category" ng-model="category" >Technology
-                        </label>
-                        <label class="radio-inline">
-                           <input type="radio" value="Miscellaneous" name="category" ng-model="category" >Miscellaneous (Other)
-                        </label> 
-                        <!-- </divalue=""v> -->
-                     </div>
-                  </div>
-                  <div class="form-group">
-                     <label class="control-label col-sm-3" for="price">Price:</label>
-                     <div class="col-sm-5">
-                        <input type="price" class="form-control" ng-model="price" maxlength="50" required>
-                     </div>
-                  </div>
-                  <div class="form-group">
-                     <label class="control-label col-sm-3" for="description">Course Description:</label>
-                     <div class="col-sm-8">
-                        <textarea name="description" rows="8" class="form-control" ng-model="description" required></textarea>
-                     </div>
-                  </div>
-                  <div class="form-group">
-                     <label class="control-label col-sm-3" for="skills">Previous Skills Required:</label>
-                     <div class="col-sm-8">
-                        <textarea name="skills" rows="4" class="form-control" ng-model="skills" required></textarea>
-                     </div>
-                  </div>
-                  <div class="form-group">
-                     <label class="control-label col-sm-3">Challenge Level:</label>
-                     <div class="col-sm-8">
-                        <label class="radio-inline">
-                           <input type="radio" value="Beginner" name="level" ng-model="level" checked="checked">Beginner
-                        </label>
-                        <label class="radio-inline">
-                           <input type="radio" value="Intermediate" ng-model="level" name="level">Intermediate
-                        </label>
-                        <label class="radio-inline">
-                           <input type="radio" value="Advanced" ng-model="level" name="level">Advanced
-                        </label>
-                     </div>
-                  </div>
-                  <div class="col-sm-offset-4 col-sm-8">
-					 <a type="button" class="btn btn-danger" href="course?id={{id}}">Cancel</a>
-                     <button type="submit" class="btn btn-success">Submit Changes</button>
-                  </div> 
-               </fieldset>
-            </form>
-			<ul class="list-group col-sm-6">
-				<li class="list-group-item">
-					<div class="row">
-						<div class="col-sm-2">
-							<img id="profile-image" src="images/profile/{{studentImage}}" 
-								class="img-responsive img-rounded center-block" alt="student's profile image" width="100" height="100">
-							<h5 class="text-center">
-								<a ng-href="/profile?screen-name={{studentScreenName}}">{{studentScreenName}}</a>
-								<small><br><a href="mailto:{{studentEmail}}">{{studentEmail}}</a></small>
-							</h5>
-						</div>
-						<div class="col-sm-10">
-							<p>{{studentMessage}}</p>
+	<body ng-app="learnologyApp">
+		<script src="scripts/facebooklogin.js"></script>
+
+		<div ng-controller="navCtrl"> 
+			<div ng-include="'navbar.html'"></div>
+		</div>
+		
+		<div course-content get-user>
+			<div class="jumbotron text-center">
+				<h1>Course Editing Page</h1>
+				<p>Course ID: {{id}}</p>
+			</div>
+			<div class="container-fluid" ng-controller="save">
+				<div class="col-sm-6">
+					<div class="panel panel-default">
+						<div class="panel-heading">Course Information</div>
+						<div class="panel-body">
+							<form id="create" role="form" class="form-horizontal" ng-submit="save()" autocomplete=off>
+								<fieldset>
+									<div class="form-group">
+										<label class="control-label col-sm-3" for="first-name">Course Title</label>
+										<div class="col-sm-8">
+											<input type="text" class="form-control" ng-model="title" maxlength="50" required>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="control-label col-sm-3" for="location">Location</label>
+										<div class="col-sm-8">
+											<div class="row">
+												<div class="col-sm-9">
+													<input type="text" class="form-control" ng-model="location" ng-disabled="disable" maxlength="50" required>
+												</div>
+												<div class="col-sm-3">
+													<label class="checkbox-inline"><input type="checkbox" ng-model="disable">Online</label>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="control-label col-sm-3">Course Category:</label>
+										<div class="col-sm-8">
+											<div class="row">
+												<div class="radio col-sm-4">
+													<label class="radio">
+														<input type="radio" value="Academic" name="category" ng-model="category" checked="checked">Academic
+													</label>
+													<label class="radio">
+														<input type="radio" value="Music and Arts" name="category" ng-model="category" >Music and Arts
+													</label>
+													<label class="radio">
+														<input type="radio" value="Office Skills" name="category" ng-model="category" >Office Skills
+													</label>
+												</div>
+												<div class="radio col-sm-4">
+													<label class="radio">
+														<input type="radio" value="Cooking" name="category" ng-model="category" >Cooking
+													</label>
+													<label class="radio">
+														<input type="radio" value="Home-Related" name="category" ng-model="category" >Home-Related
+													</label>
+													<label class="radio">
+														<input type="radio" value="Sports and Games " name="category" ng-model="category">Sports and Games 
+													</label>
+												</div>
+												<div class="radio col-sm-4">
+													<label class="radio">
+														<input type="radio" value="Technology" name="category" ng-model="category" >Technology
+													</label>
+													<label class="radio">
+														<input type="radio" value="Miscellaneous" name="category" ng-model="category" >Miscellaneous (Other)
+													</label>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="control-label col-sm-3" for="price">Price:</label>
+										<div class="col-sm-5">
+											<input type="price" class="form-control" ng-model="price" maxlength="50" required>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="control-label col-sm-3" for="description">Course Description:</label>
+										<div class="col-sm-8">
+											<textarea name="description" rows="8" class="form-control" ng-model="description" required></textarea>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="control-label col-sm-3" for="skills">Previous Skills Required:</label>
+										<div class="col-sm-8">
+											<textarea name="skills" rows="4" class="form-control" ng-model="skills" required></textarea>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="control-label col-sm-3">Challenge Level:</label>
+										<div class="col-sm-8">
+											<label class="radio-inline">
+												<input type="radio" value="Beginner" name="level" ng-model="level" checked="checked">Beginner
+											</label>
+											<label class="radio-inline">
+												<input type="radio" value="Intermediate" ng-model="level" name="level">Intermediate
+											</label>
+											<label class="radio-inline">
+												<input type="radio" value="Advanced" ng-model="level" name="level">Advanced
+											</label>
+										</div>
+									</div>
+									<div class="col-sm-offset-4 col-sm-8">
+										<a type="button" class="btn btn-default" href="course?id={{id}}">Cancel</a>
+										<button type="submit" class="btn btn-primary">Submit Changes</button>
+									</div> 
+								</fieldset>
+							</form>
 						</div>
 					</div>
-				</li>
-			</ul>
+				</div>
+				<div class="col-sm-6">
+					<div class="panel panel-default">
+						<div class="panel-heading">Students</div>
+						<div class="panel-body">
+							<ul class="list-group">
+								<li class="list-group-item" ng-repeat="student in students.in_application">
+								<div class="row">
+									<div class="col-sm-2">
+										<img id="profile-image" src="images/profile/{{student.image_name}}" 
+										class="img-responsive img-rounded center-block" alt="student's profile image">
+									</div>
+									<div class="col-sm-10">
+										<div class="row">
+											<div class="col-sm-8">
+												<h4>
+													<a ng-href="/profile?screen-name={{student.screen_name}}">{{student.screen_name}}</a>
+													<small> - <a ng-href="mailto:{{student.contact_email}}">{{student.contact_email}}</a></small>
+												</h4>
+											</div>
+											<div class="col-sm-4">
+												{{student.date | date:'short'}}
+											</div>
+										</div>
+										<div class="row">
+										<div class="col-sm-8">{{student.message}}</div>
+										<div class="col-sm-4">
+										<button type="button" class="btn btn-sm btn-danger">Reject</button>
+										<button type="button" class="btn btn-sm btn-success">Accept</button>
+										</div>
+									</div>
+								</div>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div><br>
 		</div>
-      </div><br>
-   </div>
-      <div class="panel-footer">
-         <div class="container">
-            <p class="navbar-text pull-left">© 2016 - Site Built By Us | <a href="aboutus">About Us</a> | 
-               <a href="https://twitter.com"><img src="images/twitter.png" class="img-circle social" alt="Twitter" height="30" width="30"></a>
-               <a href="https://facebook.com"><img src="images/facebook.png" class="img-circle social" alt="Facebook" height="30" width="30"></a>
-               <a href="https://plus.google.com"><img src="images/google.png" class="img-circle social" alt="Google" height="30" width="30"></a>
-            </p>
-         </div>
-      </div>
-   </body>
+		<div class="panel-footer">
+			<div class="container">
+				<p class="navbar-text pull-left">© 2016 - Site Built By Us | <a href="aboutus">About Us</a> | 
+				<a href="https://twitter.com"><img src="images/twitter.png" class="img-circle social" alt="Twitter" height="30" width="30"></a>
+				<a href="https://facebook.com"><img src="images/facebook.png" class="img-circle social" alt="Facebook" height="30" width="30"></a>
+				<a href="https://plus.google.com"><img src="images/google.png" class="img-circle social" alt="Google" height="30" width="30"></a>
+				</p>
+			</div>
+		</div>
+	</body>
 </html>

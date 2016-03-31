@@ -713,23 +713,34 @@ app.post('/courses/course/:id', urlencodedParser, function(req, res){
 	var courseId = req.params.id;
 	var studentScreenName = req.body.studentScreenName;
 	var msg = req.body.message;
-	console.log(courseId);
-	console.log(studentScreenName);
-	console.log(msg);
 	if (studentScreenName){
 		Course.findOne({'_id':courseId}, function (err, course){
 			if (err) return console.error(err);
 			if (course){
-				if (course.students.enrolled.indexOf(studentScreenName) == -1 && course.students.in_application.indexOf(studentScreenName) == -1){
-					var enrollObj = {
-						screen_name: studentScreenName,
-						message: msg
-					};
-					course.students.in_application.push(enrollObj);
-					course.save(function (err, data) {
-						if (err) console.log(err);
-						console.log(data);
-						res.end("enrolled");
+				if (!hasStudent(studentScreenName, course.students.enrolled) && !hasStudent(studentScreenName, course.students.in_application)){
+					User.findOne({'screen_name':studentScreenName}, function (err, student){
+						if (err) return console.error(err);
+						if (student){
+							var date = Date.now();
+							var enrollObj = {
+								screen_name: student.screen_name,
+								image_name: student.image_name,
+								contact_email: student.contact_email.address,
+								message: msg,
+								date: date
+							};
+							student.courses_taken.push(courseId);
+							course.students.in_application.push(enrollObj);
+							course.save(function (err, courseData) {
+								if (err) console.log(err);
+								console.log(courseData);
+								student.save(function (err, studentData){
+									if (err) console.log(err);
+									console.log(studentData);
+									res.end("enrolled");
+								});
+							});
+						}
 					});
 				}
 				else{
@@ -775,3 +786,12 @@ app.post('/course/comment/remove', urlencodedParser, function(req, res){
 
 	res.end();
 });
+
+function hasStudent(screenName, studentList){
+	for (var i=0; i < studentList.length; i++){
+		if (screenName == studentList[i].screen_name){
+			return true;
+		}
+	}
+	return false;
+}

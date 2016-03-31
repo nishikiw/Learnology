@@ -70,10 +70,7 @@
       <div class="jumbotron text-center">
          <h1>Course Creation Page</h1>
          <p>Create Your Course For Everyone To See</p>
-         <div>
-         </div>
       </div>
-      <br>
          <div class="container-fluid" ng-controller="create" ng-init="initCourseCreation()">
             <form id="create" class="form-horizontal" ng-submit="sendPost()" autocomplete=off>
                <fieldset class="col-sm-8 col-sm-offset-2">
@@ -166,8 +163,8 @@
                      </div>
                   </div>
                   <div class="col-sm-offset-4 col-sm-8">
+					 <input type="button" class="btn btn-danger" onclick="reset()" value="Cancel">
                      <button type="submit" class="btn btn-primary">Create Course</button>
-                     <input type="button" class="btn btn-danger" onclick="reset()" value="Cancel">
                   </div> 
                </fieldset>
             </form>      

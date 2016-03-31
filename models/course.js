@@ -15,10 +15,17 @@ var courseSchema = mongoose.Schema({
 	votes: { type: Number, default: 0},
 	flagged: { type: Boolean, default: false },
 	students: {
-		enrolled: [String],
+		enrolled: [{
+			screen_name: String,
+			contact_email: String,
+			image_name: String
+		}],
 		in_application: [{
 			screen_name: String,
-			message: String
+			contact_email: String,
+			image_name: String,
+			message: String,
+			date: Date
 		}],
 		finished: [String]
 	}
