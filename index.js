@@ -140,7 +140,7 @@ app.post('/search/res', urlencodedParser, function(req, res) {
         return
     }
     
-    if (req.body.searchBy == "Course+Name") {
+    if (req.body.searchBy == "Course") {
         
        User.find({ 'screen_name': req.session.data.user }, 'favorites', function (err, userArr) {
              if (userArr.length == 0) {
@@ -188,46 +188,11 @@ app.post('/search/res', urlencodedParser, function(req, res) {
                 });
             });
         });
-    } else if (req.body.searchBy == "Teacher+Name") {
-          User.find({ 'screen_name': req.session.data.user }, 'favorites', function (err, userArr) {
-            
-            if (userArr.length == 0) {
-                
-                Course.find({ 'user': new RegExp(terms, "i")}, function(err, courses) {
-                    res.send(courses);
-                });
-            }
-            userArr.forEach(function(user) { // Need loop so the block below can see user. Javascript doesn't have block scope
-                Course.find({ 'user': new RegExp(terms, "i")}, function(err, courses) {
-
-                    var result = [];
-                    //var categories = ["Academic"]; 
-                    var categories = user.favorites.categories;
-                    
-                    for (var i = 0; i < courses.length; i++) { 
-                        var course = courses[i];
-                        result.push(course._id);
-                    }
-                    for (var i = 0; i < courses.length; i++) {
-                        
-                        var course = courses[i];
-                        if (contains(categories, course.category)) {
-                            result.push(course._id);
-                        } 
-                    }
-                    result = sortByFrequencyAndRemoveDuplicates(result);
-                    
-                    for (var i = 0; i < courses.length; i++) {
-                        
-                        var course = courses[i];
-                        result[result.indexOf(course._id)] = course;
-                    }
-                    
-                    res.send(result);
-                    
-                });
-            });
-        });
+    } else if (req.body.searchBy == "User") {
+       User.find({'screen_name': new RegExp('^.*?'+terms+'.*?$', "i")}, "screen_name first_name last_name gender description", function (err, userArr) {
+           console.log(userArr);
+           res.send(userArr);
+       });
         
     } else if (req.body.searchBy == "Category") {
          User.find({ 'screen_name': req.session.data.user }, 'favorites', function (err, userArr) {

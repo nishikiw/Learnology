@@ -448,34 +448,65 @@ app.directive("searchRes", function() {
                 data: $.param({searchBy : searchBy , terms : terms}),
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             }
-            $http(req).success(function(courses){
+            $http(req).success(function(result){
+                var searchBy;
+                var query = window.location.search.substring(1);
+                var vars = query.split("&");
+                for (var i=0;i<vars.length;i++) {
+                    var pair = vars[i].split("=");
+                    if(pair[0] == "param"){
+                        searchBy = pair[1];
+                    }
+                }
                 var numRes;
-                if (courses.length == 0)
+                if (result.length == 0)
                     numRes = '<h3 id="result">Total number of results: 0'+
                     '</h3><section class="col-xs-12 col-sm-6 col-md-12"><article class="search-result-row">';
                 else
-                    numRes = '<h3 id="result">Total number of results: ' + courses.length+
+                    numRes = '<h3 id="result">Total number of results: ' + result.length+
                     ' </h3><section class="col-xs-12 col-sm-6 col-md-12"><article class="search-result-row">';
                 $("#searchRes").append(numRes);
-                
-                for (var i = 0; i < courses.length; i++) {
-                    var rating = "";
-                    var course = courses[i]; 
-                    if (course.rating !=undefined) {
-                        for (var j = 0; j < Math.round(course.rating); j++) {
-                            rating +='<i class="glyphicon glyphicon-star"></i>';
+                if (searchBy == "Course") {
+                    for (var i = 0; i < result.length; i++) {
+                        var rating = "";
+                        var course = result[i]; 
+                        if (course.rating !=undefined) {
+                            for (var j = 0; j < Math.round(course.rating); j++) {
+                                rating +='<i class="glyphicon glyphicon-star"></i>';
+                            }
+                        } else {
+                            rating = "none";
                         }
-                    } else {
-                        rating = "none";
-                    }
-                       
-                    var res = '<h3><a href="course?id='+course._id+'">' + course.title + '</a></h3><ul id="result_info">'+
-                    '<li>Category: '+course.category+
-                    '</li><li>Teacher Name: <a href="profile?screen-name='+course.user+'">' + course.user + '</a></li><li>Course Rating: '+rating+
-                    '</li><li>Difficulty Level: ' + course.difficulty + '</li></ul><p>' + course.description + '</p>';
+                           
+                        var res = '<h3><a href="course?id='+course._id+'">' + course.title + '</a></h3><ul id="result_info">'+
+                        '<li>Category: '+course.category+
+                        '</li><li>Teacher Name: <a href="profile?screen-name='+course.user+'">' + course.user + '</a></li><li>Course Rating: '+rating+
+                        '</li><li>Difficulty Level: ' + course.difficulty + '</li></ul><p>' + course.description + '</p>';
+                        
+                        $("#searchRes").append(res);
                     
-                    $("#searchRes").append(res);
-                
+                    }
+                } else if (searchBy == "User") {
+                    for (var i = 0; i < result.length; i++) {
+                        var user = result[i]; 
+                        if (user.first_name == undefined)
+                            user.first_name = "";                            
+                        if (user.last_name == undefined)
+                             user.last_name = "";
+                        if (user.description == undefined)
+                             user.description = "";
+                            
+                        var rating = "";
+                        
+                        var res = '<h3><a href="profile?screen-name='+user.screen_name+'">' + user.screen_name + '</a></h3><ul id="result_info">'+
+                        '<li>Full Name: '+user.first_name+" "+user.last_name+
+                        '<li>Gender: '+user.gender+
+                        '<li>Description: '+ user.description +'</li></ul>';
+                        
+                        $("#searchRes").append(res);
+                    
+                    }
+                    
                 }
             }).error(function(){});
         }
