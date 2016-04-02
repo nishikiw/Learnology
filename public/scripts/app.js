@@ -466,7 +466,7 @@ app.directive("searchRes", function() {
                     numRes = '<h3 id="result">Total number of results: ' + result.length+
                     ' </h3><section class="col-xs-12 col-sm-6 col-md-12"><article class="search-result-row">';
                 $("#searchRes").append(numRes);
-                if (searchBy == "Course") {
+                if (searchBy == "Course" || searchBy == "Category") {
                     for (var i = 0; i < result.length; i++) {
                         var rating = "";
                         var course = result[i]; 
