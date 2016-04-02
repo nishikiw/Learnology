@@ -322,6 +322,44 @@ app.get('/courses', function(req, res){
 	});
 });
 
+app.post('/top', urlencodedParser, function(req, res){
+	Course.find({"category" : req.body.category}, {"title":1, "votes":1, 'comments' : 1, "_id":1}, function (err, courses) {
+		if (err) return console.error(err);
+		var i = 0;
+		var all = [], top = [];
+		while (i < courses.length) {
+			var overallRating = 0;
+			for (j=0; j<courses[i].comments.length; j++) {
+				overallRating += courses[i].comments[j].rating;
+			}
+			if (courses[i].votes > 0) {
+				overallRating = Math.round(overallRating/courses[i].votes * 100) / 100;
+			}
+			all.push({"id": courses[i]._id, "title": courses[i].title, "votes": courses[i].votes, "rating": overallRating});
+			i++;
+		}
+		i=0;
+		while (i < 10) {
+			if (all.length > 0) {
+				var topCourse;
+				for (j=0; j<all.length; j++) {
+					topCourse = all[0];
+					if (all[j].votes*all[j].rating > topCourse.votes*topCourse.rating) {
+						topCourse = all[j];
+					}
+				}
+				all.splice(all.indexOf(topCourse), 1);
+				top.push({"rank": i+1, "id": topCourse.id, "title": topCourse.title, "votes": topCourse.votes, "rating": topCourse.rating});
+			}
+			else {
+				top.push({"rank": i+1});
+			}
+			i++;
+		}
+		res.send(top);
+	});
+});
+
 app.get('/courses/flagged', function(req, res){
 	Course.find({"flagged" : true}, {}, function (err, courses) {
 		if (err) return console.error(err);
