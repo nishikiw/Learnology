@@ -11,6 +11,7 @@
       <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
       <script src="scripts/app.js"></script>
       <link rel="stylesheet" href="css/style.css">
+	  <link rel="stylesheet" href="css/edit-course.css">
       <script>
       app.controller('save', function($scope, $http, $window) {
           $scope.save = function() {
@@ -37,35 +38,69 @@
           }; 
       });
 
-      app.directive("courseContent", function() {
-          return {
-              controller: function ($scope, $http, $location) {
-               var l = getLocation($location.absUrl());
-               var param = l.search.substring(l.search.indexOf("=")+1);
-               var req = { 
-                  method: 'POST',
-                  url: '/search/one',
-                  data: $.param({type: 'course', id : param}),
-                  headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-               };
-               $http(req).success(function(data) {
-                  if (data[0].location == "online") {
-                     $scope.disable = true;
-                  }
-                  $scope.id = param;
-                  $scope.title = data[0].title;
-                  $scope.category = data[0].category;
-                  $scope.price = data[0].price;
-                  $scope.skills = data[0].skills;
-                  $scope.level = data[0].difficulty;
-                  $scope.location = data[0].location;
-                  $scope.description = data[0].description;
-				  $scope.instructor = data[0].user;
-				  $scope.students = data[0].students;
-               });
-              }
-          }
-      });
+	app.directive("courseContent", function() {
+		return {
+			controller: function ($scope, $http, $location) {
+				$scope.init = function(){
+					var l = getLocation($location.absUrl());
+					var param = l.search.substring(l.search.indexOf("=")+1);
+					var req = { 
+						method: 'POST',
+						url: '/search/one',
+						data: $.param({type: 'course', id : param}),
+						headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+					};
+					$http(req).success(function(data) {
+						if (data[0].location == "online") {
+							$scope.disable = true;
+						}
+						$scope.instructor = data[0].user;
+						if ($scope.session == "Guest" || $scope.session != $scope.instructor){
+							location.href = "/";
+						}
+						$scope.id = param;
+						$scope.title = data[0].title;
+						$scope.category = data[0].category;
+						$scope.price = data[0].price;
+						$scope.skills = data[0].skills;
+						$scope.level = data[0].difficulty;
+						$scope.location = data[0].location;
+						$scope.description = data[0].description;
+						$scope.students = data[0].students;
+					});
+				}
+				
+				$scope.enrollStudent = function(screenName, email){
+					var req = { 
+						method: 'POST',
+						url: 'courses/course/'+$scope.id,
+						data: $.param({screenName: screenName, contactEmail: email, acceptStudent: true}),
+						headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+					}
+					$http(req).then(function successCallback(res){
+						if (res.data == "accepted"){
+							$scope.students.enrolled.push({screen_name: screenName, contact_email: email});
+							var studentIndexInApplication = -1;
+							for (var i=0; i < $scope.students.in_application.length; i++){
+								if ($scope.students.in_application[i].screen_name == screenName){
+									studentIndexInApplication = i;
+								}
+							}
+							if (studentIndexInApplication != -1){
+								$scope.students.in_application.splice(studentIndexInApplication, 1);
+							}
+						}
+						else{
+							alert("Failed to accepct student: "+screenName);
+						}
+					}, function errorCallback(res) {
+						// called asynchronously if an error occurs
+						// or server returns response with an error status.
+					});
+				}
+			}
+		}
+	});
 	  
 	  app.directive("getUser", function() {
 		    return {
@@ -76,9 +111,6 @@
 					};
 					$http(req).success(function(data) {
 						$scope.session = data;
-						if ($scope.session == "Guest" || $scope.session != $scope.instructor){
-							location.href = "/";
-						}
 					});
 		        }
 		    }
@@ -97,8 +129,8 @@
 				<h1>Course Editing Page</h1>
 				<p>Course ID: {{id}}</p>
 			</div>
-			<div class="container-fluid" ng-controller="save">
-				<div class="col-sm-6">
+			<div class="container-fluid" ng-init="init()">
+				<div class="col-sm-6" ng-controller="save">
 					<div class="panel panel-default">
 						<div class="panel-heading">Course Information</div>
 						<div class="panel-body">
@@ -206,32 +238,56 @@
 						<div class="panel-heading">Students</div>
 						<div class="panel-body">
 							<ul class="list-group">
-								<li class="list-group-item" ng-repeat="student in students.in_application">
-								<div class="row">
-									<div class="col-sm-2">
-										<img id="profile-image" src="images/profile/{{student.image_name}}" 
-										class="img-responsive img-rounded center-block" alt="student's profile image">
-									</div>
-									<div class="col-sm-10">
-										<div class="row">
-											<div class="col-sm-8">
-												<h4>
-													<a ng-href="/profile?screen-name={{student.screen_name}}">{{student.screen_name}}</a>
-													<small> - <a ng-href="mailto:{{student.contact_email}}">{{student.contact_email}}</a></small>
-												</h4>
+								<li class="list-group-item" ng-repeat="appliedStudent in students.in_application">
+									<div class="row">
+										<div class="col-sm-2">
+											<img id="profile-image" src="images/profile/{{appliedStudent.image_name}}" 
+											class="img-responsive img-rounded center-block" alt="applied student's profile image">
+										</div>
+										<div class="col-sm-10">
+											<div class="row">
+												<div class="col-sm-8">
+													<h4>
+														<a ng-href="/profile?screen-name={{appliedStudent.screen_name}}">{{appliedStudent.screen_name}}</a>
+														<small> - <a ng-href="mailto:{{appliedStudent.contact_email}}">{{appliedStudent.contact_email}}</a></small>
+													</h4>
+												</div>
+												<div class="col-sm-4">
+													{{appliedStudent.date | date:'short'}}
+												</div>
 											</div>
-											<div class="col-sm-4">
-												{{student.date | date:'short'}}
+											<div class="row">
+												<div class="col-sm-8">{{appliedStudent.message}}</div>
+												<div class="col-sm-4">
+													<button type="button" class="btn btn-sm btn-danger">Reject</button>
+													<button type="button" class="btn btn-sm btn-success" 
+														ng-click="enrollStudent(appliedStudent.screen_name, appliedStudent.contact_email)">Accept</button>
+												</div>
 											</div>
 										</div>
-										<div class="row">
-										<div class="col-sm-8">{{student.message}}</div>
+									</div>
+								</li>
+							</ul>
+							<ul class="list-group">
+								<li class="list-group-item" ng-repeat="enrolledStudent in students.enrolled">
+									<div class="row">
 										<div class="col-sm-4">
-										<button type="button" class="btn btn-sm btn-danger">Reject</button>
-										<button type="button" class="btn btn-sm btn-success">Accept</button>
+											<a ng-href="/profile?screen-name={{enrolledStudent.screen_name}}">
+												{{enrolledStudent.screen_name}}
+											</a>
+										</div>
+										<div class="col-sm-6">
+											<a ng-href="mailto:{{enrolledStudent.contact_email}}">
+												{{enrolledStudent.contact_email}}
+											</a>
+										</div>
+										<div class="col-sm-2">
+											<div class="row">
+												<div class="col-sm-4"><a href="#"><span class="glyphicon glyphicon-remove-circle"></span></a></div>
+												<div class="col-sm-8"><a href="#"><span class="glyphicon glyphicon-ok-circle"></span></a></div>
+											</div>
 										</div>
 									</div>
-								</div>
 								</li>
 							</ul>
 						</div>

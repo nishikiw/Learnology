@@ -48,6 +48,7 @@ var userSchema = mongoose.Schema({
 	},
 	image_name: String,
 	description: String,
+	courses_applied: [String],
 	courses_taken: [String],
 	courses_created: [String],
 	contact_email: {

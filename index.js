@@ -713,48 +713,88 @@ app.post('/course/save', urlencodedParser, function(req, res){
 });
 
 app.post('/courses/course/:id', urlencodedParser, function(req, res){
+	var studentScreenName;
 	var courseId = req.params.id;
-	var studentScreenName = req.body.studentScreenName;
-	var msg = req.body.message;
-	if (studentScreenName){
+	if (req.body.acceptStudent){
+		studentScreenName = req.body.screenName;
+		var studentContactEmail = req.body.contactEmail;
 		Course.findOne({'_id':courseId}, function (err, course){
 			if (err) return console.error(err);
 			if (course){
-				if (!hasStudent(studentScreenName, course.students.enrolled) && !hasStudent(studentScreenName, course.students.in_application)){
-					User.findOne({'screen_name':studentScreenName}, function (err, student){
-						if (err) return console.error(err);
-						if (student){
-							var date = Date.now();
-							var enrollObj = {
-								screen_name: student.screen_name,
-								image_name: student.image_name,
-								contact_email: student.contact_email.address,
-								message: msg,
-								date: date
-							};
-							student.courses_taken.push(courseId);
-							course.students.in_application.push(enrollObj);
-							course.save(function (err, courseData) {
-								if (err) console.log(err);
-								console.log(courseData);
-								student.save(function (err, studentData){
-									if (err) console.log(err);
-									console.log(studentData);
-									res.end("enrolled");
-								});
-							});
-						}
-					});
+				var studentInApplicationIndex = getStudentIndex(studentScreenName, course.students.in_application);
+				if (studentInApplicationIndex != -1){
+					course.students.in_application.splice(studentInApplicationIndex, 1);
+					if (getStudentIndex(studentScreenName, course.students.enrolled) == -1){
+						course.students.enrolled.push({screen_name: studentScreenName, contact_email: studentContactEmail});
+						User.findOne({'screen_name': studentScreenName}, function (err, student){
+							if (err) return console.error(err);
+							if (student){
+								var courseAppliedIndex = student.courses_applied.indexOf(courseId);
+								if (courseAppliedIndex != -1){
+									student.courses_applied.splice(courseAppliedIndex, 1);
+									if (student.courses_taken.indexOf(courseId) == -1){
+										student.courses_taken.push(courseId);
+										course.save(function (err, courseData){
+											if (err) console.log(err);
+											console.log(courseData);
+											student.save(function (err, studentData){
+												if (err) console.log(err);
+												console.log(studentData);
+												res.end("accepted");
+											})
+										});
+									}
+								}
+							}
+						});
+					}
 				}
-				else{
-					res.end("failed");
-				}
-			}
-			else{
-				console.log("Course not found");
-				return
 			}
 		});
+	}
+	else{
+		studentScreenName = req.body.studentScreenName;
+		var msg = req.body.message;
+		if (studentScreenName){
+			Course.findOne({'_id':courseId}, function (err, course){
+				if (err) return console.error(err);
+				if (course){
+					if (getStudentIndex(studentScreenName, course.students.enrolled) == -1 && getStudentIndex(studentScreenName, course.students.in_application) == -1){
+						User.findOne({'screen_name':studentScreenName}, function (err, student){
+							if (err) return console.error(err);
+							if (student){
+								var date = Date.now();
+								var enrollObj = {
+									screen_name: student.screen_name,
+									image_name: student.image_name,
+									contact_email: student.contact_email.address,
+									message: msg,
+									date: date
+								};
+								student.courses_applied.push(courseId);
+								course.students.in_application.push(enrollObj);
+								course.save(function (err, courseData) {
+									if (err) console.log(err);
+									console.log(courseData);
+									student.save(function (err, studentData){
+										if (err) console.log(err);
+										console.log(studentData);
+										res.end("enrolled");
+									});
+								});
+							}
+						});
+					}
+					else{
+						res.end("failed");
+					}
+				}
+				else{
+					console.log("Course not found");
+					return
+				}
+			});
+		}
 	}
 });
 
@@ -790,11 +830,11 @@ app.post('/course/comment/remove', urlencodedParser, function(req, res){
 	res.end();
 });
 
-function hasStudent(screenName, studentList){
+function getStudentIndex(screenName, studentList){
 	for (var i=0; i < studentList.length; i++){
 		if (screenName == studentList[i].screen_name){
-			return true;
+			return i;
 		}
 	}
-	return false;
+	return -1;
 }

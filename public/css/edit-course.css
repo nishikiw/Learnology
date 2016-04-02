@@ -1,0 +1,15 @@
+#table {
+	display: table;
+}
+
+#tableHeader {
+	display: table-header-group;
+}
+
+.tableRow {
+	display: table-row;
+}
+
+.tableCell {
+	display: table-cell;
+}

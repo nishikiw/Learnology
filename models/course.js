@@ -18,7 +18,6 @@ var courseSchema = mongoose.Schema({
 		enrolled: [{
 			screen_name: String,
 			contact_email: String,
-			image_name: String
 		}],
 		in_application: [{
 			screen_name: String,
