@@ -73,7 +73,7 @@ app.controller("list", function($scope, $http) {
         var req = { 
           method: 'POST', 
           url: '/search/one', 
-          data: $.param({type: 'course', id: $scope.searchID}),
+          data: $.param({type: 'course', title: $scope.searchID}),
           headers: {'Content-Type': 'application/x-www-form-urlencoded'}};
 
         convertList ('title', req);
