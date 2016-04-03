@@ -306,6 +306,12 @@ app.post('/search/one', urlencodedParser, function(req, res){
 			res.send(users);
 		});
 	}
+	else if (req.body.type == 'course-id') {
+		Course.find({"_id" : req.body.id}, {}, function (err, courses) {
+			if (err) return console.error(err);
+			res.send(courses);
+		});
+	}
 	else {
 		Course.find({"title" : {$regex : ".*"+req.body.title+".*", $options: 'i'}}, {}, function (err, courses) {
 		if (err) return console.error(err);
