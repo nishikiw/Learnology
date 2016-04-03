@@ -532,7 +532,6 @@ app.directive("userLogin", function() {
 					headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 					};
 					$http(req).success(function(data) {
-						console.log(data[0].admin);
 						if (data[0].admin == true) {
 							$(".admin").show();
 						}

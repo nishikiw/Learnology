@@ -81,7 +81,7 @@ app.controller("list", function($scope, $http) {
     };
 
     $scope.removeItem = function () {
-      if($scope.title == "Users List") {
+      if($scope.title == "Users") {
         $http({
           method: 'POST', 
           url: 'delete/user', 
@@ -101,5 +101,16 @@ app.controller("list", function($scope, $http) {
           convertList ('title', { method: 'GET', url: 'courses' });
         }).error(function(){});
       }
+    };
+
+    $scope.setAdmin = function () {
+      $http({
+          method: 'POST', 
+          url: 'admin/set', 
+          data: $.param({screen_name: $scope.sname}),
+          headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        }).success(function(data){
+          convertList ('screen_name', { method: 'GET', url: 'users' });
+        }).error(function(){});
     };
 });

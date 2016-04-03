@@ -260,7 +260,6 @@ app.get('/admin', function(req, res) {
 			res.redirect('/');	
 		}
 	});
-  	
 });
 
 app.get('/getlogin', function(req, res){
@@ -313,6 +312,21 @@ app.post('/search/one', urlencodedParser, function(req, res){
 			res.send(courses);
 		});
 	}
+});
+
+app.post('/admin/set', urlencodedParser, function(req, res) {
+	User.find({"screen_name" : req.session.data.user}, {'admin':1, '_id':0}, function (err, user) {
+		if (err) return console.error(err);
+		if (user.length > 0 && user[0].admin == true) {
+			User.update({"screen_name" : req.body.screen_name}, {'admin':1}, function (err) {
+			if (err) return console.error(err);
+				res.end();
+			});
+		}
+		else {
+			res.redirect('/');	
+		}
+	});
 });
 
 app.get('/courses', function(req, res){
@@ -392,17 +406,39 @@ app.post('/course/unflag', urlencodedParser, function(req, res){
 });
 
 app.post('/delete/user', urlencodedParser, function(req, res){
+	Course.find({"user" : req.body.screen_name}, {"_id":1}, function (err, courses) {
+		if (err) return console.error(err);
+		for (i=0; i < courses.length; i++) {
+			User.update({}, 
+				{ $pull: {'courses_applied': courses[i]._id,
+				 		  'courses_taken': courses[i]._id,
+				 		  'courses_created': courses[i]._id} 
+				}, { multi: true }, function (err) {
+				if (err) return console.error(err);
+			});
+		}
+	});
+
 	Course.remove({"user" : req.body.screen_name}, function (err) {
 		if (err) return console.error(err);
-		User.remove({'screen_name': req.body.screen_name}, function (err) {
-			if (err) return console.error(err);
-			res.send('done');
-		});
+	});
+
+	User.remove({'screen_name': req.body.screen_name}, function (err) {
+		if (err) return console.error(err);
+		res.send('done');
 	});
 });
 
 app.post('/delete/course', urlencodedParser, function(req, res){
 	Course.remove({'_id': req.body.id}, function (err) {
+		if (err) return console.error(err);
+	});
+
+	User.update({}, 
+		{ $pull: {'courses_applied': req.body.id,
+		 		  'courses_taken': req.body.id,
+		 		  'courses_created': req.body.id} 
+		}, { multi: true }, function (err) {
 		if (err) return console.error(err);
 		res.send('done');
 	});
