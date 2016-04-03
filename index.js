@@ -302,13 +302,13 @@ app.post('/user/short', urlencodedParser, function(req, res){
 
 app.post('/search/one', urlencodedParser, function(req, res){
 	if (req.body.type == 'user') {
-		User.find({"screen_name" : {$regex : ".*"+req.body.screen_name+".*"}}, {}, function (err, users) {
+		User.find({"screen_name" : {$regex : ".*"+req.body.screen_name+".*", $options: 'i'}}, {}, function (err, users) {
 			if (err) return console.error(err);
 			res.send(users);
 		});
 	}
 	else {
-		Course.find({"title" : {$regex : ".*"+req.body.title+".*"}}, {}, function (err, courses) {
+		Course.find({"title" : {$regex : ".*"+req.body.title+".*", $options: 'i'}}, {}, function (err, courses) {
 		if (err) return console.error(err);
 			res.send(courses);
 		});
