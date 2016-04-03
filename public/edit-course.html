@@ -11,7 +11,6 @@
       <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
       <script src="scripts/app.js"></script>
       <link rel="stylesheet" href="css/style.css">
-	  <link rel="stylesheet" href="css/edit-course.css">
       <script>
       app.controller('save', function($scope, $http, $window) {
           $scope.save = function() {
@@ -80,12 +79,7 @@
 					$http(req).then(function successCallback(res){
 						if (res.data == "accepted"){
 							$scope.students.enrolled.push({screen_name: screenName, contact_email: email});
-							var studentIndexInApplication = -1;
-							for (var i=0; i < $scope.students.in_application.length; i++){
-								if ($scope.students.in_application[i].screen_name == screenName){
-									studentIndexInApplication = i;
-								}
-							}
+							var studentIndexInApplication = getStudentIndex(screenName, $scope.students.in_application);
 							if (studentIndexInApplication != -1){
 								$scope.students.in_application.splice(studentIndexInApplication, 1);
 							}
@@ -98,9 +92,88 @@
 						// or server returns response with an error status.
 					});
 				}
+				
+				$scope.toggleRejectModal = function(student){
+					$scope.selectedStudent = student;
+					$('#rejectModal').modal('show');
+				}
+				
+				$scope.toggleFinishModal = function(student){
+					$scope.selectedStudent = student;
+					$('#finishModal').modal('show');
+				}
+				
+				$scope.cancelSelect = function(){
+					$scope.selectedStudent = null;
+					$('#rejectModal').modal('hide');
+					$('#finishModal').modal('hide');
+				}
+				
+				$scope.rejectStudent =function(){
+					if ($scope.selectedStudent){
+						var req = { 
+							method: 'POST',
+							url: 'courses/course/'+$scope.id,
+							data: $.param({screenName: $scope.selectedStudent.screen_name, rejectStudent: true}),
+							headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+						}
+						$http(req).then(function successCallback(res){
+							if (res.data == "rejected"){
+								var rejectedStudentIndex = getStudentIndex($scope.selectedStudent.screen_name, $scope.students.in_application);
+								if (rejectedStudentIndex != -1){
+									$scope.students.in_application.splice(rejectedStudentIndex, 1);
+								}
+							}
+							else{
+								alert("Reject student '"+$scope.selectedStudent.screen_name+"' failed.");
+							}
+							$scope.selectedStudent = null;
+							$('#rejectModal').modal('hide');
+						}, function errorCallback(res) {
+							// called asynchronously if an error occurs
+							// or server returns response with an error status.
+						});
+					}
+				}
+				
+				$scope.finishStudent =function(){
+					if ($scope.selectedStudent){
+						var req = { 
+							method: 'POST',
+							url: 'courses/course/'+$scope.id,
+							data: $.param({screenName: $scope.selectedStudent.screen_name, finishStudent: true}),
+							headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+						}
+						$http(req).then(function successCallback(res){
+							if (res.data == "finished"){
+								var finishedStudentIndex = getStudentIndex($scope.selectedStudent.screen_name, $scope.students.enrolled);
+								if (finishedStudentIndex != -1){
+									$scope.students.enrolled.splice(finishedStudentIndex, 1);
+								}
+							}
+							else{
+								alert("Finish student '"+$scope.selectedStudent.screen_name+"' failed.");
+							}
+							$scope.selectedStudent = null;
+							$('#finishModal').modal('hide');
+						}, function errorCallback(res) {
+							// called asynchronously if an error occurs
+							// or server returns response with an error status.
+						});
+					}
+				}
 			}
 		}
 	});
+	  
+	function getStudentIndex(screenName, array){
+		for (var i=0; i < array.length; i++){
+			if (array[i].screen_name == screenName){
+				return i;
+			}
+		}
+		return -1;
+	}
 	  
 	  app.directive("getUser", function() {
 		    return {
@@ -272,7 +345,7 @@
 											<div class="row">
 												<div class="col-sm-8">{{appliedStudent.message}}</div>
 												<div class="col-sm-4">
-													<button type="button" class="btn btn-sm btn-danger">Reject</button>
+													<button type="button" class="btn btn-sm btn-danger" ng-click="toggleRejectModal(appliedStudent)">Reject</button>
 													<button type="button" class="btn btn-sm btn-success" 
 														ng-click="enrollStudent(appliedStudent.screen_name, appliedStudent.contact_email)">Accept</button>
 												</div>
@@ -296,7 +369,7 @@
 										</div>
 										<div class="col-sm-3">
 											<div class="row">
-												<a href="#">
+												<a href="#" ng-click="toggleFinishModal(enrolledStudent)">
 													<span class="small" style="visibility: hidden;">Finished Course</span>
 													<span class="glyphicon glyphicon-remove-circle"></span>
 												</a>
@@ -310,6 +383,43 @@
 				</div>
 			</div><br>
 		</div>
+		
+		<div id="rejectModal" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" ng-click="cancelSelect()">&times;</button>
+						<h4 class="modal-title">Warning</h4>
+					</div>
+					<div class="modal-body">
+						Are you sure that you want to reject student <strong>{{selectedStudent.screen_name}}</strong>?
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" ng-click="cancelSelect()">No</button>
+						<button type="button" class="btn btn-default" ng-click="rejectStudent()">Yes</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div id="finishModal" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" ng-click="cancelSelect()">&times;</button>
+						<h4 class="modal-title">Warning</h4>
+					</div>
+					<div class="modal-body">
+						Are you sure that you want to remove student <strong>{{selectedStudent.screen_name}}</strong> for finishing the course?
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" ng-click="cancelSelect()">No</button>
+						<button type="button" class="btn btn-default" ng-click="finishStudent()">Yes</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
 		<div class="panel-footer">
 			<div class="container">
 				<p class="navbar-text pull-left">© 2016 - Site Built By Us | <a href="aboutus">About Us</a> | 

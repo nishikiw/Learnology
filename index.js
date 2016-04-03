@@ -417,7 +417,7 @@ app.post('/delete/user', urlencodedParser, function(req, res){
 		for (i=0; i < courses.length; i++) {
 			User.update({}, 
 				{ $pull: {'courses_applied': courses[i]._id,
-				 		  'courses_taken': courses[i]._id,
+				 		  'courses_taking': courses[i]._id,
 				 		  'courses_created': courses[i]._id} 
 				}, { multi: true }, function (err) {
 				if (err) return console.error(err);
@@ -442,7 +442,7 @@ app.post('/delete/course', urlencodedParser, function(req, res){
 
 	User.update({}, 
 		{ $pull: {'courses_applied': req.body.id,
-		 		  'courses_taken': req.body.id,
+		 		  'courses_taking': req.body.id,
 		 		  'courses_created': req.body.id} 
 		}, { multi: true }, function (err) {
 		if (err) return console.error(err);
@@ -774,8 +774,8 @@ app.post('/courses/course/:id', urlencodedParser, function(req, res){
 								var courseAppliedIndex = student.courses_applied.indexOf(courseId);
 								if (courseAppliedIndex != -1){
 									student.courses_applied.splice(courseAppliedIndex, 1);
-									if (student.courses_taken.indexOf(courseId) == -1){
-										student.courses_taken.push(courseId);
+									if (student.courses_taking.indexOf(courseId) == -1){
+										student.courses_taking.push(courseId);
 										course.save(function (err, courseData){
 											if (err) console.log(err);
 											console.log(courseData);
@@ -790,6 +790,71 @@ app.post('/courses/course/:id', urlencodedParser, function(req, res){
 							}
 						});
 					}
+				}
+			}
+		});
+	}
+	else if (req.body.rejectStudent){
+		studentScreenName = req.body.screenName;
+		Course.findOne({'_id':courseId}, function (err, course){
+			if (err) return console.error(err);
+			if (course){
+				var studentInApplicationIndex = getStudentIndex(studentScreenName, course.students.in_application);
+				if (studentInApplicationIndex != -1){
+					course.students.in_application.splice(studentInApplicationIndex, 1);
+					User.findOne({'screen_name': studentScreenName}, function (err, student){
+						if (err) return console.error(err);
+						if (student){
+							var courseAppliedIndex = student.courses_applied.indexOf(courseId);
+							if (courseAppliedIndex != -1){
+								student.courses_applied.splice(courseAppliedIndex, 1);
+								course.save(function (err, courseData){
+									if (err) console.log(err);
+									console.log(courseData);
+									student.save(function (err, studentData){
+										if (err) console.log(err);
+										console.log(studentData);
+										res.end("rejected");
+									})
+								});
+							}
+						}
+					});
+				}
+			}
+		});
+	}
+	else if (req.body.finishStudent){
+		studentScreenName = req.body.screenName;
+		Course.findOne({'_id':courseId}, function (err, course){
+			if (err) return console.error(err);
+			if (course){
+				var studentEnrolledIndex = getStudentIndex(studentScreenName, course.students.enrolled);
+				if (studentEnrolledIndex != -1){
+					course.students.enrolled.splice(studentEnrolledIndex, 1);
+					User.findOne({'screen_name': studentScreenName}, function (err, student){
+						if (err) return console.error(err);
+						if (student){
+							var courseTakingIndex = student.courses_taking.indexOf(courseId);
+							if (courseTakingIndex != -1){
+								student.courses_taking.splice(courseTakingIndex, 1);
+								var finishDate = Date.now();
+								student.courses_finished.push({
+									course_id: courseId,
+									date: finishDate
+								});
+								course.save(function (err, courseData){
+									if (err) console.log(err);
+									console.log(courseData);
+									student.save(function (err, studentData){
+										if (err) console.log(err);
+										console.log(studentData);
+										res.end("finished");
+									})
+								});
+							}
+						}
+					});
 				}
 			}
 		});
