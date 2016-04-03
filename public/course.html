@@ -201,11 +201,11 @@
 					}
 					
 					$scope.disableEnroll = function(){
-						if (typeof $scope.students != 'undefined' && $scope.students.enrolled.indexOf($scope.session) >= 0){
+						if (typeof $scope.students != 'undefined' && studentIndex($scope.session, $scope.students.enrolled) != -1){
 							$scope.enrollText = "You have enrolled";
 							return true;
 						}
-						else if (typeof $scope.students != 'undefined' && $scope.students.in_application.indexOf($scope.session) >= 0){
+						else if (typeof $scope.students != 'undefined' && studentIndex($scope.session, $scope.students.in_application) != -1){
 							$scope.enrollText = "You have applied";
 							return true;
 						}
@@ -225,7 +225,7 @@
 							}
 							$http(req).then(function successCallback(res){
 								if (res.data == "enrolled"){
-									$scope.students.in_application.push($scope.session);
+									$scope.students.in_application.push({screen_name: $scope.session});
 									$('#enrollModal').modal('toggle');
 								}
 								else{
@@ -240,7 +240,16 @@
 		        }
 		    }
 		});
-
+		
+		function studentIndex(screenName, array){
+			for (var i=0; i<array.length; i++){
+				if (array[i].screen_name == screenName){
+					return i;
+				}
+			}
+			return -1;
+		}
+		
 		app.directive("getUser", function() {
 		    return {
 		        controller: function ($scope, $http) {

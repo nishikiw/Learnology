@@ -25,8 +25,7 @@ var courseSchema = mongoose.Schema({
 			image_name: String,
 			message: String,
 			date: Date
-		}],
-		finished: [String]
+		}]
 	}
 });
 

@@ -47,7 +47,7 @@
 					var req = { 
 						method: 'POST',
 						url: '/search/one',
-						data: $.param({type: 'course', id : param}),
+						data: $.param({type: 'course-id', id : param}),
 						headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 					};
 					$http(req).success(function(data) {
@@ -115,6 +115,19 @@
 		        }
 		    }
 		});
+		
+	app.directive('listItemFocus', function() {
+		return function(scope, element) {
+			element.bind('mouseenter', function() {
+				element.css("background-color", "whitesmoke");
+				element.find("span.small").css("visibility", "visible");
+			});
+			element.bind('mouseleave', function() {
+				element.css("background-color", "white");
+				element.find("span.small").css("visibility", "hidden");
+			});
+		};
+	});
       </script>
       <head>
 	<body ng-app="learnologyApp">
@@ -269,22 +282,24 @@
 								</li>
 							</ul>
 							<ul class="list-group">
-								<li class="list-group-item" ng-repeat="enrolledStudent in students.enrolled">
+								<li class="list-group-item hasFocus" ng-repeat="enrolledStudent in students.enrolled" list-item-focus>
 									<div class="row">
 										<div class="col-sm-4">
 											<a ng-href="/profile?screen-name={{enrolledStudent.screen_name}}">
 												{{enrolledStudent.screen_name}}
 											</a>
 										</div>
-										<div class="col-sm-6">
+										<div class="col-sm-5">
 											<a ng-href="mailto:{{enrolledStudent.contact_email}}">
 												{{enrolledStudent.contact_email}}
 											</a>
 										</div>
-										<div class="col-sm-2">
+										<div class="col-sm-3">
 											<div class="row">
-												<div class="col-sm-4"><a href="#"><span class="glyphicon glyphicon-remove-circle"></span></a></div>
-												<div class="col-sm-8"><a href="#"><span class="glyphicon glyphicon-ok-circle"></span></a></div>
+												<a href="#">
+													<span class="small" style="visibility: hidden;">Finished Course</span>
+													<span class="glyphicon glyphicon-remove-circle"></span>
+												</a>
 											</div>
 										</div>
 									</div>
