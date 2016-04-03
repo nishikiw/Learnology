@@ -469,9 +469,14 @@ app.directive("searchRes", function() {
                 if (searchBy == "Course" || searchBy == "Category") {
                     for (var i = 0; i < result.length; i++) {
                         var rating = "";
+                        var overall = 0;
                         var course = result[i]; 
-                        if (course.rating !=undefined) {
-                            for (var j = 0; j < Math.round(course.rating); j++) {
+                        if (course.comments.length > 0) {
+                        	for (var k = 0; k < course.comments.length; k++) {
+                                overall += course.comments[k].rating;
+                            }
+                  			overall = overall/course.votes;
+                            for (var j = 0; j < Math.round(overall); j++) {
                                 rating +='<i class="glyphicon glyphicon-star"></i>';
                             }
                         } else {
