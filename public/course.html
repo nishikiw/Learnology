@@ -12,7 +12,6 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 		<script src="scripts/app.js"></script>
 		<script src="scripts/course.js"></script>
-		<script src="scripts/navbar.js"></script>
 		<script>
 		function reset() {
           document.getElementById("form-review").reset();
@@ -266,6 +265,7 @@
 		</script>
 	</head>
 	<body data-spy="scroll" data-target="#courseScrollspy" data-offset="60" ng-app="learnologyApp">	
+		<script src="scripts/facebooklogin.js"></script>
 		<div course-content>
 		<div ng-controller="navCtrl"> 
 		  <div ng-include="'navbar.html'"></div>
