@@ -35,13 +35,15 @@
       });
      </script>
        <style type="text/css">
-          .nav-pills>li {
-            padding-left:100px;
-            padding-right:100px;
-          }
-          img:hover {
-            opacity: 0.4;
-          }
+       /* http://www.slowgolde.com/www.slowgolde.com/wp-content/uploads/2014/02/CityLandscape.jpg */
+        .jumbotron {
+            margin-bottom: 0px;
+            background-image: url(images/CityLandscape.jpg);
+            background-position: 0% 25%;
+            background-size: cover;
+            background-repeat: no-repeat;
+            color: black;
+        }
         </style>
       <head>
    <body ng-app="learnologyApp">
@@ -53,7 +55,7 @@
       <div class="jumbotron text-center">
          <h1>Learnology</h1>
          <p>People teach. People learn. This is where they connect.</p>
-      </div>
+      </div> <br>
       <div class='col-md-6' ng-controller="recCtrl">
          <div class="panel panel-primary" style="height:500px;">
            <div class="panel-heading text-center"><h4>Newest Courses<h4></div>
