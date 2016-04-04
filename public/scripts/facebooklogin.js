@@ -8,7 +8,7 @@
     // for FB.getLoginStatus().
     if (response.status === 'connected') {
       // Logged into your app and Facebook.
-      testAPI();
+      login();
     } else if (response.status === 'not_authorized') {
       // The person is logged into Facebook, but not your app.
       document.getElementById('status').innerHTML = 'Please log ' +
@@ -65,9 +65,9 @@
 
   // Here we run a very simple test of the Graph API after login is
   // successful.  See statusChangeCallback() for when this call is made.
-  function testAPI() {
+  function login() {
     console.log('Welcome!  Fetching your information.... ');
-      FB.api('/me', 'get', {fields: 'id,name,gender,email' }, function(response) {
+      FB.api('/me', 'get', {fields: 'id, name, email' }, function(response) {
         document.getElementById('status').innerHTML =
           'Thanks for logging in, ' + response.name + '!';
           var xhttp = new XMLHttpRequest();
@@ -77,14 +77,18 @@
                 if (xhttp.responseText == 'false') {
                   xhr.open("POST", "/users/user", true);
                   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                  xhr.send("email="+ response.email + "&password=" + response.id);
-                  //Still need to redirect
+                  xhr.send("email="+ response.email + "&password=" + response.id + "&FB=true");
+                  xhr.onreadystatechange = function() {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                      window.location = xhr.responseText;
+                    }
+                  };
                 }
                 else {
                   xhr.open("POST", "/users/user", true);
                   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                   xhr.send("email="+ response.email + "&password=" + response.id + "&login=true");
-                  //Still need to redirect
+                  window.location = "/";
                 }
               }
           }

@@ -593,7 +593,12 @@ app.post('/users/user', urlencodedParser, function(req, res){
 					user.save(function (err, user) {
 						if (err) return console.error(err);
 						req.session.data.user = user.screen_name;
-						res.redirect('/edit-profile?screen-name=' + user.screen_name);
+						if (req.body.FB) {
+							res.send('/edit-profile?screen-name=' + user.screen_name);
+						}
+						else {
+							res.redirect('/edit-profile?screen-name=' + user.screen_name);
+						}
 					});
 				}
 			}
@@ -619,7 +624,12 @@ app.post('/users/user', urlencodedParser, function(req, res){
 				userInstance.save(function (err, user) {
 					if (err) return console.error(err);
 					req.session.data.user = user.screen_name;
-					res.redirect('/edit-profile?screen-name=' + user.screen_name);
+					if (req.body.FB) {
+						res.send('/edit-profile?screen-name=' + user.screen_name);
+					}
+					else {
+						res.redirect('/edit-profile?screen-name=' + user.screen_name);
+					}
 				});
 			}
 		});
