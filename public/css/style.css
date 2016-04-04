@@ -19,11 +19,16 @@ body {
 	padding-top: 53px;
 }
 
+ul#result_info { 
+    list-style: none 
+}
+
 main {
 	min-height: 77vh;
 	padding-top: 10px;
 }
 
+/* Background Image */
 .jumbotron {
 	/* http://www.slowgolde.com/www.slowgolde.com/wp-content/uploads/2014/02/CityLandscape.jpg */
     margin-bottom: 0px;
