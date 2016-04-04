@@ -11,12 +11,15 @@
       <script src="scripts/app.js"></script>
       <link rel="stylesheet" href="css/style.css">
       <script>
-       $(document).ready(function(){
-         $(".nav-pills>li").click(function(){
-               $(".nav-pills>li").removeClass();
-               $(this).addClass("active");
+      app.controller("recCtrl", function($scope, $http) {
+         var req = { 
+                method: 'GET',
+                url: '/courses'
+              };
+              $http(req).success(function(data) {
+                $scope.recList = data.reverse().splice(0, 3);
          });
-       });
+      });
      </script>
        <style type="text/css">
           .nav-pills>li {
@@ -38,46 +41,31 @@
          <h1>Learnology</h1>
          <p>People teach. People learn. This is where they connect.</p>
       </div>
+      <div class='col-md-6' ng-controller="recCtrl">
+         <div class="panel panel-primary" style="height:500px;">
+           <div class="panel-heading text-center"><h4>Newest Courses<h4></div>
+           <div class="panel-body"> 
+            <div ng-repeat="x in recList" class="text-center"> <hr>
+               <h4><a href="course?id={{x._id}}">{{x.title}}</a></h4>
+               {{x.category}} <br>
+               Price {{x.price}}  <br>
+               Taught by {{x.user}}
+            </div>
+           </div>
+         </div>
+      </div>
+      <div class='col-md-6'>
+         <div class="panel panel-primary" style="height:500px;">
+           <div class="panel-heading text-center"><h4>Newest Teachers<h4></div>
+           <div class="panel-body">Panel Content</div>
+         </div>
+      </div>
       <div class="container">
-         <h2 class="text-center">Jump To Specfic Section</h2>
-         <ul class="nav nav-pills">
-               <li class="active"><a href="#course">Recommended Courses</a></li>
-               <li><a href="#teachers">Recommended Teachers</a></li>
-               <li><a href="#new">Newest Courses</a></li>
-         </ul><br>
          <div class="row">
             <div class="col-md-12 text-center">
                <a name="course"> </a>
                <br> <br> <br>
-               <div class="panel panel-default">
-                  <div class="panel-body">
-                     <h3>Recommended Courses</h3>
-                     <div class="row">
-                        <div class="col-xs-4 text-center" style="float: left;">
-                           <h4><a href="course">Chemistry</a></h4>
-                           Academics<br>
-                           Price: $1mil /hr <br>
-                           Taught by Mr. White
-                           <br><br>
-                        </div>
-                        <div class="col-xs-4 text-center" style="float: left;">
-                           <h4><a href="course">Intro to Computer Programming</a></h4>
-                           Technology<br>
-                           Price: $1bil Inclusive <br>
-                           Taught by Mr. Jobs
-                           <br><br>
-                        </div>
-                        <div class="col-xs-4 text-center" style="float: left;">
-                           <h4><a href="course">Make-Up Tutorial</a></h4>
-                           Home-Related<br>
-                           Price: Free <br>
-                           Taught by Mr. Kerr 
-                           <br><br>
-                        </div>
-                     </div>
-                  </div>
-               </div> <br>
-               <a name="teachers"> </a> <br><br>
+               <br><br>
                <div class="panel panel-default">
                   <div class="panel-body">
                      <h3>Recommended Teachers </h3>
@@ -94,32 +82,6 @@
                      </div>
                   </div>
                </div> <br>
-               <a name="new"> </a> 
-               <div class="panel panel-default">
-                  <div class="panel-body">
-                     <h3>Newest Courses</h3>
-                     <div class="row">
-                        <div class="col-xs-4 text-center" style="float: left;">
-                           <h4><a href="course">Sample Course 1</a></h4>
-                           Music and Arts<br>
-                           Price: $1mil /hr 
-                           <br><br>
-                        </div>
-                        <div class="col-xs-4 text-center" style="float: left;">
-                           <h4><a href="course">Sample Course 2</a></h4>
-                           Technology<br>
-                           Price: $1bil total  
-                           <br><br>
-                        </div>
-                        <div class="col-xs-4 text-center" style="float: left;">
-                           <h4><a href="course">Sample Course 3</a></h4>
-                           Home-Related<br>
-                           Price: Free 
-                           <br><br>
-                        </div>
-                     </div>
-                  </div>
-               </div>
             </div>
          </div>
       </div> <br>
