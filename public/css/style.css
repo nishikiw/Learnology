@@ -23,3 +23,13 @@ main {
 	min-height: 77vh;
 	padding-top: 10px;
 }
+
+.jumbotron {
+	/* http://www.slowgolde.com/www.slowgolde.com/wp-content/uploads/2014/02/CityLandscape.jpg */
+    margin-bottom: 0px;
+    background-image: url(../images/CityLandscape.jpg);
+    background-position: 0% 25%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: black;
+}
