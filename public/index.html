@@ -72,7 +72,7 @@
            <div class="panel-heading text-center"><h4>Recommended Teachers<h4></div>
            <div class="panel-body">
             <div ng-repeat="x in userList" class="text-center"><hr>
-               <h4><a href="profile?id={{x.screen_name}}">{{x.screen_name}}</a></h4>
+               <h4><a href="profile?screen_name={{x.screen_name}}">{{x.screen_name}}</a></h4>
                Email: {{x.email}} <br>
                Courses Created: {{length(x.courses_created)}}
             </div>
