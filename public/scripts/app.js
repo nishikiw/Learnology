@@ -282,7 +282,7 @@ app.controller('editProfileCtrl', function ($scope, $http){
 				var req = {
 					method: 'GET',
 					url: 'users/user',
-					params: {screenName: $scope.screenName}
+					params: {screenName: $scope.originalScreenName, newScreenName: $scope.screenName}
 				}
 				$http(req).then(function successCallback(res){
 					if (jQuery.isEmptyObject(res.data)){

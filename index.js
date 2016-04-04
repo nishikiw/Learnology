@@ -518,15 +518,28 @@ app.get('/users/user', function(req, res){
 		}
 		else{
 			if (req.query.screenName == req.session.data.user){
-				User.findOne({'screen_name': req.query.screenName}, function (err, user) {
-					if (err) return console.error(err);
-					if (user){
-						res.end(JSON.stringify(user));
-					}
-					else{
-						res.end("{}");
-					}
-				});
+				if (req.query.newScreenName){
+					User.findOne({'screen_name': req.query.newScreenName}, function (err, user) {
+						if (err) return console.error(err);
+						if (user){
+							res.end(JSON.stringify(user));
+						}
+						else{
+							res.end("{}");
+						}
+					});
+				}
+				else{
+					User.findOne({'screen_name': req.query.screenName}, function (err, user) {
+						if (err) return console.error(err);
+						if (user){
+							res.end(JSON.stringify(user));
+						}
+						else{
+							res.end("{}");
+						}
+					});
+				}
 			}
 			else{
 				res.end("{}");
