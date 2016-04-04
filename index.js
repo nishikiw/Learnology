@@ -132,14 +132,16 @@ app.post('/search/res', urlencodedParser, function(req, res) {
     // Attack concepts from http://blog.websecurify.com/2014/08/hacking-nodejs-and-mongodb.html
     //console.log(req.body.searchBy +" " + req.body.terms );
     var terms = req.body.terms.toString(10); //Make sure it's a string
+    terms = terms.replace(/\+/g, " "); 
     // From http://stackoverflow.com/questions/13283470/regex-for-allowing-alphanumeric-and-space
-    var regex = new RegExp("^[a-z\d\\-_\s]+$", "i"); // Allow alphanumeric characters, spaces, hyphens, underscores
+    var regex = /^[a-z\d\\-_\s]+$/i; // Allow alphanumeric characters, spaces, hyphens, underscores
     
     if(!regex.test(terms)){
+        console.log("regex test failed");
         res.send([]);
         return
     }
-    
+
     if (req.body.searchBy == "Course") {
         
        User.find({ 'screen_name': req.session.data.user }, 'favorites', function (err, userArr) {
