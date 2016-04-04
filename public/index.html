@@ -16,9 +16,20 @@
                 method: 'GET',
                 url: '/courses'
               };
-              $http(req).success(function(data) {
-                $scope.recList = data.reverse().splice(0, 3);
+         $http(req).success(function(data) {
+            $scope.recList = data.reverse().splice(0, 3);
          });
+         var req = { 
+                method: 'GET',
+                url: '/users'
+              };
+         $http(req).success(function(data) {
+            $scope.userList = data.reverse().splice(0, 3);
+         });
+
+         $scope.length = function (data) {
+            return data.length;
+         }
       });
      </script>
        <style type="text/css">
@@ -48,16 +59,22 @@
             <div ng-repeat="x in recList" class="text-center"> <hr>
                <h4><a href="course?id={{x._id}}">{{x.title}}</a></h4>
                {{x.category}} <br>
-               Price {{x.price}}  <br>
+               Price: {{x.price}}  <br>
                Taught by {{x.user}}
             </div>
            </div>
          </div>
       </div>
-      <div class='col-md-6'>
+      <div class='col-md-6'ng-controller="recCtrl">
          <div class="panel panel-primary" style="height:500px;">
-           <div class="panel-heading text-center"><h4>Newest Teachers<h4></div>
-           <div class="panel-body">Panel Content</div>
+           <div class="panel-heading text-center"><h4>Newest Users<h4></div>
+           <div class="panel-body">
+            <div ng-repeat="x in userList" class="text-center"><hr>
+               <h4><a href="profile?id={{x.screen_name}}">{{x.screen_name}}</a></h4>
+               Email: {{x.email}} <br>
+               <div>{{length(x.courses_created)}}</div>
+            </div>
+           </div>
          </div>
       </div>
       <div class="container">
