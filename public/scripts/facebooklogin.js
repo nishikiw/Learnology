@@ -8,7 +8,6 @@
     // for FB.getLoginStatus().
     if (response.status === 'connected') {
       // Logged into your app and Facebook.
-      signin();
       testAPI();
     } else if (response.status === 'not_authorized') {
       // The person is logged into Facebook, but not your app.
@@ -36,6 +35,7 @@
     appId      : '1012340448860771',
     cookie     : true,  // enable cookies to allow the server to access 
                         // the session
+    status     : true,
     xfbml      : true,  // parse social plugins on this page
     version    : 'v2.5' // use graph api version 2.5
   });
@@ -52,10 +52,6 @@
   //
   // These three cases are handled in the callback function.
 
-  FB.getLoginStatus(function(response) {
-    statusChangeCallback(response);
-  });
-
   };
 
   // Load the SDK asynchronously
@@ -71,9 +67,36 @@
   // successful.  See statusChangeCallback() for when this call is made.
   function testAPI() {
     console.log('Welcome!  Fetching your information.... ');
-    FB.api('/me', function(response) {
-      $("#user a").html("<span class='glyphicon glyphicon-user'></span> " + response.name);
-      document.getElementById('status').innerHTML =
-        'Thanks for logging in, ' + response.name + '!';
+      FB.api('/me', 'get', {fields: 'id,name,gender,email' }, function(response) {
+        document.getElementById('status').innerHTML =
+          'Thanks for logging in, ' + response.name + '!';
+          var xhttp = new XMLHttpRequest();
+          xhttp.onreadystatechange = function() { 
+              if (xhttp.readyState == 4 && xhttp.status == 200 && typeof response.email != 'undefined') {
+                var xhr = new XMLHttpRequest();
+                if (xhttp.responseText == 'false') {
+                  xhr.open("POST", "/users/user", true);
+                  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                  xhr.send("email="+ response.email + "&password=" + response.id);
+                  //Still need to redirect
+                }
+                else {
+                  xhr.open("POST", "/users/user", true);
+                  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                  xhr.send("email="+ response.email + "&password=" + response.id + "&login=true");
+                  //Still need to redirect
+                }
+              }
+          }
+          xhttp.open("POST", "/user/email", true);
+          xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+          xhttp.send("email="+ response.email);
+      });
+    
+  }
+
+  function logout(){
+    FB.logout(function(response) {
+       document.getElementById('status').innerHTML = 'Please log ' + 'into this app.';
     });
   }

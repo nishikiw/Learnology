@@ -14,7 +14,7 @@ var multer  = require('multer');
 
 var upload = multer({dest: './public/images/profile/'}).single('file');
 
-mongoose.connect('mongodb://localhost:27017/learnology');
+mongoose.connect('mongodb://Tony:309project@ds011870.mlab.com:11870/learnologydb');
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
@@ -289,6 +289,18 @@ app.post('/admin/check', urlencodedParser, function(req, res){
 	User.find({"screen_name" : req.body.screen_name}, {'admin':1, '_id':0}, function (err, user) {
 		if (err) return console.error(err);
 		res.send(user);
+	});
+});
+
+app.post('/user/email', urlencodedParser, function(req, res){
+	User.find({"email" : req.body.email}, {'_id':1}, function (err, user) {
+		if (err) return console.error(err);
+		if (user.length > 0) {
+			res.send(true);
+		}
+		else {
+			res.send(false);
+		}
 	});
 });
 
