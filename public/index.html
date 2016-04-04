@@ -24,7 +24,9 @@
                 url: '/users'
               };
          $http(req).success(function(data) {
-            $scope.userList = data.reverse().splice(0, 3);
+            $scope.userList = data.sort(function(a, b) {
+               return b.courses_created.length - a.courses_created.length;
+            }).splice(0, 3);
          });
 
          $scope.length = function (data) {
@@ -67,41 +69,17 @@
       </div>
       <div class='col-md-6'ng-controller="recCtrl">
          <div class="panel panel-primary" style="height:500px;">
-           <div class="panel-heading text-center"><h4>Newest Users<h4></div>
+           <div class="panel-heading text-center"><h4>Recommended Teachers<h4></div>
            <div class="panel-body">
             <div ng-repeat="x in userList" class="text-center"><hr>
                <h4><a href="profile?id={{x.screen_name}}">{{x.screen_name}}</a></h4>
                Email: {{x.email}} <br>
-               <div>{{length(x.courses_created)}}</div>
+               Courses Created: {{length(x.courses_created)}}
             </div>
            </div>
          </div>
       </div>
-      <div class="container">
-         <div class="row">
-            <div class="col-md-12 text-center">
-               <a name="course"> </a>
-               <br> <br> <br>
-               <br><br>
-               <div class="panel panel-default">
-                  <div class="panel-body">
-                     <h3>Recommended Teachers </h3>
-                     <div class="row">
-                        <div class="col-xs-4 text-center" style="float: left;">
-                           <a href="profile"><img src="images/walterwhite.jpg" style="width: 100%; padding: 15px;"></a>
-                        </div>
-                        <div class="col-xs-4 text-center" style="float: left;">
-                           <a href="profile"><img src="images/stevejobs.jpg" style="width: 100%; padding: 15px;"></a>
-                        </div>
-                        <div class="col-xs-4 text-center" style="float: left;">
-                           <a href="profile"><img src="images/thejoker.jpg" style="width: 100%; padding: 15px;"></a>
-                        </div>
-                     </div>
-                  </div>
-               </div> <br>
-            </div>
-         </div>
-      </div> <br>
+      <div class="container"></div> <br>
       <div class="panel-footer">
          <div class="container">
             <p class="navbar-text pull-left">© 2016 - Site Built By Us | <a href="aboutus">About Us</a> | 
