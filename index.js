@@ -457,6 +457,7 @@ app.post('/delete/course', urlencodedParser, function(req, res){
 	User.update({}, 
 		{ $pull: {'courses_applied': req.body.id,
 		 		  'courses_taking': req.body.id,
+				  'courses_finished': req.body.id,
 		 		  'courses_created': req.body.id} 
 		}, { multi: true }, function (err) {
 		if (err) return console.error(err);
@@ -501,7 +502,11 @@ app.get('/users/user', function(req, res){
 						image_name: user.image_name,
 						phone: user.phone,
 						contact_email: user.contact_email,
-						title: user.title
+						title: user.title,
+						courses_applied: user.courses_applied,
+						courses_taking: user.courses_taking,
+						courses_finished: user.courses_finished,
+						courses_created: user.courses_created
 					}
 					if (req.session.data.user == userInfo.screen_name){
 						userInfo.isOwner = true;
@@ -875,11 +880,9 @@ app.post('/courses/course/:id', urlencodedParser, function(req, res){
 							var courseTakingIndex = student.courses_taking.indexOf(courseId);
 							if (courseTakingIndex != -1){
 								student.courses_taking.splice(courseTakingIndex, 1);
-								var finishDate = Date.now();
-								student.courses_finished.push({
-									course_id: courseId,
-									date: finishDate
-								});
+								if (courses_finished.indexOf(courseId) == -1){
+									student.courses_finished.push(courseId);
+								}
 								course.save(function (err, courseData){
 									if (err) console.log(err);
 									console.log(courseData);

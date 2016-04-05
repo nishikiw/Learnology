@@ -11,9 +11,29 @@ function submitform() {
 } 
 
 app.controller('profileCtrl', function ($scope, $http){
+	$scope.getCourses = function(courseIdArray){
+		var courseObjArray = [];
+		for (var i=0; i<courseIdArray.length; i++){
+			var req = { 
+				method: 'POST',
+				url: '/search/one',
+				data: $.param({type: 'course-id', id : courseIdArray[i]}),
+				headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+			};
+			$http(req).then(function successCallback(res){
+				var courseInfo = res.data[0];
+				if (courseInfo){
+					courseObjArray.push(courseInfo);
+				}
+			}, function errorCallback(res) {
+			});
+		}
+		return courseObjArray;
+	}
+	
 	$scope.initProfile = function(){
 		var url = window.location.href;
-		var reqScreenName = url.split("=")[1];
+		var reqScreenName = url.split("=")[1].split("#")[0];
 		
 		var req = {
 			method: 'GET',
@@ -75,6 +95,11 @@ app.controller('profileCtrl', function ($scope, $http){
 				if (userInfo.isOwner){
 					$scope.isOwner = userInfo.isOwner;
 				}
+				// Load courses.
+				$scope.coursesAppliedArray = $scope.getCourses(userInfo.courses_applied);
+				$scope.coursesTakingArray = $scope.getCourses(userInfo.courses_taking);
+				$scope.coursesFinishedArray = $scope.getCourses(userInfo.courses_finished);
+				$scope.coursesCreatedArray = $scope.getCourses(userInfo.courses_created);
 			}
 		}, function errorCallback(res) {
 		});
@@ -239,7 +264,7 @@ app.controller('editProfileCtrl', function ($scope, $http){
 	};
 	
 	$scope.backToProfile = function(){
-		location.href = "profile?screen-name="+$scope.screenName;
+		location.href = "profile?screen-name="+$scope.originalScreenName;
 	}
 	
 	$scope.emailExists = function(){

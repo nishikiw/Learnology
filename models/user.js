@@ -50,10 +50,7 @@ var userSchema = mongoose.Schema({
 	description: String,
 	courses_applied: [String],
 	courses_taking: [String],
-	courses_finished: [{
-		course_id: String,
-		date: Date
-	}],
+	courses_finished: [String],
 	courses_created: [String],
 	contact_email: {
 		address: {

@@ -76,60 +76,101 @@
 							</form>
 						</div>
 						<div class="panel panel-info">
-							<div class="panel-heading">Courses I take...</div>
+							<div class="panel-heading">Courses I Applied...</div>
 							<div class="panel-body">
 								<div class="panel-group">
-									<div class="panel panel-default">
+									<div class="panel panel-default" ng-repeat="courseApplied in coursesAppliedArray">
 										<div class="panel-heading">
 											<h4 class="panel-title">
-												<a data-toggle="collapse" href="#javascript-details">Interactivity with Javascript
-													<a href="#" ng-show="isOwner"><span class="glyphicon glyphicon-remove pull-right"></span></a>
+												<a data-toggle="collapse" ng-href="#{{courseApplied._id}}">{{courseApplied.title}}
+													<!-- <a href="#" ng-show="isOwner"><span class="glyphicon glyphicon-remove pull-right"></span></a> -->
 												</a>
 											</h4>
 										</div>
-										<div id="javascript-details" class="panel-collapse collapse">
+										<div ng-attr-id="{{courseApplied._id}}" class="panel-collapse collapse">
 											<div class="panel-body">
 												<div class="row">
 												    <div class="col-sm-2">Category:</div>
-												    <div class="col-sm-10"><a href="#">Technology</a></div>
+												    <div class="col-sm-10"><a ng-href="/search?param=Category&terms={{courseApplied.category}}">{{courseApplied.category}}</a></div>
 												</div>
 												<div class="row">
 												    <div class="col-sm-2">Instructor:</div>
-												    <div class="col-sm-10"><a href="#">Colleen Lent</a></div>
+												    <div class="col-sm-10"><a ng-href="/profile?screen-name={{courseApplied.user}}">{{courseApplied.user}}</a></div>
 												</div>
 												<div class="row">
-												    <div class="col-sm-2">Timetable:</div>
-												    <div class="col-sm-10">Fridays, 10am-11am</div>
+												    <div class="col-sm-2">Location:</div>
+												    <div class="col-sm-10">{{courseApplied.location}}</div>
 												</div>
 												<br>
-												<a href="#">Go to course page for more info...</a>
+												<a href="/course?id={{courseApplied._id}}">Go to course page for more info...</a>
 											</div>
 										</div>
 									</div>
-									<div class="panel panel-default">
+								</div>
+							</div>
+						</div>
+						<div class="panel panel-info">
+							<div class="panel-heading">Courses I am Taking...</div>
+							<div class="panel-body">
+								<div class="panel-group">
+									<div class="panel panel-default" ng-repeat="courseTaking in coursesTakingArray">
 										<div class="panel-heading">
 											<h4 class="panel-title">
-												<a data-toggle="collapse" href="#machineLearning-details">Machine Learning
-													<a href="#" ng-show="isOwner"><span class="glyphicon glyphicon-remove pull-right"></span></a>
+												<a data-toggle="collapse" ng-href="#{{courseTaking._id}}">{{courseTaking.title}}
+													<!-- <a href="#" ng-show="isOwner"><span class="glyphicon glyphicon-remove pull-right"></span></a> -->
 												</a>
 											</h4>
 										</div>
-										<div id="machineLearning-details" class="panel-collapse collapse">
+										<div ng-attr-id="{{courseTaking._id}}" class="panel-collapse collapse">
 											<div class="panel-body">
 												<div class="row">
 												    <div class="col-sm-2">Category:</div>
-												    <div class="col-sm-10"><a href="#">Academy</a></div>
+												    <div class="col-sm-10"><a ng-href="/search?param=Category&terms={{courseTaking.category}}">{{courseTaking.category}}</a></div>
 												</div>
 												<div class="row">
 												    <div class="col-sm-2">Instructor:</div>
-												    <div class="col-sm-10"><a href="#">Emily Fox</a></div>
+												    <div class="col-sm-10"><a ng-href="/profile?screen-name={{courseTaking.user}}">{{courseTaking.user}}</a></div>
 												</div>
 												<div class="row">
-												    <div class="col-sm-2">Timetable:</div>
-												    <div class="col-sm-10">Mondays, Wednesdays, 10am-11am</div>
+												    <div class="col-sm-2">Location:</div>
+												    <div class="col-sm-10">{{courseTaking.location}}</div>
 												</div>
 												<br>
-												<a href="#">Go to course page for more info...</a>
+												<a ng-href="/course?id={{courseTaking._id}}">Go to course page for more info...</a>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="panel panel-info">
+							<div class="panel-heading">Courses I Finished...</div>
+							<div class="panel-body">
+								<div class="panel-group">
+									<div class="panel panel-default" ng-repeat="courseFinished in coursesFinishedArray">
+										<div class="panel-heading">
+											<h4 class="panel-title">
+												<a data-toggle="collapse" ng-href="#{{courseFinished._id}}">{{courseFinished.title}}
+													<!-- <a href="#" ng-show="isOwner"><span class="glyphicon glyphicon-remove pull-right"></span></a> -->
+												</a>
+											</h4>
+										</div>
+										<div ng-attr-id="{{courseFinished._id}}" class="panel-collapse collapse">
+											<div class="panel-body">
+												<div class="row">
+												    <div class="col-sm-2">Category:</div>
+												    <div class="col-sm-10"><a ng-href="/search?param=Category&terms={{courseFinished.category}}">{{courseFinished.category}}</a></div>
+												</div>
+												<div class="row">
+												    <div class="col-sm-2">Instructor:</div>
+												    <div class="col-sm-10"><a ng-href="/profile?screen-name={{courseFinished.user}}">{{courseFinished.user}}</a></div>
+												</div>
+												<div class="row">
+												    <div class="col-sm-2">Location:</div>
+												    <div class="col-sm-10">{{courseFinished.location}}</div>
+												</div>
+												<br>
+												<a ng-href="/course?id={{courseFinished._id}}">Go to course page for more info...</a>
 											</div>
 										</div>
 									</div>
@@ -140,35 +181,35 @@
 							<div class="panel-heading">Courses I teach...</div>
 							<div class="panel-body">
 								<div class="panel-group">
-									<div class="panel panel-default">
+									<div class="panel panel-default" ng-repeat="courseCreated in coursesCreatedArray">
 										<div class="panel-heading">
 											<h4 class="panel-title">
-												<a data-toggle="collapse" href="#art-details">Dog Emotion and Cognition
-													<a href="#" ng-show="isOwner"><span class="glyphicon glyphicon-remove pull-right"></span></a>
-													<a href="#" ng-show="isOwner"><span class="glyphicon glyphicon-edit pull-right left-icon"></span></a>
+												<a data-toggle="collapse" ng-href="#{{courseCreated._id}}">{{courseCreated.title}}
+													<!-- <a href="#" ng-show="isOwner"><span class="glyphicon glyphicon-remove pull-right"></span></a> -->
+													<a ng-href="/edit-course?id={{courseCreated._id}}" ng-show="isOwner"><span class="glyphicon glyphicon-edit pull-right left-icon"></span></a>
 												</a>
 											</h4>
 										</div>
-										<div id="art-details" class="panel-collapse collapse">
+										<div ng-attr-id="{{courseCreated._id}}" class="panel-collapse collapse">
 											<div class="panel-body">
 												<div class="row">
 												    <div class="col-sm-2">Category:</div>
-												    <div class="col-sm-10"><a href="#">Others</a></div>
+												    <div class="col-sm-10"><a ng-href="/search?param=Category&terms={{courseCreated.category}}">{{courseCreated.category}}</a></div>
 												</div>
 												<div class="row">
 												    <div class="col-sm-2">Price:</div>
-												    <div class="col-sm-10">$10/hour</div>
+												    <div class="col-sm-10">{{courseCreated.price}}</div>
 												</div>
 												<div class="row">
 												    <div class="col-sm-2">Total Students:</div>
-												    <div class="col-sm-10">5 (Maximum 10 students)</div>
+												    <div class="col-sm-10">{{courseCreated.students.enrolled.length}}</div>
 												</div>
 												<div class="row">
-												    <div class="col-sm-2">Timetable:</div>
-												    <div class="col-sm-10">Weekdays, 8pm-9pm</div>
+												    <div class="col-sm-2">Location:</div>
+												    <div class="col-sm-10">{{courseCreated.location}}</div>
 												</div>
 												<br>
-												<a href="#">Go to course page for more info...</a>
+												<a ng-href="/course?id={{courseCreated._id}}">Go to course page for more info...</a>
 											</div>
 										</div>
 									</div>
