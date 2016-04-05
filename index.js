@@ -880,7 +880,7 @@ app.post('/courses/course/:id', urlencodedParser, function(req, res){
 							var courseTakingIndex = student.courses_taking.indexOf(courseId);
 							if (courseTakingIndex != -1){
 								student.courses_taking.splice(courseTakingIndex, 1);
-								if (courses_finished.indexOf(courseId) == -1){
+								if (student.courses_finished.indexOf(courseId) == -1){
 									student.courses_finished.push(courseId);
 								}
 								course.save(function (err, courseData){
@@ -911,9 +911,21 @@ app.post('/courses/course/:id', urlencodedParser, function(req, res){
 							if (err) return console.error(err);
 							if (student){
 								var date = Date.now();
+								var img;
+								if (student.image_name){
+									img = student.image_name;
+								}
+								else{
+									if (student.gender == "female"){
+										img = "female.png";
+									}
+									else{
+										img = "male.png";
+									}
+								}
 								var enrollObj = {
 									screen_name: student.screen_name,
-									image_name: student.image_name,
+									image_name: img,
 									contact_email: student.contact_email.address,
 									message: msg,
 									date: date
