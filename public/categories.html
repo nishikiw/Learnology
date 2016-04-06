@@ -12,6 +12,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
   <script src="scripts/app.js"></script>
   <script> 
+  //Gets the top 10 courses based on category. Default starts with Academic type
   app.controller("topCtrl", function($scope, $http) {
     $scope.changeList = function(type) {
       var req = { 
@@ -37,6 +38,7 @@
   });
 
   $(document).ready(function(){
+  // To change the active button when clicked
     $(".nav-pills>li").click(function(){
       $(".nav-pills>li").removeClass();
       $(this).addClass("active");
@@ -45,7 +47,9 @@
   </script>
 </head>
 <body ng-app="learnologyApp" >
+<!-- Facebook login functionality -->
 <script src="scripts/facebooklogin.js"></script>
+<!-- Nav Bar html file -->
 <div ng-controller="navCtrl"> 
   <div ng-include="'navbar.html'"></div>
 </div>
@@ -53,10 +57,12 @@
 <div class="jumbotron text-center">
   <h1>Categories</h1>
   <p>Select one of these categories and browse through the courses offered in that subject area</p>
+  <!-- Switches between buttons when clicked and changes the content below-->
   <a href="" ng-show="!show" ng-click="show = !show" class="btn btn-primary">Look At Top 10 Courses</a>
   <a href="" ng-show="show"  ng-click="show = !show" class="btn btn-primary">Look At Categories</a>
 </div> <br>
 
+<!-- The 8 category search links -->
 <div ng-hide="show">
   <div class="container text-center">    
     <div class="row">
@@ -121,7 +127,7 @@
     </div>
   </div><br>
 </div>
-
+<!-- The Top 10 list by category (starts with list of academic courses) -->
 <div class="container-fluid" ng-show="show" ng-controller="topCtrl"> 
     <div class="panel panel-default">
         <div class="panel-body">
@@ -148,7 +154,7 @@
         </div>
     </div>
 </div>
-
+<!--  Footer  -->
 <div class="panel-footer" >
     <div class="container">
       <p class="navbar-text pull-left">© 2016 - Site Built By Us | <a href="aboutus">About Us</a> | 
