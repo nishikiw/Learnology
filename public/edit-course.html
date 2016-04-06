@@ -13,12 +13,13 @@
       <script src="scripts/editcontroller.js"></script>      
       <head>
 	<body ng-app="learnologyApp">
+		<!--Facebook Login Functionality-->
 		<script src="scripts/facebooklogin.js"></script>
-
+		<!--Nav bar html-->
 		<div ng-controller="navCtrl"> 
 			<div ng-include="'navbar.html'"></div>
 		</div>
-		
+		<!-- Directive getting data from course and checking if user is the owner-->
 		<div course-content get-user>
 			<div class="jumbotron text-center">
 				<h1>Course Editing Page</h1>
@@ -29,14 +30,17 @@
 					<div class="panel panel-default">
 						<div class="panel-heading">Course Information</div>
 						<div class="panel-body">
+							<!-- Input form where you can change the contents-->
 							<form id="create" role="form" class="form-horizontal" ng-submit="save()" autocomplete=off>
 								<fieldset>
+									<!--Course title-->
 									<div class="form-group">
 										<label class="control-label col-sm-3" for="first-name">Course Title</label>
 										<div class="col-sm-8">
 											<input type="text" class="form-control" ng-model="title" maxlength="50" required>
 										</div>
 									</div>
+									<!--Location input (disable when online is checked)-->
 									<div class="form-group">
 										<label class="control-label col-sm-3" for="location">Location</label>
 										<div class="col-sm-8">
@@ -50,6 +54,7 @@
 											</div>
 										</div>
 									</div>
+									<!--Category Types-->
 									<div class="form-group">
 										<label class="control-label col-sm-3">Course Category:</label>
 										<div class="col-sm-8">
@@ -87,24 +92,28 @@
 											</div>
 										</div>
 									</div>
+									<!--Price Input-->
 									<div class="form-group">
 										<label class="control-label col-sm-3" for="price">Price:</label>
 										<div class="col-sm-5">
 											<input type="price" class="form-control" ng-model="price" maxlength="50" required>
 										</div>
 									</div>
+									<!--Description of course-->
 									<div class="form-group">
 										<label class="control-label col-sm-3" for="description">Course Description:</label>
 										<div class="col-sm-8">
 											<textarea name="description" rows="8" class="form-control" ng-model="description" required></textarea>
 										</div>
 									</div>
+									<!--Prerequisites Input-->
 									<div class="form-group">
 										<label class="control-label col-sm-3" for="skills">Previous Skills Required:</label>
 										<div class="col-sm-8">
 											<textarea name="skills" rows="4" class="form-control" ng-model="skills" required></textarea>
 										</div>
 									</div>
+									<!--Difficulty Input-->
 									<div class="form-group">
 										<label class="control-label col-sm-3">Challenge Level:</label>
 										<div class="col-sm-8">
@@ -119,6 +128,7 @@
 											</label>
 										</div>
 									</div>
+									<!--Submit Changes and Cancel will direct you back to the course page-->
 									<div class="col-sm-offset-4 col-sm-8">
 										<a type="button" class="btn btn-default" href="course?id={{id}}">Cancel</a>
 										<button type="submit" class="btn btn-primary">Submit Changes</button>
@@ -128,10 +138,12 @@
 						</div>
 					</div>
 				</div>
+				<!--Editing Students in the course-->
 				<div class="col-sm-6">
 					<div class="panel panel-default">
 						<div class="panel-heading">Students</div>
 						<div class="panel-body">
+							<!--List of students that want to enrol-->
 							<ul class="list-group">
 								<li class="list-group-item" ng-repeat="appliedStudent in students.in_application">
 									<div class="row">
@@ -163,6 +175,7 @@
 									</div>
 								</li>
 							</ul>
+							<!--List of enrolled students-->
 							<ul class="list-group">
 								<li class="list-group-item hasFocus" ng-repeat="enrolledStudent in students.enrolled" list-item-focus>
 									<div class="row">
@@ -192,7 +205,7 @@
 				</div>
 			</div><br>
 		</div>
-		
+		<!--Modal to accept or reject a student from enrolling-->
 		<div id="rejectModal" class="modal fade" role="dialog">
 			<div class="modal-dialog">
 				<div class="modal-content">
@@ -210,7 +223,7 @@
 				</div>
 			</div>
 		</div>
-		
+		<!--Modal to delete students once they are finished the course-->
 		<div id="finishModal" class="modal fade" role="dialog">
 			<div class="modal-dialog">
 				<div class="modal-content">
@@ -228,7 +241,7 @@
 				</div>
 			</div>
 		</div>
-		
+		<!-- Footer -->
 		<div class="panel-footer">
 			<div class="container">
 				<p class="navbar-text pull-left">© 2016 - Site Built By Us | <a href="aboutus">About Us</a> | 
