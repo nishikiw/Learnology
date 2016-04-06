@@ -1,11 +1,12 @@
 var app = angular.module('learnologyApp', []);
 
+// Parsing url
 var getLocation = function(href) {
     var l = document.createElement("a");
     l.href = href;
     return l;
 };
-
+// Submitting search form and send it to search
 function submitform() {  
     document.searchform.submit(); 
 } 
@@ -412,14 +413,14 @@ app.controller('signUpFormCtrl', function ($scope, $http){
 		}
 	}
 });
-
+// Getting the pathname
 app.controller('navCtrl', function ($scope, $location) {  
     $scope.isActive = function (viewLocation) { 
     	var l = getLocation($location.absUrl());
       	return viewLocation === l.pathname;
     };
 });
-
+// Setting the search url when changed
 app.controller('searchCtrl', function ($scope) {  
     $scope.changeParam = function(name) {
       $('#search_by').text(name);
@@ -462,7 +463,7 @@ app.controller('login', function($scope, $http) {
 		});
     };
 });
-
+// Formating the search results
 app.directive("searchRes", function() {
     return {
         controller: function ($scope, $http, $location) {
@@ -482,7 +483,7 @@ app.directive("searchRes", function() {
                 }
             }
             
-            
+            // Post request and redirect to search page with the parameters
             var req = { 
                 method: 'POST',
                 url: 'search/res',
@@ -499,6 +500,7 @@ app.directive("searchRes", function() {
                         searchBy = pair[1];
                     }
                 }
+                // Search results formatting
                 var numRes;
                 if (result.length == 0)
                     numRes = '<h3 id="result">Total number of results: 0'+
@@ -507,6 +509,7 @@ app.directive("searchRes", function() {
                     numRes = '<h3 id="result">Total number of results: ' + result.length+
                     ' </h3><section class="col-xs-12 col-sm-6 col-md-12"><article class="search-result-row">';
                 $("#searchRes").append(numRes);
+                // Course/Category results layout
                 if (searchBy == "Course" || searchBy == "Category") {
                     for (var i = 0; i < result.length; i++) {
                         var rating = "";
@@ -532,6 +535,7 @@ app.directive("searchRes", function() {
                         $("#searchRes").append(res);
                     
                     }
+                    // User results layout
                 } else if (searchBy == "User") {
                     for (var i = 0; i < result.length; i++) {
                         var user = result[i]; 
@@ -558,7 +562,7 @@ app.directive("searchRes", function() {
         }
     };
 });
-
+// Get session user and set up what needs to be displayed in the nav bar
 app.directive("userLogin", function() {
     return {
         controller: function ($scope, $http) {

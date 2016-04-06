@@ -1,4 +1,5 @@
     app.controller('save', function($scope, $http, $window) {
+    	// Save any changes to course info
         $scope.save = function() {
           if ($scope.disable == true) {
              $scope.location = "online"
@@ -22,7 +23,7 @@
           });
         }; 
     });
-
+// Getting the current course content and put it in the input form
 app.directive("courseContent", function() {
 	return {
 		controller: function ($scope, $http, $location) {
@@ -160,7 +161,7 @@ function getStudentIndex(screenName, array){
 	}
 	return -1;
 }
-  
+  // Get the session user 
   app.directive("getUser", function() {
 	    return {
 	        controller: function ($scope, $http) {
