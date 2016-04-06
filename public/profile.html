@@ -16,7 +16,9 @@
 		<script src="scripts/app.js"></script>
 	</head>
 	<body ng-app="learnologyApp">
+		<!--Facebook Login Functionality-->
 		<script src="scripts/facebooklogin.js"></script>
+		<!--Nav bar html-->
 		<div ng-controller="navCtrl"> 
 			<div ng-include="'navbar.html'"></div>
 		</div>
@@ -25,10 +27,13 @@
 		<main>
 			<div class="container-fluid">
 				<div class="row" ng-controller="profileCtrl" ng-init="initProfile()">
+					<!--Left Side profile info-->
 					<div class="col-sm-3">
+						<!--Profile image-->
 						<img id="profile-image" ng-src="images/profile/{{profileImgName}}" 
 							class="img-responsive img-rounded center-block" alt="profile image" width="200" height="200">
 						<div class="panel panel-primary">
+							<!--Basic about me content-->
 							<div class="panel-heading">About {{screenName}}
 								<a ng-href="/edit-profile?screen-name={{screenName}}" ng-show="isOwner"><span id="aboutMe-edit" class="glyphicon glyphicon-edit pull-right"></span></a>
 							</div>
@@ -56,8 +61,10 @@
 							</div>
 						</div>
 					</div>
+					<!--Right side profile info-->
 					<div class="col-sm-9">
 						<div class="panel panel-info">
+							<!--Description info-->
 							<div class="panel-heading">Description
 								<a id="button-descripion-edit" href="#" ng-show="isOwner && !descriptionInEdit" ng-click="editDescription()">
 									<span class="glyphicon glyphicon-edit pull-right"></span>
@@ -75,6 +82,7 @@
 								</div>
 							</form>
 						</div>
+						<!--Courses applied to--> 
 						<div class="panel panel-info">
 							<div class="panel-heading">Courses I Applied...</div>
 							<div class="panel-body">
@@ -109,6 +117,7 @@
 								</div>
 							</div>
 						</div>
+						<!--Courses enrolled in-->
 						<div class="panel panel-info">
 							<div class="panel-heading">Courses I am Taking...</div>
 							<div class="panel-body">
@@ -143,6 +152,7 @@
 								</div>
 							</div>
 						</div>
+						<!--Courses completed-->
 						<div class="panel panel-info">
 							<div class="panel-heading">Courses I Finished...</div>
 							<div class="panel-body">
@@ -177,6 +187,7 @@
 								</div>
 							</div>
 						</div>
+						<!--Courses user has created-->
 						<div class="panel panel-info">
 							<div class="panel-heading">Courses I teach...</div>
 							<div class="panel-body">
@@ -223,7 +234,7 @@
 				</div>
 			</div>
 		</main>
-		
+		<!--Footer-->
 		<div class="panel-footer">
 			<div class="container">
 				<p class="navbar-text pull-left">© 2016 - Site Built By Us | <a href="aboutus">About Us</a> | 
