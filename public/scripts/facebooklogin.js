@@ -1,3 +1,5 @@
+// Facebook login code modified from https://developers.facebook.com/
+
 // This is called with the results from from FB.getLoginStatus().
   function statusChangeCallback(response) {
     console.log('statusChangeCallback');
@@ -70,10 +72,12 @@
       FB.api('/me', 'get', {fields: 'id, name, email' }, function(response) {
         document.getElementById('status').innerHTML =
           'Thanks for logging in, ' + response.name + '!';
+          // Checks if email is registered in our app
           var xhttp = new XMLHttpRequest();
           xhttp.onreadystatechange = function() { 
               if (xhttp.readyState == 4 && xhttp.status == 200 && typeof response.email != 'undefined') {
                 var xhr = new XMLHttpRequest();
+                // If not, a new account is made and will direct them to edit profile
                 if (xhttp.responseText == 'false') {
                   xhr.open("POST", "/users/user", true);
                   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -84,6 +88,7 @@
                     }
                   };
                 }
+                // If it is in our app, login the user
                 else {
                   xhr.open("POST", "/users/user", true);
                   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -98,7 +103,7 @@
       });
     
   }
-
+// Logout facebook session user
   function logout(){
     FB.logout(function(response) {
        document.getElementById('status').innerHTML = 'Please log ' + 'into this app.';
