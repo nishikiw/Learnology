@@ -1,8 +1,10 @@
-		function reset() {
-          document.getElementById("form-review").reset();
-      	};
+// Clears review form
+function reset() {
+        document.getElementById("form-review").reset();
+};
 		
 		app.controller ("rating", function($scope) {
+			// Sets the heading based on a rating
 			$scope.heading = function (rating) {
 				if (rating == 5) {
 					return 'Perfect!';
@@ -20,7 +22,7 @@
 					return 'Terrible';
 				}
 			}
-
+			Determine the number of stars to display
 			$scope.checkRating = function (pos, rating) {
 				if (rating >= pos) {
 					return true;
@@ -30,7 +32,7 @@
 				}
 			};
 		});
-
+		// Submit a comment and refresh page with the added comment
 		app.controller ("submitForm", function($scope, $http, $window) {
 			$scope.submit = function (course) {
 				var req = { 
@@ -48,7 +50,7 @@
 					$window.location.href = "/course?id=" + course;
 				});
 			}
-
+			// Remove comment (only admins can do this)
 			$scope.removeComment = function (user, course, rate, body) {
 				var req = { 
 					method: 'POST',
@@ -66,7 +68,7 @@
 				});
 			}	
 		});
-
+		// Set the instructor's data for the instructor section
 		function getUser ($http, $scope, screen_name) {
 				var req = { 
 					method: 'POST',
@@ -103,7 +105,7 @@
 					}
 				});
 			};
-
+		// Calculates an overall rating from all the comments of this course
 		function overall (comments) {
 			var sumRatings = 0;
 			for (i=0; i<comments.length; i++) {
@@ -111,7 +113,7 @@
 			}
 			return Math.round(sumRatings/comments.length * 100) / 100;
 		};
-		
+		// Sets the course content based on id when the page loads
 		app.directive("courseContent", function() {
 		    return {
 		        controller: function ($scope, $http, $location) {
@@ -140,6 +142,7 @@
 							$scope.overall = overall(data[0].comments);
 							$scope.screen_name = data[0].user;
 							getUser ($http, $scope, data[0].user);
+							//Checks and sets whether session user is admin
 							var req = { 
 							method: 'POST',
 							url: '/admin/check',
@@ -156,7 +159,7 @@
 							});
 						});
 					}
-					
+					// Hide enroll if instructor of course or guest
 					$scope.hideEnroll = function(){
 						if ($scope.session == $scope.screen_name || $scope.session == 'Guest'){
 							return true;
@@ -165,7 +168,7 @@
 							return false;
 						}
 					}
-
+					// Hide unflag if not flagged and not admin
 					$scope.hideUnflag = function(){
 						if ($scope.flagged == true && $scope.admin == true){
 							return true;
@@ -174,7 +177,7 @@
 							return false;
 						}
 					}
-
+					// Hide report button if guest, admin or instructor of the course
 					$scope.hideReport = function(){
 						if ($scope.session == $scope.screen_name || $scope.session == 'Guest' || $scope.admin){
 							return true;
@@ -233,7 +236,7 @@
 			}
 			return -1;
 		}
-		
+		// Get the session user 
 		app.directive("getUser", function() {
 		    return {
 		        controller: function ($scope, $http) {
