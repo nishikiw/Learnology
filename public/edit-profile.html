@@ -14,21 +14,26 @@
 		<script src="scripts/edit-profile.js"></script>
 	</head>
 	<body ng-app="learnologyApp">
+		<!--Facebook Login Functionality-->
 		<script src="scripts/facebooklogin.js"></script>
+		<!--Nav bar html-->
 		<div ng-controller="navCtrl"> 
 			<div ng-include="'navbar.html'"></div>
 		</div>
 		<main>
 			<div class="container-fluid" ng-controller="editProfileCtrl" ng-init="init()">
+				<!--Profile info input form-->
 				<form class="form-horizontal" name="editProfileForm" role="form" action="{{'users/user/'+originalScreenName}}" method="POST">
 					<fieldset class="col-sm-6">
 						<legend>Personal Information</legend>
+						<!--Hidden Orginal screen name-->
 						<div class="form-group" hidden>
 							<label class="control-label col-sm-3" for="screen-name">Original Screen Name:</label>
 							<div class="col-sm-8">
 								<input type="text" name="originalScreenName" class="form-control" ng-model="originalScreenName" id="original-screen-name" readonly required>
 							</div>
 						</div>
+						<!--Screen name input-->
 						<div class="form-group">
 							<label class="control-label col-sm-3" for="screen-name">Screen Name:</label>
 							<div class="col-sm-8">
@@ -37,24 +42,28 @@
 								<div ng-show="screenNameFound" ng-init="screenNameFound = false">* Screen name has been registered.</div>
 							</div>
 						</div>
+						<!--First name input-->
 						<div class="form-group">
 							<label class="control-label col-sm-3" for="first-name">First Name:</label>
 							<div class="col-sm-8">
 								<input type="text" name="firstName" class="form-control" ng-model="firstName" id="first-name">
 							</div>
 						</div>
+						<!--Last name input-->
 						<div class="form-group">
 							<label class="control-label col-sm-3" for="last-name">Last Name:</label>
 							<div class="col-sm-8">
 								<input type="text" class="form-control" name="lastName" id="last-name" ng-model="lastName">
 							</div>
 						</div>
+						<!--Displayed title input-->
 						<div class="form-group">
 							<label class="control-label col-sm-3" for="title">Title:</label>
 							<div class="col-sm-8" data-toggle="tooltip" title="Title used for instructor">
 								<input type="text" class="form-control" name="title" id="title" ng-model="title" placeholder="Master Lecturer">
 							</div>
 						</div>
+						<!--Gender Input-->
 						<div class="form-group">
 							<label class="control-label col-sm-3">Gender:</label>
 							<div class="col-sm-8">
@@ -69,12 +78,14 @@
 								</label>
 							</div>
 						</div>
+						<!--Birthdate Input-->
 						<div class="form-group">
 							<label class="control-label col-sm-3" for="birth-date">Date of Birth:</label>
 							<div class="col-sm-8">
 								<input type="date" name="dateOfBirth" class="form-control" id="birth-date" ng-model="dateOfBirth">
 							</div>
 						</div>
+						<!--Email input-->
 						<div class="form-group">
 							<label class="control-label col-sm-3" for="email">Email:</label>
 							<div class="col-sm-8">
@@ -82,6 +93,7 @@
 								<div ng-show="isInvalid" ng-init="isInvalid = false">* Email has been registered.</div>
 							</div>
 						</div>
+						<!--Contact email input-->
 						<div class="form-group">
 							<label class="control-label col-sm-3" for="contactEmail">Contact Email:</label>
 							<div class="col-sm-8">
@@ -97,6 +109,7 @@
 								</div>
 							</div>
 						</div>
+						<!--Phone number input-->
 						<div class="form-group">
 							<label class="control-label col-sm-3" for="phone">Phone:</label>
 							<div class="col-sm-8">
@@ -113,36 +126,42 @@
 								<div>* Phone number format: xxx-xxx-xxxx.</div>
 							</div>
 						</div>
+						<!--Address input-->
 						<div class="form-group">
 							<label class="control-label col-sm-3" for="address">Address:</label>
 							<div class="col-sm-8">
 								<input type="text" class="form-control" name="address" id="address" ng-model="address">
 							</div>
 						</div>
+						<!--City-->
 						<div class="form-group">
 							<label class="control-label col-sm-3" for="city">City:</label>
 							<div class="col-sm-8">
 								<input type="text" class="form-control" name="city" id="city" ng-model="city">
 							</div>
 						</div>
+						<!--Province/State-->
 						<div class="form-group">
 							<label class="control-label col-sm-3" for="province">Province/State:</label>
 							<div class="col-sm-8">
 								<input type="text" class="form-control" name="province" id="province" ng-model="province">
 							</div>
 						</div>
+						<!--Country-->
 						<div class="form-group">
 							<label class="control-label col-sm-3" for="country">Country:</label>
 							<div class="col-sm-8">
 								<input type="text" class="form-control" name="country" id="country" ng-model="country">
 							</div>
 						</div>
+						<!--Save and cancel buttons will send you to the profile-->
 						<div class="col-sm-offset-7 col-sm-5" id="buttons">
 							<button type="button" class="btn btn-default" ng-click="backToProfile()">Cancel</button>
 							<button type="submit" class="btn btn-primary" ng-disabled="isInvalid || screenNameInvalid || screenNameFound">Save</button>
 						</div>
 					</fieldset>
 				</form>
+				<!--Profile image form (upload photo for your profile for people to see)-->
 				<form class="form-horizontal" role="form">
 					<fieldset class="col-sm-6">
 						<legend>Profile Photo</legend>
@@ -160,6 +179,7 @@
 				</form>
 			</div>
 		</main>
+		<!--Footer-->
 		<div class="panel-footer">
 			<div class="container">
 				<p class="navbar-text pull-left">© 2016 - Site Built By Us | <a href="aboutus">About Us</a> | 
