@@ -12,6 +12,7 @@
       <link rel="stylesheet" href="css/style.css">
       <script>
       app.controller("recCtrl", function($scope, $http) {
+         // Get the 3 newest added courses
          var req = { 
                 method: 'GET',
                 url: '/courses'
@@ -19,6 +20,7 @@
          $http(req).success(function(data) {
             $scope.recList = data.reverse().splice(0, 3);
          });
+         // Get the 3 teachers with the most amount of courses created
          var req = { 
                 method: 'GET',
                 url: '/users'
@@ -28,7 +30,7 @@
                return b.courses_created.length - a.courses_created.length;
             }).splice(0, 3);
          });
-
+         // Get the size of an array (used for courses created from a user)
          $scope.length = function (data) {
             return data.length;
          }
@@ -36,7 +38,9 @@
      </script>
       <head>
    <body ng-app="learnologyApp">
+      <!-- Facebook Functionality-->
       <script src="scripts/facebooklogin.js"></script>
+      <!--Nav bar html-->
       <div ng-controller="navCtrl"> 
         <div ng-include="'navbar.html'"></div>
       </div>
@@ -45,6 +49,7 @@
          <h1>Learnology</h1>
          <p>People teach. People learn. This is where they connect.</p>
       </div> <br>
+      <!--Left panel of newly added courses-->
       <div class='col-md-6' ng-controller="recCtrl">
          <div class="panel panel-primary" style="height:500px;">
            <div class="panel-heading text-center"><h4>Newest Courses<h4></div>
@@ -58,6 +63,7 @@
            </div>
          </div>
       </div>
+      <!--Right panel of recommended teachers-->
       <div class='col-md-6'ng-controller="recCtrl">
          <div class="panel panel-primary" style="height:500px;">
            <div class="panel-heading text-center"><h4>Recommended Teachers<h4></div>
@@ -71,6 +77,7 @@
          </div>
       </div>
       <div class="container"></div> <br>
+      <!--Footer-->
       <div class="panel-footer">
          <div class="container">
             <p class="navbar-text pull-left">© 2016 - Site Built By Us | <a href="aboutus">About Us</a> | 
