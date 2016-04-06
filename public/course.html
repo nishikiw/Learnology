@@ -14,16 +14,21 @@
 		<script src="scripts/coursecontroller.js"></script>
 	</head>
 	<body data-spy="scroll" data-target="#courseScrollspy" data-offset="60" ng-app="learnologyApp">	
+		<!--Facebook login functionality-->
 		<script src="scripts/facebooklogin.js"></script>
+		<!--Directive to get the course contents-->
 		<div course-content>
+		<!--Nav bar html-->
 		<div ng-controller="navCtrl"> 
 		  <div ng-include="'navbar.html'"></div>
 		</div> 
 		
 		<main>
+			<!--Getting the session user and display content accordingly-->
 			<div get-user>
 			<div class="container-fluid" ng-init="init()">
 				<div class="row">
+					<!--Left side nav bar-->
 					<nav class="col-sm-3 col-xs-3" id="courseScrollspy">
 						<ul class="nav nav-pills nav-stacked">
 						    <li><a href="#general-info">General Information</a></li>
@@ -32,20 +37,27 @@
 							<li><a href="#reviews">Reviews</a></li>
 						</ul>
 					</nav>
+					<!--Right side content-->
 					<div class="col-sm-9 col-xs-9">
+						<!--Button to edit course-->
 						<form action="{{'edit-course?id='+id}}" method="post">
 							<input type="hidden" name="screen_name" value="{{screen_name}}">
 						    <input type="submit" class="btn btn-default pull-right" value="Manage Course" ng-show="session == screen_name"/>
 						</form>
+						<!--Button to enrol-->
 						<button type="button" class="btn btn-primary pull-right" ng-hide="hideEnroll()" ng-disabled="disableEnroll()" data-toggle="modal" data-target="#enrollModal">{{enrollText}}</button>
+						<!--Button to unflag a course-->
 						<form action="course/unflag" method="post">
 							<input type="hidden" name="id" value="{{id}}">
 						    <input type="submit" ng-show="hideUnflag()" class="btn btn-danger" value="Unflag Course"/>
 						</form>
-						
+						<!--Button to report a course-->
 						<button type="report" class="btn btn-danger" data-toggle="modal" data-target="#confirmModal" ng-hide="hideReport()">Report</button>
+						<!--Button to delete course-->
 						<button type="delete" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" ng-show="session == screen_name">Delete</button>
+						<!--Course Title-->
 						<h3 class="text-center">{{title}}</h3>
+						<!--Overall rating-->
 						<div class="text-center rating">
 							<a href="#reviews">
 								<div class="progress center-block" style="width:20%; margin-bottom: 0px;">
@@ -56,6 +68,7 @@
 								<p>({{votes}} reviews)</p>
 							</a>
 						</div>
+						<!--General Info panel-->
 						<div id="general-info" class="panel panel-default">
 						    <div class="panel-heading">General Information</div>
 						    <div class="panel-body">
@@ -85,12 +98,14 @@
 								</div>
 							</div>
 						</div>
+						<!--Description panel-->
 						<div id="overview" class="panel panel-default">
 						    <div class="panel-heading">Overview</div>
 						    <div class="panel-body">
 								<div style="white-space: pre-wrap; width: 100%;">{{description}}</div>
 							</div>
 						</div>
+						<!--Instructor info panel-->
 						<div id="instructor" class="panel panel-default">
 						    <div class="panel-heading">Instructor</div>
 						    <div class="panel-body">
@@ -116,10 +131,12 @@
 								</div>
 							</div>
 						</div>
+						<!--Review/rating Panel-->
 						<div id="reviews" class="panel panel-default">
 						    <div class="panel-heading">Reviews</div>
 						    <div class="panel-body" ng-controller="submitForm">
 						    	<!-- <div get-user> -->
+						    		<!--Commenting Form-->
 								<form id="form-review" class="form-horizontal" ng-submit='submit(id)' role="form" ng-hide="session==screen_name || session=='Guest'">
 									<fieldset>
 										<legend>Rate this course</legend>
@@ -150,6 +167,7 @@
 										</div>
 									</fieldset>	
 								</form>
+								<!--Displaying all reviews for this course-->
 								<ul class="list-group">
 								    <li class="list-group-item" ng-repeat="x in comments">
 										<div class="row">
@@ -178,7 +196,7 @@
 			</div>
 			</div>
 		</main>
-
+		<!--Modal to confirm reporting course-->
 		<div class="modal fade" id="confirmModal">
 		    <div class="modal-dialog modal-sm">
 		      <div class="modal-content">
@@ -195,7 +213,7 @@
 		      </div>
 		    </div>
 		</div>
-
+		<!--Modal to confirm to delete a course-->
 		<div class="modal fade" id="deleteModal">
 		    <div class="modal-dialog modal-sm">
 		      <div class="modal-content">
@@ -212,7 +230,7 @@
 		      </div>
 		    </div>
 		</div>
-		
+		<!--Modal to confirm enrollment in a course-->
 		<div id="enrollModal" class="modal fade" role="dialog">
 			<div class="modal-dialog">
 				<div class="modal-content">
@@ -236,7 +254,7 @@
 				</div>
 			</div>
 		</div>
-		
+		<!--Footer-->
 		<div class="panel-footer">
 			<div class="container">
 				<p class="navbar-text pull-left">© 2016 - Site Built By Us | <a href="aboutus">About Us</a> | 
