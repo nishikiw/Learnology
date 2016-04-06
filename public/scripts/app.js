@@ -10,7 +10,9 @@ function submitform() {
     document.searchform.submit(); 
 } 
 
+// Controller for profile page.
 app.controller('profileCtrl', function ($scope, $http){
+	//Input an array of course ids, return an array of course objects according to course id.
 	$scope.getCourses = function(courseIdArray){
 		var courseObjArray = [];
 		for (var i=0; i<courseIdArray.length; i++){
@@ -31,6 +33,7 @@ app.controller('profileCtrl', function ($scope, $http){
 		return courseObjArray;
 	}
 	
+	// Initialize profile page, get user info and session user.
 	$scope.initProfile = function(){
 		var url = window.location.href;
 		var reqScreenName = url.split("=")[1].split("#")[0];
@@ -105,16 +108,19 @@ app.controller('profileCtrl', function ($scope, $http){
 		});
 	}
 	
+	// To cancel description edit and back to original profile page without refreshing the page.
 	$scope.cancelDescriptionEdit = function(){
 		$scope.descriptionInEdit = false;
 		$scope.descriptionTextArea = $scope.description;
 	}
 	
+	// Hide description div and show form to edit description.
 	$scope.editDescription = function(){
 		$scope.descriptionInEdit = true;
 		$scope.descriptionTextArea = $scope.description;
 	}
 	
+	// Submit modified description to the server to update the user database.
 	$scope.updateDescription = function(){
 		if ($scope.descriptionTextArea != $scope.description){
 			var req = { 
@@ -134,15 +140,11 @@ app.controller('profileCtrl', function ($scope, $http){
 			});
 		}
 	}
-	
-	$scope.setContactPhone = function(){
-		if ($scope.checked){
-			$scope.contactPhone = $scope.phone;
-		}
-	}
 });
 
+// Controller for edit profile page.
 app.controller('editProfileCtrl', function ($scope, $http){
+	// Initialize edit profile page, extract user info from server and get session user.
 	$scope.init = function(){
 		var url = window.location.href;
 		var name = url.split("=")[1];
@@ -240,7 +242,8 @@ app.controller('editProfileCtrl', function ($scope, $http){
 		});
 	}
 	
-	//Reference: http://stackoverflow.com/questions/13963022/angularjs-how-to-implement-a-simple-file-upload-with-multipart-form
+	// Reference: http://stackoverflow.com/questions/13963022/angularjs-how-to-implement-a-simple-file-upload-with-multipart-form
+	// Upload local image to update profile picture.
 	$scope.uploadFile = function(files) {
 		var fd = new FormData();
 		var uploadUrl = "/images";
@@ -263,10 +266,12 @@ app.controller('editProfileCtrl', function ($scope, $http){
 		});
 	};
 	
+	// Cancel profile edit and go back to profile page.
 	$scope.backToProfile = function(){
 		location.href = "profile?screen-name="+$scope.originalScreenName;
 	}
 	
+	// Check if the input email address already exists in database (except for original email address).
 	$scope.emailExists = function(){
 		if ($scope.email && ($scope.email != $scope.originalEmail)){
 			var req = {
@@ -291,12 +296,15 @@ app.controller('editProfileCtrl', function ($scope, $http){
 		}
 	}
 
+	// Uncheck "show on profile" for phone number is phone number input is empty.
 	$scope.checkPhone = function(){
 		if ($scope.phone == ""){
 			$scope.isPublicPhone = false;
 		}
 	}
 	
+	/* Validate screen name input. Screen name input should not contain any space, and should not 
+	exists in current user database (except for original screen name).*/
 	$scope.screenNameValidation = function(){
 		if ($scope.screenName && ($scope.screenName != $scope.originalScreenName)){
 			if ($scope.screenName.indexOf(" ") >= 0){
@@ -329,7 +337,9 @@ app.controller('editProfileCtrl', function ($scope, $http){
 	}
 });
 
+// Controller for sign-up modal.
 app.controller('signUpFormCtrl', function ($scope, $http){
+	// Check if input email is already registered.
 	$scope.emailExists = function(){
 		if ($scope.email){
 			var req = {
@@ -354,6 +364,8 @@ app.controller('signUpFormCtrl', function ($scope, $http){
 		}
 	}
 	
+	/* Validate screen name input. Screen name input should not contain any space, and should not 
+	exists in current user database */
 	$scope.screenNameValidation = function(){
 		if ($scope.screenName){
 			if ($scope.screenName.indexOf(" ") >= 0){
@@ -390,6 +402,7 @@ app.controller('signUpFormCtrl', function ($scope, $http){
 		}
 	}
 	
+	// Requires user to type password twice and password should be the same.
 	$scope.confirmPassword = function(){
 		if ($scope.reEnterPassword && $scope.password && $scope.password != $scope.reEnterPassword){
 			$scope.passwordNotMatch = true;
@@ -414,7 +427,10 @@ app.controller('searchCtrl', function ($scope) {
     };
 });
 
+// Controller for login modal
 app.controller('login', function($scope, $http) {
+	/* Send email and password to the server to validate. If match then login is successful. If not, 
+	the error is either email not registered or password does not match.*/
     $scope.sendPost = function() {
 		var req = { 
 			method: 'POST',

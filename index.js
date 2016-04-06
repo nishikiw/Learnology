@@ -12,8 +12,10 @@ var Validation = require('./models/validation.js');
 var session = require('./node_modules/sesh/lib/core').magicSession();
 var multer  = require('multer');
 
+// Setup multer for uploading images to ./public/images/profile/.
 var upload = multer({dest: './public/images/profile/'}).single('file');
 
+// Connect to mongodb.
 mongoose.connect('mongodb://Tony:309project@ds011870.mlab.com:11870/learnologydb');
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -22,8 +24,8 @@ db.once('open', function() {
 	console.log("Connected to mongodb...");
 });
 
+// Set up server to port 3000.
 app.set('port', (process.env.PORT || 3000));
-
 
 app.use('/', express.static(__dirname + '/public'));
 app.set('view engine', 'html');
@@ -472,6 +474,8 @@ app.post('/delete/course/user', urlencodedParser, function(req, res){
 	});
 });
 
+/* Handle get request for a specific user information. Used for profile page and edit profile page, 
+checking email address. No security info is transmitted here.*/
 app.get('/users/user', function(req, res){
 	if (req.query.email){
 		Validation.findOne({'email': req.query.email}, function (err, user) {
@@ -553,6 +557,7 @@ app.get('/users/user', function(req, res){
 	}
 });
 
+// Handle post request for a specific user login or sign up. Authenticate user and update database.
 app.post('/users/user', urlencodedParser, function(req, res){
 	var screenName = req.body.screenName;
 	var email = req.body.email;
@@ -658,6 +663,8 @@ app.post('/users/user', urlencodedParser, function(req, res){
 	}
 });
 
+/* Handle post request to update user information. Either from edit-profile page, or description 
+update from profile page. */
 app.post('/users/user/*', urlencodedParser, function(req, res){
 	var screenName = req.session.data.user;
 	if (screenName && (req.body.originalScreenName == screenName)){
@@ -796,6 +803,8 @@ app.post('/course/save', urlencodedParser, function(req, res){
 	res.send(req.body.id);
 });
 
+/* Handle post request to update course information and user information related to the course. Used 
+in enrollment and course management. */
 app.post('/courses/course/:id', urlencodedParser, function(req, res){
 	var studentScreenName;
 	var courseId = req.params.id;
@@ -989,6 +998,8 @@ app.post('/course/comment/remove', urlencodedParser, function(req, res){
 	res.end();
 });
 
+/* Given a student screen name and a list of student info objects, return the index of the object 
+that contains the student screen name. */
 function getStudentIndex(screenName, studentList){
 	for (var i=0; i < studentList.length; i++){
 		if (screenName == studentList[i].screen_name){
