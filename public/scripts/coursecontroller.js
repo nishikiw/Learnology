@@ -1,8 +1,10 @@
+// Clears review form
 function reset() {
 	document.getElementById("form-review").reset();
 };
 
 app.controller ("rating", function($scope) {
+	// Sets the heading based on a rating
 	$scope.heading = function (rating) {
 		if (rating == 5) {
 			return 'Perfect!';
@@ -21,6 +23,7 @@ app.controller ("rating", function($scope) {
 		}
 	}
 
+	// Determine the number of stars to display
 	$scope.checkRating = function (pos, rating) {
 		if (rating >= pos) {
 			return true;
@@ -31,6 +34,7 @@ app.controller ("rating", function($scope) {
 	};
 });
 
+// Submit a comment and refresh page with the added comment
 app.controller ("submitForm", function($scope, $http, $window) {
 	$scope.submit = function (course) {
 		var req = { 
@@ -49,6 +53,7 @@ app.controller ("submitForm", function($scope, $http, $window) {
 		});
 	}
 
+	// Remove comment (only admins can do this)
 	$scope.removeComment = function (user, course, rate, body) {
 		var req = { 
 			method: 'POST',
@@ -67,6 +72,7 @@ app.controller ("submitForm", function($scope, $http, $window) {
 	}	
 });
 
+// Set the instructor's data for the instructor section
 function getUser ($http, $scope, screen_name) {
 		var req = { 
 			method: 'POST',
@@ -104,6 +110,7 @@ function getUser ($http, $scope, screen_name) {
 		});
 	};
 
+// Calculates an overall rating from all the comments of this course
 function overall (comments) {
 	var sumRatings = 0;
 	for (i=0; i<comments.length; i++) {
@@ -112,12 +119,14 @@ function overall (comments) {
 	return Math.round(sumRatings/comments.length * 100) / 100;
 };
 
+// Sets the course content based on id when the page loads
 app.directive("courseContent", function() {
 	return {
 		controller: function ($scope, $http, $location) {
 			$scope.init = function(){
 				var l = getLocation($location.absUrl());
 				var param = l.search.substring(l.search.indexOf("=")+1);
+				//Checks and sets whether session user is admin
 				var req = { 
 					method: 'POST',
 					url: '/search/one',
@@ -157,6 +166,7 @@ app.directive("courseContent", function() {
 				});
 			}
 			
+			// Hide enroll if instructor of course or guest
 			$scope.hideEnroll = function(){
 				if ($scope.session == $scope.screen_name || $scope.session == 'Guest'){
 					return true;
@@ -166,6 +176,7 @@ app.directive("courseContent", function() {
 				}
 			}
 
+			// Hide unflag if not flagged and not admin
 			$scope.hideUnflag = function(){
 				if ($scope.flagged == true && $scope.admin == true){
 					return true;
@@ -175,6 +186,7 @@ app.directive("courseContent", function() {
 				}
 			}
 
+			// Hide report button if guest, admin or instructor of the course
 			$scope.hideReport = function(){
 				if ($scope.session == $scope.screen_name || $scope.session == 'Guest' || $scope.admin){
 					return true;
@@ -184,6 +196,7 @@ app.directive("courseContent", function() {
 				}
 			}
 			
+			// Disable enroll button for guest, already applied or enrolled users.
 			$scope.disableEnroll = function(){
 				if (typeof $scope.students != 'undefined' && studentIndex($scope.session, $scope.students.enrolled) != -1){
 					$scope.enrollText = "You have enrolled";
@@ -199,6 +212,7 @@ app.directive("courseContent", function() {
 				}
 			}
 			
+			// Enroll student in the course. Submit student info and message to the server and store in the course database.
 			$scope.enroll = function() {
 				if ($scope.session && $scope.session != "Guest" && $scope.session != $scope.screen_name){
 					var req = {
@@ -225,6 +239,8 @@ app.directive("courseContent", function() {
 	}
 });
 
+/* Given a user's screen name and a list of user info objects. Find the user info objects with the given
+screen name and return its index in the list.*/
 function studentIndex(screenName, array){
 	for (var i=0; i<array.length; i++){
 		if (array[i].screen_name == screenName){
@@ -234,6 +250,7 @@ function studentIndex(screenName, array){
 	return -1;
 }
 
+// Get the session user 
 app.directive("getUser", function() {
 	return {
 		controller: function ($scope, $http) {
