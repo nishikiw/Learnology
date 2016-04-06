@@ -17,6 +17,7 @@
 	display: none;
 }
 
+/* Hide bullets */
 ul#result_info { 
     list-style: none 
 }
