@@ -1,3 +1,4 @@
+/* Footer style*/
 .navbar-fixed-bottom, .panel-footer {
 	color: white;
 	background-color: #222;
@@ -6,21 +7,23 @@
 .panel-footer {
 	height: 100%;
 }
-
+/* Footer social media icons*/
 .social:hover {
 	opacity: 0.4;
 }
 
+/* Hide user button */
 #user {
 	display: none;
 }
 
-body {
-	padding-top: 53px;
-}
-
 ul#result_info { 
     list-style: none 
+}
+
+/*Basic style*/
+body {
+	padding-top: 53px;
 }
 
 main {
