@@ -1,9 +1,12 @@
+// Controller for the admin page
 app.controller("list", function($scope, $http) {
+    // Default Values
     $scope.title = "Users";
     $scope.link = "profile";
     $scope.use = true;
     convertList ('screen_name', { method: 'GET', url: 'users' });
 
+    // Sends http request and format/output the results based on the type of list (users or courses)
     function convertList (type, req) {
       var arr = [];
       $http(req).success(function(data){
@@ -18,7 +21,7 @@ app.controller("list", function($scope, $http) {
         $scope.data = arr;
       }).error(function(){});
     };
-
+    // When button clicks to change the list type, values get changed
     $scope.getlist = function(list) {
       if (list == 'Users') {
         $scope.title = "Users";
@@ -35,7 +38,8 @@ app.controller("list", function($scope, $http) {
         convertList ('title', { method: 'GET', url: 'courses' });
       }
     };
-
+    
+    // Filters out items that have been reported (in red)
     $scope.getFlagged = function() {
       if ($scope.confirmed) {
         if ($scope.title == "Users") {
@@ -54,11 +58,13 @@ app.controller("list", function($scope, $http) {
         }
       }
     };
-
+    
+    // Sets deletion value when x button clicked
     $scope.delete = function(x) {
       $scope.value = $scope.data[x][0];
     };
 
+    // Used for search bar (get the search results)
     $scope.findItem = function () {
       if($scope.title == "Users") {
         var req = { 
@@ -79,7 +85,8 @@ app.controller("list", function($scope, $http) {
         convertList ('title', req);
       }
     };
-
+    
+    // Deleteing an item and refreshing the list
     $scope.removeItem = function () {
       if($scope.title == "Users") {
         $http({
@@ -102,7 +109,8 @@ app.controller("list", function($scope, $http) {
         }).error(function(){});
       }
     };
-
+    
+    // Set user as admin based on the screen name input
     $scope.setAdmin = function () {
       $http({
           method: 'POST', 
