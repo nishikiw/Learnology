@@ -38,6 +38,7 @@ app.listen(app.get('port'), function() {
 // Reference: http://www.tutorialspoint.com/nodejs/nodejs_express_framework.htm
 var urlencodedParser = bodyParser.urlencoded({extended: true})
 
+// uploading image to the user profile
 app.post('/images', function (req, res) {
 	upload(req, res, function (err) {
 		if (err) {
@@ -65,34 +66,36 @@ app.post('/images', function (req, res) {
 	})
 })
 
+// Send about us page
 app.get('/aboutus', function(req, res) {
   res.sendFile(__dirname + '/public/aboutus.html');
 });
-
+// Send home page
 app.get('/', function(req, res) {
   res.sendFile(__dirname + '/public/index.html');
 });
-
+//Send categories page
 app.get('/categories', function(req, res) {
   res.sendFile(__dirname + '/public/categories.html');
 });
-
+// Send course page layout
 app.get('/course', function(req, res) {
   res.sendFile(__dirname + '/public/course.html');
 });
-
+// Sending course creation page
 app.get('/coursecreation', function(req, res) {
   res.sendFile(__dirname + '/public/coursecreation.html');
 });
-
+// Sending profile page layout
 app.get('/profile', function(req, res) {
   res.sendFile(__dirname + '/public/profile.html');
 });
-
+// Sending search page layout
 app.get('/search', function(req, res) {
   res.sendFile(__dirname + '/public/search.html');
 });
 // From stackoverflow.com/questions/3579486/sort-a-javascript-array-by-frequency-and-then-filter-repeats
+// Sorting the array
 function sortByFrequencyAndRemoveDuplicates(array) {
     var frequency = {}, value;
 
@@ -120,7 +123,7 @@ function sortByFrequencyAndRemoveDuplicates(array) {
 
     return uniques.sort(compareFrequency);
 }
-
+// Checks for an item in array
 function contains(array, obj) {
     for (var i = 0; i < array.length; i++) {
         if (array[i] === obj) {
@@ -129,7 +132,7 @@ function contains(array, obj) {
     }
     return false;
 }
-
+// Getting the search results
 app.post('/search/res', urlencodedParser, function(req, res) {
     // Attack concepts from http://blog.websecurify.com/2014/08/hacking-nodejs-and-mongodb.html
     //console.log(req.body.searchBy +" " + req.body.terms );
@@ -245,15 +248,15 @@ app.post('/search/res', urlencodedParser, function(req, res) {
     }
     
 });
-
+// Sending edit profile page layout
 app.get('/edit-profile', function(req, res) {
   res.sendFile(__dirname + '/public/edit-profile.html');
 });
-
+// Sending edit course page layout
 app.post('/edit-course', urlencodedParser, function(req, res) {
 	res.sendFile(__dirname + '/public/edit-course.html');
 });
-
+// Checks if admin and sends them admil page it they are
 app.get('/admin', function(req, res) {
 	User.find({"screen_name" : req.session.data.user}, {'admin':1, '_id':0}, function (err, user) {
 		if (err) return console.error(err);
@@ -265,37 +268,37 @@ app.get('/admin', function(req, res) {
 		}
 	});
 });
-
+// Return session user
 app.get('/getlogin', function(req, res){
 	res.end(req.session.data.user);
 });
-
+// Logout a user session
 app.get('/logout', function(req, res){
 	req.session.data.user = "Guest";
     res.redirect('back');
 });
-
+// Returns list of users
 app.get('/users', function(req, res){
 	User.find({}, {}, function (err, users) {
 		if (err) return console.error(err);
 		res.send(users);
 	});
 });
-
+// Returns list of flagged users
 app.get('/users/flagged', function(req, res){
 	User.find({"flagged" : true}, {}, function (err, users) {
 		if (err) return console.error(err);
 		res.send(users);
 	});
 });
-
+// Return user if they are admin
 app.post('/admin/check', urlencodedParser, function(req, res){
 	User.find({"screen_name" : req.body.screen_name}, {'admin':1, '_id':0}, function (err, user) {
 		if (err) return console.error(err);
 		res.send(user);
 	});
 });
-
+// Returns whether or not email is registered in db
 app.post('/user/email', urlencodedParser, function(req, res){
 	User.find({"email" : req.body.email}, {'_id':1}, function (err, user) {
 		if (err) return console.error(err);
@@ -307,14 +310,14 @@ app.post('/user/email', urlencodedParser, function(req, res){
 		}
 	});
 });
-
+// Return few amount of content of a user
 app.post('/user/short', urlencodedParser, function(req, res){
 	User.find({"screen_name" : req.body.name}, {"first_name":1, "last_name":1, "contact_email":1, "phone":1, "title":1, "image_name":1, "gender":1, "_id":0}, function (err, user) {
 		if (err) return console.error(err);
 		res.send(user);
 	});
 });
-
+// Send items if matches the search criteria 
 app.post('/search/one', urlencodedParser, function(req, res){
 	if (req.body.type == 'user') {
 		User.find({"screen_name" : {$regex : ".*"+req.body.screen_name+".*", $options: 'i'}}, {}, function (err, users) {
@@ -335,7 +338,7 @@ app.post('/search/one', urlencodedParser, function(req, res){
 		});
 	}
 });
-
+// Set a user as an admin 
 app.post('/admin/set', urlencodedParser, function(req, res) {
 	User.find({"screen_name" : req.session.data.user}, {'admin':1, '_id':0}, function (err, user) {
 		if (err) return console.error(err);
@@ -350,14 +353,15 @@ app.post('/admin/set', urlencodedParser, function(req, res) {
 		}
 	});
 });
-
+// Return a list of the courses
 app.get('/courses', function(req, res){
 	Course.find({}, {}, function (err, courses) {
 		if (err) return console.error(err);
 		res.send(courses);
 	});
 });
-
+// Returns the top 10 courses based on category type
+// Based on the product of # of votes and overall rating
 app.post('/top', urlencodedParser, function(req, res){
 	Course.find({"category" : req.body.category}, {"title":1, "votes":1, 'comments' : 1, "_id":1}, function (err, courses) {
 		if (err) return console.error(err);
@@ -395,14 +399,14 @@ app.post('/top', urlencodedParser, function(req, res){
 		res.send(top);
 	});
 });
-
+// Return the flagged courses
 app.get('/courses/flagged', function(req, res){
 	Course.find({"flagged" : true}, {}, function (err, courses) {
 		if (err) return console.error(err);
 		res.send(courses);
 	});
 });
-
+//  Set a course to flagged
 app.post('/course/flag', urlencodedParser, function(req, res){
 	Course.update(
 		{ '_id' : req.body.id}, 
@@ -414,7 +418,7 @@ app.post('/course/flag', urlencodedParser, function(req, res){
 	});
 	res.redirect('back');
 });
-
+// Set a course to unflagged
 app.post('/course/unflag', urlencodedParser, function(req, res){
 	Course.update(
 		{'_id' : req.body.id}, 
@@ -426,7 +430,7 @@ app.post('/course/unflag', urlencodedParser, function(req, res){
 	});
 	res.redirect('back');
 });
-
+// Delete user and all of their courses
 app.post('/delete/user', urlencodedParser, function(req, res){
 	Course.find({"user" : req.body.screen_name}, {"_id":1}, function (err, courses) {
 		if (err) return console.error(err);
@@ -450,7 +454,7 @@ app.post('/delete/user', urlencodedParser, function(req, res){
 		res.send('done');
 	});
 });
-
+// Delete course from the entire system
 app.post('/delete/course', urlencodedParser, function(req, res){
 	Course.remove({'_id': req.body.id}, function (err) {
 		if (err) return console.error(err);
@@ -466,7 +470,7 @@ app.post('/delete/course', urlencodedParser, function(req, res){
 		res.send('done');
 	});
 });
-
+// Removes course
 app.post('/delete/course/user', urlencodedParser, function(req, res){
 	Course.remove({'_id': req.body.id}, function (err) {
 		if (err) return console.error(err);
@@ -749,7 +753,7 @@ app.post('/users/user/*', urlencodedParser, function(req, res){
 		});
 	}
 });
-
+// Create the course using the input data
 app.post('/create', urlencodedParser, function(req, res){
 	// Prepare output in JSON format
 	courseObj = {
@@ -781,7 +785,7 @@ app.post('/create', urlencodedParser, function(req, res){
 		}
 	});
 });
-
+// Updates course information when it is editted
 app.post('/course/save', urlencodedParser, function(req, res){
 
 	Course.update(
@@ -965,7 +969,7 @@ app.post('/courses/course/:id', urlencodedParser, function(req, res){
 		}
 	}
 });
-
+// Saving a comment submitted in a course
 app.post('/course/comment', urlencodedParser, function(req, res){
 	Course.update({_id:req.body.id}, 
 		{ $inc: {"votes": 1},
@@ -981,7 +985,7 @@ app.post('/course/comment', urlencodedParser, function(req, res){
 
 	res.end();
 });
-
+// Removing a comment from a course
 app.post('/course/comment/remove', urlencodedParser, function(req, res){
 	Course.update({_id:req.body.id}, 
 		{$inc: {"votes": -1},
