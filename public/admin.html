@@ -37,6 +37,7 @@
     <div class="panel panel-primary " > 
       <div class="panel-heading">{{title}} List</div>
       <div class="panel-body">
+      	<!--Search bar to filter list-->
         <form name="searchform" class="navbar-form" ng-submit="findItem()" method="GET">
           <div class="input-group">
              <input type="text" class="form-control" ng-model="searchID" placeholder="Search {{title}}" required>
@@ -44,9 +45,12 @@
                 <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
              </span>
           </div>
+          <!-- Reset list -->
           <button class="btn btn-default" type="reset" ng-click="getlist(title)">Reset Search</button>
+          <!-- Filter flagged list items (ones in red)-->
           <label class="checkbox-inline" style="float:right;"><input type="checkbox" ng-model="confirmed" ng-change="getFlagged()">Flagged</label>
         </form>
+        <!--List output-->
         <ul class="list-group">
           <li class="list-group-item" ng-class="{'list-group-item-danger': {{x[3]}}}" ng-repeat="x in data">
             <a ng-href="{{link}}?id={{x[0]}}">{{x[1]}}</a>
@@ -56,6 +60,7 @@
       </div>
     </div>
   </div>
+  <!--Confirmation for deleting a course or user-->
     <div class="modal fade" id="confirmModal">
       <div class="modal-dialog modal-sm">
         <div class="modal-content">
@@ -69,6 +74,7 @@
         </div>
       </div>
     </div>
+    <!--Modal to input user to set as admin-->
     <div class="modal fade" id="adminModal">
       <div class="modal-dialog modal-sm">
         <div class="modal-content">
