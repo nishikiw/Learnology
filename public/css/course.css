@@ -1,13 +1,18 @@
+/*General style*/
 body {
 	position: relative;
 }
 
+.btn-group {
+	float: right;
+}
+/*Styling the left nav bar buttons*/
 ul.nav-pills {
 	top: 70px;
 	position: fixed;
 	width: 20%;
 }
-
+/*Rating system styling*/
 #rating {
 	margin: 10px;
 	font-size: 1.1em;
@@ -27,6 +32,10 @@ ul.nav-pills {
 	font-weight: bold;
 }
 
+.text-center.rating {
+	clear: right;
+}
+/*Review form styling*/
 #form-review {
 	padding: 15px;
 	border: 1px solid lightgrey;
@@ -38,10 +47,4 @@ ul.nav-pills {
 	margin-left: 15px;
 }
 
-.btn-group {
-	float: right;
-}
 
-.text-center.rating {
-	clear: right;
-}
