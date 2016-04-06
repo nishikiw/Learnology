@@ -11,15 +11,17 @@
       <script src="scripts/app.js"></script>
       <link rel="stylesheet" href="css/style.css">
       <script>
+      // Clears entire form
       function reset() {
           document.getElementById("create").reset();
       }
 
       app.controller('create', function($scope, $http, $window) {
+      	// Default radio button options
          $scope.category = "Academic";
          $scope.level = "Beginner" ;
          $scope.disable = false;
-		
+		// Checks if a user is accessing this page ( if not, redirect to title)
 		$scope.initCourseCreation = function() {
 			var req = {
 				method: 'GET',
@@ -35,7 +37,7 @@
 			}, function errorCallback(res) {
 			});
 		}
-		
+	 // When submit is clicked, organize the form input into a proper http post request	
           $scope.sendPost = function() {
             if ($scope.disable == true) {
                $scope.location = "online"
@@ -54,6 +56,7 @@
               headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             }
             $http(req).success(function(data) {
+            	// Send them to the created page when the course is in the database
                $window.location.href = "/course?id=" + data;
             });
           }; 
@@ -61,24 +64,29 @@
       </script>
       <head>
    <body ng-app="learnologyApp">
+   	<!-- Facebook Login Functionality-->
       <script src="scripts/facebooklogin.js"></script>
-     
+     <!--Nav bar html-->
       <div ng-controller="navCtrl"> 
         <div ng-include="'navbar.html'"></div>
       </div>
+      
       <div class="jumbotron text-center">
          <h1>Course Creation Page</h1>
          <p>Create Your Course For Everyone To See</p>
       </div> <br>
+      <!--The course creation form-->
          <div class="container-fluid" ng-controller="create" ng-init="initCourseCreation()">
             <form id="create" class="form-horizontal" ng-submit="sendPost()" autocomplete=off>
                <fieldset class="col-sm-8 col-sm-offset-2">
+               	<!-- Course title input -->
                   <div class="form-group">
                      <label class="control-label col-sm-3" for="first-name">Course Title</label>
                      <div class="col-sm-8">
                         <input type="text" class="form-control" placeholder="Biology" ng-model="title" maxlength="50" required>
                      </div>
                   </div>
+                  <!--Location input (disable if online is checked)-->
                   <div class="form-group">
                      <label class="control-label col-sm-3" for="location">Location</label>
                      <div class="col-sm-8">
@@ -92,6 +100,7 @@
 						</div>
                      </div>
                   </div>
+                  <!--Category type input-->
                   <div class="form-group">
                      <label class="control-label col-sm-3">Course Category</label>
                      <div class="col-sm-8">
@@ -129,24 +138,28 @@
 						</div>
                      </div>
                   </div>
+                  <!--Price Input-->
                   <div class="form-group">
                      <label class="control-label col-sm-3" for="price">Price:</label>
                      <div class="col-sm-3">
                         <input type="price" class="form-control" ng-model="price" maxlength="50" placeholder='$20 / Class' required>
                      </div>
                   </div>
+                  <!--Description input-->
                   <div class="form-group">
                      <label class="control-label col-sm-3" for="description">Course Description:</label>
                      <div class="col-sm-8">
                         <textarea name="description" rows="8" class="form-control" ng-model="description" placeholder="Tell everyone what the course is about" required></textarea>
                      </div>
                   </div>
+                  <!-- Prerequisites Input-->
                   <div class="form-group">
                      <label class="control-label col-sm-3" for="skills">Previous Skills Required:</label>
                      <div class="col-sm-8">
                         <textarea name="skills" rows="4" class="form-control" placeholder="Any skills you want your students to know" ng-model="skills" required></textarea>
                      </div>
                   </div>
+                  <!-- Difficulty Input -->
                   <div class="form-group">
                      <label class="control-label col-sm-3">Challenge Level:</label>
                      <div class="col-sm-8">
@@ -161,6 +174,7 @@
                         </label>
                      </div>
                   </div>
+                  <!--Submit and Cancel (reset form) Buttons-->
                   <div class="col-sm-offset-4 col-sm-8">
                      <button type="submit" class="btn btn-primary">Create Course</button>
                      <input type="button" class="btn btn-danger" onclick="reset()" value="Cancel">
@@ -168,6 +182,7 @@
                </fieldset>
             </form>      
       </div><br>
+      <!-- Footer -->
       <div class="panel-footer">
          <div class="container">
             <p class="navbar-text pull-left">© 2016 - Site Built By Us | <a href="aboutus">About Us</a> | 
