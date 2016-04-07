@@ -56,6 +56,8 @@ app.directive("courseContent", function() {
 				});
 			}
 			
+			/* When teacher accepts the student, remove student from application list and add student to enrolled list.
+			Update the student lists of the course on database.*/
 			$scope.enrollStudent = function(screenName, email){
 				var req = { 
 					method: 'POST',
@@ -80,22 +82,26 @@ app.directive("courseContent", function() {
 				});
 			}
 			
+			// Show warning modal when teacher tries to reject a student.
 			$scope.toggleRejectModal = function(student){
 				$scope.selectedStudent = student;
 				$('#rejectModal').modal('show');
 			}
 			
+			// Show warning modal when teacher tries to remove student from enrolled list.
 			$scope.toggleFinishModal = function(student){
 				$scope.selectedStudent = student;
 				$('#finishModal').modal('show');
 			}
 			
+			// Set the selected student to null.
 			$scope.cancelSelect = function(){
 				$scope.selectedStudent = null;
 				$('#rejectModal').modal('hide');
 				$('#finishModal').modal('hide');
 			}
 			
+			// Remove student from application list and update student lists of the course on database.
 			$scope.rejectStudent =function(){
 				if ($scope.selectedStudent){
 					var req = { 
@@ -123,6 +129,7 @@ app.directive("courseContent", function() {
 				}
 			}
 			
+			// Remove student from enrolled list and update the change on database.
 			$scope.finishStudent =function(){
 				if ($scope.selectedStudent){
 					var req = { 
@@ -152,7 +159,9 @@ app.directive("courseContent", function() {
 		}
 	}
 });
-  
+ 
+/* Given a user's screen name and a list of user info objects. Find the user info objects with the given
+screen name and return its index in the list.*/
 function getStudentIndex(screenName, array){
 	for (var i=0; i < array.length; i++){
 		if (array[i].screen_name == screenName){
@@ -175,7 +184,8 @@ function getStudentIndex(screenName, array){
 	        }
 	    }
 	});
-	
+
+// Focus the enrolled list on mouseenter.
 app.directive('listItemFocus', function() {
 	return function(scope, element) {
 		element.bind('mouseenter', function() {

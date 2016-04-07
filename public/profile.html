@@ -195,10 +195,7 @@
 									<div class="panel panel-default" ng-repeat="courseCreated in coursesCreatedArray">
 										<div class="panel-heading">
 											<h4 class="panel-title">
-												<a data-toggle="collapse" ng-href="#{{courseCreated._id}}">{{courseCreated.title}}
-													<!-- <a href="#" ng-show="isOwner"><span class="glyphicon glyphicon-remove pull-right"></span></a> -->
-													<a ng-href="/edit-course?id={{courseCreated._id}}" ng-show="isOwner"><span class="glyphicon glyphicon-edit pull-right left-icon"></span></a>
-												</a>
+												<a data-toggle="collapse" ng-href="#{{courseCreated._id}}">{{courseCreated.title}}</a>
 											</h4>
 										</div>
 										<div ng-attr-id="{{courseCreated._id}}" class="panel-collapse collapse">
